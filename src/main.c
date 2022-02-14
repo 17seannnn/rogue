@@ -1,8 +1,19 @@
+#include <stdlib.h>
+#include <time.h>
 #include <curses.h>
 
 struct hunter {
         int symb;
         int cur_x, cur_y;
+};
+
+struct room {
+        int ul_x, ul_y, br_x, br_y;
+        struct room *next;
+};
+
+struct level {
+        struct room *r;
 };
 
 WINDOW *msgw, *gamew, *infow;
@@ -49,6 +60,7 @@ static void init_hunter(struct hunter *h)
 
 static void init_game(struct hunter *h)
 {
+        srand(time(NULL));
         init_curses();
         init_hunter(h);
 }
@@ -58,16 +70,58 @@ static void end_game()
         end_curses();
 }
 
-static void show_hunter(struct hunter h)
+static void init_level(struct level *l)
 {
-        mvwaddch(gamew, h.cur_y, h.cur_x, h.symb);
+        int i;
+        struct room *r;
+        l->r = NULL;
+}
+
+static void end_level(struct level *l)
+{
+        struct room *t;
+        while (l->r) {
+                t = l->r;
+                l->r = l->r->next;
+                free(t);
+        }
+}
+
+static void show_hunter(struct hunter *h)
+{
+        mvwaddch(gamew, h->cur_y, h->cur_x, h->symb);
         wrefresh(gamew);
 }
 
-static void handle_fov(struct hunter h)
+static void show_room(struct room *r)
 {
-        wclear(gamew);
+        int x, y;
+        for (y = r->ul_y; y <= r->br_y; y++) {
+                mvwaddch(gamew, y, r->ul_x, '#');
+                mvwaddch(gamew, y, r->br_x, '#');
+                if (y == r->ul_y || y == r->br_y)
+                        for (x = r->ul_x + 1; x < r->br_x; x++)
+                                mvwaddch(gamew, y, x, '#');
+        }
+        wrefresh(gamew);
+}
+
+static void handle_fov(struct hunter *h, struct level *l)
+{
+        struct room *r;
         show_hunter(h);
+        for (r = l->r; r; r = r->next) {
+                show_room(r);
+        }
+        /*
+        for (r = l->r; r; r = r->next) {
+                if (r->ul_x < h->cur_x && r->br_x > h->cur_x &&
+                    r->ul_y < h->cur_y && r->br_y > h->cur_y) {
+                        show_room(r);
+                        break;
+                }
+        }
+        */
 }
 
 static void move_hunter(struct hunter *h, int c)
@@ -106,19 +160,20 @@ static void do_cmd(int c, struct hunter *h)
                 }
 }
 
-static void play_game(struct hunter *h)
+static void play_game(struct hunter *h, struct level *l)
 {
         int c;
-        handle_fov(*h);
+        handle_fov(h, l);
         while ((c = wgetch(gamew)) != 27) {
                 do_cmd(c, h);
-                handle_fov(*h);
+                handle_fov(h, l);
         }
 }
 
 int main(int argc, char **argv)
 {
         struct hunter h;
+        struct level l;
         init_game(&h);
 
 /* DEBUG windows */
@@ -128,7 +183,12 @@ int main(int argc, char **argv)
         wrefresh(infow);
 /* /DEBUG */
 
-        play_game(&h);
+        for (;;) {
+                init_level(&l);
+                play_game(&h, &l);
+                end_level(&l);
+                break;
+        }
         end_game();
         return 0;
 }
