@@ -8,12 +8,22 @@ struct hunter {
 WINDOW *msgw, *gamew, *infow;
 
 enum {
+        msgw_col  = 80,
+        msgw_row  = 1,
+        gamew_col = 80,
+        gamew_row = 22,
+        infow_col = 80,
+        infow_row = 1,
+
         hunter_symb = '@'
 };
 
 static void init_curses()
 {
         initscr();
+        msgw  = newwin(msgw_row, msgw_col, 0, 0);
+        gamew = newwin(gamew_row, gamew_col, msgw_row, 0);
+        infow = newwin(infow_row, infow_col, msgw_row + gamew_row, 0);
         if (has_colors()) {
                 start_color();
                 use_default_colors();
@@ -21,7 +31,7 @@ static void init_curses()
         noecho();
         cbreak();
         curs_set(0);
-        keypad(stdscr, 1);
+        keypad(gamew, 1);
         timeout(-1);
 }
 
@@ -50,13 +60,13 @@ static void end_game()
 
 static void show_hunter(struct hunter h)
 {
-        mvaddch(h.cur_y, h.cur_x, h.symb);
-        refresh();
+        mvwaddch(gamew, h.cur_y, h.cur_x, h.symb);
+        wrefresh(gamew);
 }
 
 static void handle_fov(struct hunter h)
 {
-        clear();
+        wclear(gamew);
         show_hunter(h);
 }
 
@@ -100,7 +110,7 @@ static void play_game(struct hunter *h)
 {
         int c;
         handle_fov(*h);
-        while ((c = getch()) != 27) {
+        while ((c = wgetch(gamew)) != 27) {
                 do_cmd(c, h);
                 handle_fov(*h);
         }
@@ -110,6 +120,14 @@ int main(int argc, char **argv)
 {
         struct hunter h;
         init_game(&h);
+
+/* DEBUG windows */
+        mvwprintw(msgw, 0, 0, "hello everyone");
+        wrefresh(msgw);
+        mvwprintw(infow, 0, 0, "Info window");
+        wrefresh(infow);
+/* /DEBUG */
+
         play_game(&h);
         end_game();
         return 0;
