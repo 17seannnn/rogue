@@ -16,6 +16,7 @@ struct level {
         struct room *r;
 };
 
+FILE *logfile;
 WINDOW *msgw, *gamew, *infow;
 
 enum {
@@ -25,6 +26,8 @@ enum {
         gamew_row = 22,
         infow_col = 80,
         infow_row = 1,
+
+        room_range = 12,
 
         hunter_symb = '@'
 };
@@ -60,6 +63,7 @@ static void init_hunter(struct hunter *h)
 
 static void init_game(struct hunter *h)
 {
+        logfile = fopen("log", "a");
         srand(time(NULL));
         init_curses();
         init_hunter(h);
@@ -70,11 +74,50 @@ static void end_game()
         end_curses();
 }
 
+static int fix_room(struct room *n, struct room *r)
+{
+        return 1;
+}
+
+static int create_room(struct room **r)
+{
+        int res;
+        struct room n;
+        /* -2 set limit for room */
+        n.ul_x = rand() % (gamew_col - 2);
+        n.ul_y = rand() % (gamew_row - 2);
+        /*
+         * + 2 for empty space,
+         * - ul_x - 2 set limit for room
+         */
+        n.br_x = n.ul_x + 2 + rand() % (gamew_col - n.ul_x - 2);
+        n.br_y = n.ul_y + 2 + rand() % (gamew_row - n.ul_y - 2);
+        n.next = NULL;
+
+        res = fix_room(&n, *r);
+        if (!res)
+                return 0;
+
+        for ( ; *r; r = &(*r)->next)
+                {}
+        *r = malloc(sizeof(**r));
+        **r = n;
+
+        fprintf(logfile, "ul: %d-%d\nbr: %d-%d\n\n",
+                n.ul_x, n.ul_y, n.br_x, n.br_y);
+
+        return 1;
+}
+
 static void init_level(struct level *l)
 {
-        int i;
-        struct room *r;
+        int res, count;
         l->r = NULL;
+        for (count = rand() % room_range + 1; count; count--) {
+                res = create_room(&l->r);
+                if (!res)
+                        return;
+        }
 }
 
 static void end_level(struct level *l)
