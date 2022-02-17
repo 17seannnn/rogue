@@ -335,14 +335,12 @@ int main(int argc, char **argv)
         struct hunter h;
         struct level l;
         init_game(&h);
-
-/* DEBUG windows */
+#ifdef DEBUG
         mvwprintw(msgw, 0, 0, "hello everyone");
         wrefresh(msgw);
         mvwprintw(infow, 0, 0, "Info window");
         wrefresh(infow);
-/* /DEBUG */
-
+#endif
         for (;;) {
                 init_level(&l);
                 play_game(&h, &l);
