@@ -79,6 +79,20 @@ static void end_game()
         end_curses();
 }
 
+static int room_length(const struct room *r, char dir)
+{
+        if (!r)
+                return 0;
+        switch (d) {
+        case 'h':
+                return r->br_x - r->ul_x + 1;
+        case 'v':
+                return r->br_y - r->ul_y + 1;
+        default:
+                break;
+        }
+}
+
 static void init_room(struct room **r)
 {
         struct room *t;
