@@ -240,10 +240,10 @@ static void init_level(struct level *l)
         int res, i, depth;
         init_room(&l->r);
         depth = 1 + rand() % room_splits_range;
-        for (i = 0; i < depth; i++) {
+        for (i = 1; i <= depth; i++) {
                 res = split_room(l->r);
                 if (!res) {
-                        free_depth(&l->r, depth);
+                        free_depth(&l->r, i);
                         break;
                 }
         }
