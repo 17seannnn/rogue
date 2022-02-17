@@ -9,6 +9,7 @@ struct hunter {
 
 struct room {
         int ul_x, ul_y, br_x, br_y;
+        int depth;
         struct room *parent, *left, *right;
 };
 
@@ -86,6 +87,7 @@ static void init_room(struct room **r)
         t->ul_y = 0;
         t->br_x = gamew_col-1;
         t->br_y = gamew_row-1;
+        t->depth = 0;
         t->parent = NULL;
         t->left = NULL;
         t->right = NULL;
@@ -117,15 +119,13 @@ static int split_room(struct room *r)
                 
         r->left = malloc(sizeof(*r));
         *r->left = *r;
+        r->left->depth++;
         r->left->parent = r;
         r->left->left = NULL;
         r->left->right = NULL;
 
         r->right = malloc(sizeof(*r));
-        *r->right = *r;
-        r->right->parent = r;
-        r->right->left = NULL;
-        r->right->right = NULL;
+        *r->right = *r->left;
 
         switch (type) {
         case split_type_hor:
@@ -147,28 +147,49 @@ static int split_room(struct room *r)
         return 1;
 }
 
+static void free_room(struct room *r)
+{
+        if (!r)
+                return;
+        if (r->left)
+                free_room(r->left);
+        if (r->right)
+                free_room(r->right);
+        free(r);
+}
+
+static void free_depth(struct room **r, int depth)
+{
+        if (!*r)
+                return;
+        if ((*r)->depth == depth) {
+                free_room(*r);
+                *r = NULL;
+                return;
+        }
+        if ((*r)->left)
+                free_depth(&(*r)->left, depth);
+        if ((*r)->right)
+                free_depth(&(*r)->right, depth);
+}
+
 static void init_level(struct level *l)
 {
-        int res, count;
+        int res, i, depth;
         init_room(&l->r);
-        for (count = rand() % room_splits_range + 1; count; count--) {
+        depth = rand() % room_splits_range + 1;
+        for (i = 0; i < depth; i++) {
                 res = split_room(l->r);
-                if (!res)
-                        /* TODO delete last depth level */
+                if (!res) {
+                        free_depth(&l->r, depth);
                         break;
+                }
         }
 }
 
 static void end_level(struct level *l)
 {
-/* TODO end_level for binary tree
-        struct room *t;
-        while (l->r) {
-                t = l->r;
-                l->r = l->r->next;
-                free(t);
-        }
-*/
+        free_room(l->r);
 }
 
 static void show_hunter(struct hunter *h)
@@ -192,16 +213,19 @@ static void show_room(struct room *r)
 
 static void show_rooms(struct room *r)
 {
+        if (!r)
+                return;
         if (r->left)
                 show_rooms(r->left);
         if (!r->left) {
                 show_room(r);
-                fprintf(logfile, "ul: %d-%d\nbr: %d-%d\n\n",
-                        r->ul_x, r->ul_y, r->br_x, r->br_y);
+                fprintf(logfile, "depth: %d\nul: %d-%d\nbr: %d-%d\n\n",
+                        r->depth, r->ul_x, r->ul_y, r->br_x, r->br_y);
                 fflush(logfile);
                 return;
         }
-        show_rooms(r->right);
+        if (r->right)
+                show_rooms(r->right);
 }
 
 static void handle_fov(struct hunter *h, struct level *l)
