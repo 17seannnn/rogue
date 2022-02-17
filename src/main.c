@@ -83,13 +83,13 @@ static int room_length(const struct room *r, char dir)
 {
         if (!r)
                 return 0;
-        switch (d) {
+        switch (dir) {
         case 'h':
                 return r->br_x - r->ul_x + 1;
         case 'v':
                 return r->br_y - r->ul_y + 1;
         default:
-                break;
+                return 0;
         }
 }
 
@@ -122,11 +122,11 @@ static int split_room(struct room *r)
                 return 1;
         }
 
-        if (r->br_y - r->ul_y + 1 < 9 && r->br_x - r->ul_x + 1 < 9)
+        if (room_length(r, 'v') < 9 && room_length(r, 'h') < 9)
                 return 0;
-        else if (r->br_y - r->ul_y + 1 < 9)
+        else if (room_length(r, 'v') < 9)
                 type = split_type_hor;
-        else if (r->br_x - r->ul_x + 1 < 9)
+        else if (room_length(r, 'h') < 9)
                 type = split_type_ver;
         else
                 type = rand() % 2;
@@ -146,14 +146,13 @@ static int split_room(struct room *r)
                 /*
                  * + 4 guarantee that left room`ll have at least 3 empty space
                  * - 6 do same for right room
-                 * br_x - ul_x + 1 is length of the room
                  */
-                split = r->ul_x + 4 + rand() % (r->br_x - r->ul_x + 1 - 6);
+                split = r->ul_x + 4 + rand() % (room_length(r, 'h') - 6);
                 r->left->br_x = split;
                 r->right->ul_x = split;
                 break;
         case split_type_ver:
-                split = r->ul_y + 4 + rand() % (r->br_y - r->ul_y + 1 - 6);
+                split = r->ul_y + 4 + rand() % (room_length(r, 'v') - 6);
                 r->left->br_y = split;
                 r->right->ul_y = split;
                 break;
