@@ -222,13 +222,13 @@ static void end_level(struct level *l)
         free_room(l->r);
 }
 
-static void show_hunter(struct hunter *h)
+static void show_hunter(const struct hunter *h)
 {
         mvwaddch(gamew, h->cur_y, h->cur_x, h->symb);
         wrefresh(gamew);
 }
 
-static void show_room(struct room *r)
+static void show_room(const struct room *r)
 {
         int x, y;
         for (y = r->tl_y; y <= r->br_y; y++) {
@@ -241,7 +241,7 @@ static void show_room(struct room *r)
         wrefresh(gamew);
 }
 
-static void show_rooms(struct room *r)
+static void show_rooms(const struct room *r)
 {
         if (!r)
                 return;
@@ -260,7 +260,7 @@ static void show_rooms(struct room *r)
                 show_rooms(r->right);
 }
 
-static void handle_fov(struct hunter *h, struct level *l)
+static void handle_fov(const struct hunter *h, const struct level *l)
 {
         struct room *r;
         show_hunter(h);
