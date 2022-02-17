@@ -13,8 +13,21 @@ struct room {
         struct room *parent, *left, *right;
 };
 
+struct path {
+        int cur_x, cur_y, dir, len;
+        struct path *next;
+};
+
+struct door {
+        int cur_x, cur_y;
+        struct room *owner;
+        struct door *next;
+};
+
 struct level {
         struct room *r;
+        struct path *p;
+        struct door *d;
 };
 
 #ifdef DEBUG
@@ -37,6 +50,11 @@ enum {
 
         split_type_ver = 0,
         split_type_hor,
+
+        dir_left = 0,
+        dir_top,
+        dir_right,
+        dir_bottom,
 
         hunter_symb = '@',
         door_symb   = '+'
@@ -98,21 +116,6 @@ static int room_len(const struct room *r, char dir)
         default:
                 return 0;
         }
-}
-
-static void init_room(struct room **r)
-{
-        struct room *t;
-        t = malloc(sizeof(*t));
-        t->tl_x = 0;
-        t->tl_y = 0;
-        t->br_x = gamew_col-1;
-        t->br_y = gamew_row-1;
-        t->depth = 0;
-        t->parent = NULL;
-        t->left = NULL;
-        t->right = NULL;
-        *r = t;
 }
 
 static int get_split_type(struct room *r)
@@ -235,19 +238,42 @@ static void polish_room(struct room *r)
                   (room_len(r, 'v') - (min_area_len - 1));
 }
 
-static void init_level(struct level *l)
+static void init_room(struct room **r)
 {
-        int res, i, depth;
-        init_room(&l->r);
+        int i, res, depth;
+        struct room *t;
+        t = malloc(sizeof(*t));
+        t->tl_x = 0;
+        t->tl_y = 0;
+        t->br_x = gamew_col-1;
+        t->br_y = gamew_row-1;
+        t->depth = 0;
+        t->parent = NULL;
+        t->left = NULL;
+        t->right = NULL;
+        *r = t;
+
         depth = 1 + rand() % room_splits_range;
         for (i = 1; i <= depth; i++) {
-                res = split_room(l->r);
+                res = split_room(*r);
                 if (!res) {
-                        free_depth(&l->r, i);
+                        free_depth(r, i);
                         break;
                 }
         }
-        polish_room(l->r);
+        polish_room(*r);
+}
+
+static void init_path(struct path **p, struct door **d, struct room *r)
+{
+        *p = NULL;
+        *d = NULL;
+}
+
+static void init_level(struct level *l)
+{
+        init_room(&l->r);
+        init_path(&l->p, &l->d, l->r);
 }
 
 static void end_level(struct level *l)
