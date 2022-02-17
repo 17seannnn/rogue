@@ -174,6 +174,7 @@ static int split_room(struct room *r)
                         (room_length(r, 'h') - min_area_len_to_split + 1);
                 r->left->br_x = split;
                 r->right->tl_x = split;
+                /* Make empty space between areas */
                 if (room_length(r->left, 'h') > room_length(r->right, 'h'))
                         r->left->br_x -= 2;
                 else
@@ -297,15 +298,6 @@ static void handle_fov(const struct hunter *h, const struct level *l)
         struct room *r;
         show_rooms(l->r);
         show_hunter(h);
-        /*
-        for (r = l->r; r; r = r->next) {
-                if (r->tl_x < h->cur_x && r->br_x > h->cur_x &&
-                    r->tl_y < h->cur_y && r->br_y > h->cur_y) {
-                        show_room(r);
-                        break;
-                }
-        }
-        */
 }
 
 static void move_hunter(struct hunter *h, int c)
