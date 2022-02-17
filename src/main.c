@@ -211,6 +211,21 @@ static void free_depth(struct room **r, int depth)
                 free_depth(&(*r)->right, depth);
 }
 
+static void polish_room(struct room *r)
+{
+        if (r->left) {
+                polish_room(r->left);
+                polish_room(r->right);
+                return;
+        }
+        r->tl_x = r->tl_x + rand() % (room_length(r, 'h') - min_area_len + 1);
+        r->br_x = r->tl_x + (min_area_len - 1) + rand() %
+                  (room_length(r, 'h') - (min_area_len - 1));
+        r->tl_y = r->tl_y + rand() % (room_length(r, 'v') - min_area_len + 1);
+        r->br_y = r->tl_y + (min_area_len - 1) + rand() %
+                  (room_length(r, 'v') - (min_area_len - 1));
+}
+
 static void init_level(struct level *l)
 {
         int res, i, depth;
@@ -223,6 +238,7 @@ static void init_level(struct level *l)
                         break;
                 }
         }
+        polish_room(l->r);
 }
 
 static void end_level(struct level *l)
@@ -271,8 +287,8 @@ static void show_rooms(const struct room *r)
 static void handle_fov(const struct hunter *h, const struct level *l)
 {
         struct room *r;
-        show_hunter(h);
         show_rooms(l->r);
+        show_hunter(h);
         /*
         for (r = l->r; r; r = r->next) {
                 if (r->tl_x < h->cur_x && r->br_x > h->cur_x &&
