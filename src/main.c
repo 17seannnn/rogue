@@ -8,7 +8,7 @@ struct hunter {
 };
 
 struct room {
-        int ul_x, ul_y, br_x, br_y;
+        int tl_x, tl_y, br_x, br_y;
         int depth;
         struct room *parent, *left, *right;
 };
@@ -87,9 +87,9 @@ static int room_length(const struct room *r, char dir)
                 return 0;
         switch (dir) {
         case 'h':
-                return r->br_x - r->ul_x + 1;
+                return r->br_x - r->tl_x + 1;
         case 'v':
-                return r->br_y - r->ul_y + 1;
+                return r->br_y - r->tl_y + 1;
         default:
                 return 0;
         }
@@ -99,8 +99,8 @@ static void init_room(struct room **r)
 {
         struct room *t;
         t = malloc(sizeof(*t));
-        t->ul_x = 0;
-        t->ul_y = 0;
+        t->tl_x = 0;
+        t->tl_y = 0;
         t->br_x = gamew_col-1;
         t->br_y = gamew_row-1;
         t->depth = 0;
@@ -150,23 +150,23 @@ static int split_room(struct room *r)
         switch (type) {
         case split_type_hor:
                 /*
-                 * r->ul_* + (min_room_len - 1) guarantees at least 
+                 * r->tl_* + (min_room_len - 1) guarantees at least 
                  * (min_room_len - 2) empty spaces for rooms 
                  *
                  * rand() % (room_length(r, *) - min_room_len_to_split + 1)
                  * mean if we`ve more len than min len to split then we`ve
                  * chance to build bigger room
                  */
-                split = r->ul_x + (min_room_len - 1) + rand() %
+                split = r->tl_x + (min_room_len - 1) + rand() %
                         (room_length(r, 'h') - min_room_len_to_split + 1);
                 r->left->br_x = split;
-                r->right->ul_x = split;
+                r->right->tl_x = split;
                 break;
         case split_type_ver:
-                split = r->ul_y + (min_room_len - 1) + rand() %
+                split = r->tl_y + (min_room_len - 1) + rand() %
                         (room_length(r, 'v') - min_room_len_to_split + 1);
                 r->left->br_y = split;
-                r->right->ul_y = split;
+                r->right->tl_y = split;
                 break;
         }
         return 1;
@@ -226,11 +226,11 @@ static void show_hunter(struct hunter *h)
 static void show_room(struct room *r)
 {
         int x, y;
-        for (y = r->ul_y; y <= r->br_y; y++) {
-                mvwaddch(gamew, y, r->ul_x, '#');
+        for (y = r->tl_y; y <= r->br_y; y++) {
+                mvwaddch(gamew, y, r->tl_x, '#');
                 mvwaddch(gamew, y, r->br_x, '#');
-                if (y == r->ul_y || y == r->br_y)
-                        for (x = r->ul_x + 1; x < r->br_x; x++)
+                if (y == r->tl_y || y == r->br_y)
+                        for (x = r->tl_x + 1; x < r->br_x; x++)
                                 mvwaddch(gamew, y, x, '#');
         }
         wrefresh(gamew);
@@ -244,8 +244,8 @@ static void show_rooms(struct room *r)
                 show_rooms(r->left);
         if (!r->left) {
                 show_room(r);
-                fprintf(logfile, "depth: %d\nul: %d-%d\nbr: %d-%d\n\n",
-                        r->depth, r->ul_x, r->ul_y, r->br_x, r->br_y);
+                fprintf(logfile, "depth: %d\ntl: %d-%d\nbr: %d-%d\n\n",
+                        r->depth, r->tl_x, r->tl_y, r->br_x, r->br_y);
                 fflush(logfile);
                 return;
         }
@@ -260,8 +260,8 @@ static void handle_fov(struct hunter *h, struct level *l)
         show_rooms(l->r);
         /*
         for (r = l->r; r; r = r->next) {
-                if (r->ul_x < h->cur_x && r->br_x > h->cur_x &&
-                    r->ul_y < h->cur_y && r->br_y > h->cur_y) {
+                if (r->tl_x < h->cur_x && r->br_x > h->cur_x &&
+                    r->tl_y < h->cur_y && r->br_y > h->cur_y) {
                         show_room(r);
                         break;
                 }
