@@ -17,7 +17,10 @@ struct level {
         struct room *r;
 };
 
+#ifdef DEBUG
 FILE *logfile;
+#endif
+
 WINDOW *msgw, *gamew, *infow;
 
 enum {
@@ -70,7 +73,9 @@ static void init_hunter(struct hunter *h)
 
 static void init_game(struct hunter *h)
 {
+#ifdef DEBUG
         logfile = fopen("log", "w");
+#endif
         srand(time(NULL));
         init_curses();
         init_hunter(h);
@@ -244,9 +249,11 @@ static void show_rooms(struct room *r)
                 show_rooms(r->left);
         if (!r->left) {
                 show_room(r);
+#ifdef DEBUG
                 fprintf(logfile, "depth: %d\ntl: %d-%d\nbr: %d-%d\n\n",
                         r->depth, r->tl_x, r->tl_y, r->br_x, r->br_y);
                 fflush(logfile);
+#endif
                 return;
         }
         if (r->right)
