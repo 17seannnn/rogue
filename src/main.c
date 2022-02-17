@@ -115,6 +115,35 @@ static void init_room(struct room **r)
         *r = t;
 }
 
+static int get_split_type(struct room *r)
+{
+        if (room_length(r, 'h') > min_room_len_to_split &&
+            room_length(r, 'v') > min_room_len_to_split)
+                return rand() % 2;
+        else
+        if (room_length(r, 'h') > min_room_len_to_split &&
+            room_length(r, 'v') < min_room_len_to_split)
+                return split_type_hor;
+        else
+        if (room_length(r, 'h') < min_room_len_to_split &&
+            room_length(r, 'v') > min_room_len_to_split)
+                return split_type_ver;
+        else
+                return -1;
+}
+
+static void init_split_children(struct room *r)
+{
+        r->left = malloc(sizeof(*r));
+        *r->left = *r;
+        r->left->depth++;
+        r->left->parent = r;
+        r->left->left = NULL;
+        r->left->right = NULL;
+        r->right = malloc(sizeof(*r));
+        *r->right = *r->left;
+}
+
 static int split_room(struct room *r)
 {
         int res, split, type;
@@ -127,31 +156,10 @@ static int split_room(struct room *r)
                         return 0;
                 return 1;
         }
-
-        if (room_length(r, 'h') > min_room_len_to_split &&
-            room_length(r, 'v') > min_room_len_to_split)
-                type = rand() % 2;
-        else
-        if (room_length(r, 'h') > min_room_len_to_split &&
-            room_length(r, 'v') < min_room_len_to_split)
-                type = split_type_hor;
-        else
-        if (room_length(r, 'h') < min_room_len_to_split &&
-            room_length(r, 'v') > min_room_len_to_split)
-                type = split_type_ver;
-        else
+        type = get_split_type(r);
+        if (type == -1)
                 return 0;
-                
-        r->left = malloc(sizeof(*r));
-        *r->left = *r;
-        r->left->depth++;
-        r->left->parent = r;
-        r->left->left = NULL;
-        r->left->right = NULL;
-
-        r->right = malloc(sizeof(*r));
-        *r->right = *r->left;
-
+        init_split_children(r);
         switch (type) {
         case split_type_hor:
                 /*
