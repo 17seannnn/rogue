@@ -9,7 +9,7 @@ struct hunter {
 
 struct room {
         int ul_x, ul_y, br_x, br_y;
-        struct room *next;
+        struct room *parent, *left, *right;
 };
 
 struct level {
@@ -27,9 +27,13 @@ enum {
         infow_col = 80,
         infow_row = 1,
 
-        room_range = 12,
+        room_splits_range = 4,
 
-        hunter_symb = '@'
+        split_type_ver = 0,
+        split_type_hor,
+
+        hunter_symb = '@',
+        door_symb   = '+'
 };
 
 static void init_curses()
@@ -63,7 +67,7 @@ static void init_hunter(struct hunter *h)
 
 static void init_game(struct hunter *h)
 {
-        logfile = fopen("log", "a");
+        logfile = fopen("log", "w");
         srand(time(NULL));
         init_curses();
         init_hunter(h);
@@ -74,60 +78,97 @@ static void end_game()
         end_curses();
 }
 
-static int fix_room(struct room *n, struct room *r)
+static void init_room(struct room **r)
 {
-        return 1;
+        struct room *t;
+        t = malloc(sizeof(*t));
+        t->ul_x = 0;
+        t->ul_y = 0;
+        t->br_x = gamew_col-1;
+        t->br_y = gamew_row-1;
+        t->parent = NULL;
+        t->left = NULL;
+        t->right = NULL;
+        *r = t;
 }
 
-static int create_room(struct room **r)
+/* TODO minimal area_length */
+static int split_room(struct room *r)
 {
-        int res;
-        struct room n;
-        /* -2 set limit for room */
-        n.ul_x = rand() % (gamew_col - 2);
-        n.ul_y = rand() % (gamew_row - 2);
-        /*
-         * + 2 for empty space,
-         * - ul_x - 2 set limit for room
-         */
-        n.br_x = n.ul_x + 2 + rand() % (gamew_col - n.ul_x - 2);
-        n.br_y = n.ul_y + 2 + rand() % (gamew_row - n.ul_y - 2);
-        n.next = NULL;
+        int res, split, type;
+        if (r->left) {
+                res = split_room(r->left);
+                if (!res)
+                        return 0;
+                res = split_room(r->right);
+                if (!res)
+                        return 0;
+                return 1;
+        }
 
-        res = fix_room(&n, *r);
-        if (!res)
+        if (r->br_y - r->ul_y + 1 < 9 && r->br_x - r->ul_x + 1 < 9)
                 return 0;
+        else if (r->br_y - r->ul_y + 1 < 9)
+                type = split_type_hor;
+        else if (r->br_x - r->ul_x + 1 < 9)
+                type = split_type_ver;
+        else
+                type = rand() % 2;
+                
+        r->left = malloc(sizeof(*r));
+        *r->left = *r;
+        r->left->parent = r;
+        r->left->left = NULL;
+        r->left->right = NULL;
 
-        for ( ; *r; r = &(*r)->next)
-                {}
-        *r = malloc(sizeof(**r));
-        **r = n;
+        r->right = malloc(sizeof(*r));
+        *r->right = *r;
+        r->right->parent = r;
+        r->right->left = NULL;
+        r->right->right = NULL;
 
-        fprintf(logfile, "ul: %d-%d\nbr: %d-%d\n\n",
-                n.ul_x, n.ul_y, n.br_x, n.br_y);
-
+        switch (type) {
+        case split_type_hor:
+                /*
+                 * + 4 guarantee that left room`ll have at least 3 empty space
+                 * - 6 do same for right room
+                 * br_x - ul_x + 1 is length of the room
+                 */
+                split = r->ul_x + 4 + rand() % (r->br_x - r->ul_x + 1 - 6);
+                r->left->br_x = split;
+                r->right->ul_x = split;
+                break;
+        case split_type_ver:
+                split = r->ul_y + 4 + rand() % (r->br_y - r->ul_y + 1 - 6);
+                r->left->br_y = split;
+                r->right->ul_y = split;
+                break;
+        }
         return 1;
 }
 
 static void init_level(struct level *l)
 {
         int res, count;
-        l->r = NULL;
-        for (count = rand() % room_range + 1; count; count--) {
-                res = create_room(&l->r);
+        init_room(&l->r);
+        for (count = rand() % room_splits_range + 1; count; count--) {
+                res = split_room(l->r);
                 if (!res)
-                        return;
+                        /* TODO delete last depth level */
+                        break;
         }
 }
 
 static void end_level(struct level *l)
 {
+/* TODO end_level for binary tree
         struct room *t;
         while (l->r) {
                 t = l->r;
                 l->r = l->r->next;
                 free(t);
         }
+*/
 }
 
 static void show_hunter(struct hunter *h)
@@ -149,13 +190,25 @@ static void show_room(struct room *r)
         wrefresh(gamew);
 }
 
+static void show_rooms(struct room *r)
+{
+        if (r->left)
+                show_rooms(r->left);
+        if (!r->left) {
+                show_room(r);
+                fprintf(logfile, "ul: %d-%d\nbr: %d-%d\n\n",
+                        r->ul_x, r->ul_y, r->br_x, r->br_y);
+                fflush(logfile);
+                return;
+        }
+        show_rooms(r->right);
+}
+
 static void handle_fov(struct hunter *h, struct level *l)
 {
         struct room *r;
         show_hunter(h);
-        for (r = l->r; r; r = r->next) {
-                show_room(r);
-        }
+        show_rooms(l->r);
         /*
         for (r = l->r; r; r = r->next) {
                 if (r->ul_x < h->cur_x && r->br_x > h->cur_x &&
