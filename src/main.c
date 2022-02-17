@@ -29,6 +29,8 @@ enum {
         infow_row = 1,
 
         room_splits_range = 4,
+        min_room_len = 5,
+        min_room_len_to_split = min_room_len * 2 - 1,
 
         split_type_ver = 0,
         split_type_hor,
@@ -108,7 +110,6 @@ static void init_room(struct room **r)
         *r = t;
 }
 
-/* TODO minimal area_length */
 static int split_room(struct room *r)
 {
         int res, split, type;
@@ -122,14 +123,19 @@ static int split_room(struct room *r)
                 return 1;
         }
 
-        if (room_length(r, 'v') < 9 && room_length(r, 'h') < 9)
-                return 0;
-        else if (room_length(r, 'v') < 9)
+        if (room_length(r, 'h') > min_room_len_to_split &&
+            room_length(r, 'v') > min_room_len_to_split)
+                type = rand() % 2;
+        else
+        if (room_length(r, 'h') > min_room_len_to_split &&
+            room_length(r, 'v') < min_room_len_to_split)
                 type = split_type_hor;
-        else if (room_length(r, 'h') < 9)
+        else
+        if (room_length(r, 'h') < min_room_len_to_split &&
+            room_length(r, 'v') > min_room_len_to_split)
                 type = split_type_ver;
         else
-                type = rand() % 2;
+                return 0;
                 
         r->left = malloc(sizeof(*r));
         *r->left = *r;
@@ -144,15 +150,21 @@ static int split_room(struct room *r)
         switch (type) {
         case split_type_hor:
                 /*
-                 * + 4 guarantee that left room`ll have at least 3 empty space
-                 * - 6 do same for right room
+                 * r->ul_* + (min_room_len - 1) guarantees at least 
+                 * (min_room_len - 2) empty spaces for rooms 
+                 *
+                 * rand() % (room_length(r, *) - min_room_len_to_split + 1)
+                 * mean if we`ve more len than min len to split then we`ve
+                 * chance to build bigger room
                  */
-                split = r->ul_x + 4 + rand() % (room_length(r, 'h') - 6);
+                split = r->ul_x + (min_room_len - 1) + rand() %
+                        (room_length(r, 'h') - min_room_len_to_split + 1);
                 r->left->br_x = split;
                 r->right->ul_x = split;
                 break;
         case split_type_ver:
-                split = r->ul_y + 4 + rand() % (room_length(r, 'v') - 6);
+                split = r->ul_y + (min_room_len - 1) + rand() %
+                        (room_length(r, 'v') - min_room_len_to_split + 1);
                 r->left->br_y = split;
                 r->right->ul_y = split;
                 break;
@@ -190,7 +202,7 @@ static void init_level(struct level *l)
 {
         int res, i, depth;
         init_room(&l->r);
-        depth = rand() % room_splits_range + 1;
+        depth = 1 + rand() % room_splits_range;
         for (i = 0; i < depth; i++) {
                 res = split_room(l->r);
                 if (!res) {
