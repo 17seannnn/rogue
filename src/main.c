@@ -33,7 +33,7 @@ enum {
 
         room_splits_range = 4,
         min_area_len = 5,
-        min_area_len_to_split = min_area_len * 2 - 1,
+        min_area_len_to_split = min_area_len * 2 + 1,
 
         split_type_ver = 0,
         split_type_hor,
@@ -174,12 +174,20 @@ static int split_room(struct room *r)
                         (room_length(r, 'h') - min_area_len_to_split + 1);
                 r->left->br_x = split;
                 r->right->tl_x = split;
+                if (room_length(r->left, 'h') > room_length(r->right, 'h'))
+                        r->left->br_x -= 2;
+                else
+                        r->right->tl_x += 2;
                 break;
         case split_type_ver:
                 split = r->tl_y + (min_area_len - 1) + rand() %
                         (room_length(r, 'v') - min_area_len_to_split + 1);
                 r->left->br_y = split;
                 r->right->tl_y = split;
+                if (room_length(r->left, 'v') > room_length(r->right, 'v'))
+                        r->left->br_y -= 2;
+                else
+                        r->right->tl_y += 2;
                 break;
         }
         return 1;
