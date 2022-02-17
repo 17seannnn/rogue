@@ -32,8 +32,8 @@ enum {
         infow_row = 1,
 
         room_splits_range = 4,
-        min_room_len = 5,
-        min_room_len_to_split = min_room_len * 2 - 1,
+        min_area_len = 5,
+        min_area_len_to_split = min_area_len * 2 - 1,
 
         split_type_ver = 0,
         split_type_hor,
@@ -117,16 +117,16 @@ static void init_room(struct room **r)
 
 static int get_split_type(struct room *r)
 {
-        if (room_length(r, 'h') > min_room_len_to_split &&
-            room_length(r, 'v') > min_room_len_to_split)
+        if (room_length(r, 'h') > min_area_len_to_split &&
+            room_length(r, 'v') > min_area_len_to_split)
                 return rand() % 2;
         else
-        if (room_length(r, 'h') > min_room_len_to_split &&
-            room_length(r, 'v') < min_room_len_to_split)
+        if (room_length(r, 'h') > min_area_len_to_split &&
+            room_length(r, 'v') < min_area_len_to_split)
                 return split_type_hor;
         else
-        if (room_length(r, 'h') < min_room_len_to_split &&
-            room_length(r, 'v') > min_room_len_to_split)
+        if (room_length(r, 'h') < min_area_len_to_split &&
+            room_length(r, 'v') > min_area_len_to_split)
                 return split_type_ver;
         else
                 return -1;
@@ -163,21 +163,21 @@ static int split_room(struct room *r)
         switch (type) {
         case split_type_hor:
                 /*
-                 * r->tl_* + (min_room_len - 1) guarantees at least 
-                 * (min_room_len - 2) empty spaces for rooms 
+                 * r->tl_* + (min_area_len - 1) guarantees at least
+                 * (min_area_len - 2) empty spaces for rooms
                  *
-                 * rand() % (room_length(r, *) - min_room_len_to_split + 1)
+                 * rand() % (room_length(r, *) - min_area_len_to_split + 1)
                  * mean if we`ve more len than min len to split then we`ve
                  * chance to build bigger room
                  */
-                split = r->tl_x + (min_room_len - 1) + rand() %
-                        (room_length(r, 'h') - min_room_len_to_split + 1);
+                split = r->tl_x + (min_area_len - 1) + rand() %
+                        (room_length(r, 'h') - min_area_len_to_split + 1);
                 r->left->br_x = split;
                 r->right->tl_x = split;
                 break;
         case split_type_ver:
-                split = r->tl_y + (min_room_len - 1) + rand() %
-                        (room_length(r, 'v') - min_room_len_to_split + 1);
+                split = r->tl_y + (min_area_len - 1) + rand() %
+                        (room_length(r, 'v') - min_area_len_to_split + 1);
                 r->left->br_y = split;
                 r->right->tl_y = split;
                 break;
