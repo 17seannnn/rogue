@@ -240,9 +240,64 @@ static void polish_room(struct room *r)
                   (room_len(r, 'v') - (min_area_len - 1));
 }
 
-static void give_idx(struct room *r)
+static int give_no_idx(struct room *r, int depth, int no_idx)
 {
-        
+        if (r->left) {
+                no_idx = give_no_idx(r->left, depth, no_idx);
+        } else {
+                r->no_idx = no_idx;
+                switch (depth) {
+                case 1:
+                case 2:
+                /* In depths 1 & 2 one ch_idx contains 2 no_idx rooms */
+                        if (no_idx >= 2)
+                                return 1;
+                        break;
+                case 3:
+                case 4:
+                /* In depths 3 & 4 one ch_idx contains 4 no_idx rooms */
+                        if (no_idx >= 4)
+                                return 1;
+                        break;
+                }
+                return no_idx + 1;
+        }
+        if (r->right)
+                no_idx = give_no_idx(r->right, depth, no_idx);
+        return no_idx;
+}
+
+static char give_ch_idx(struct room *r, int depth, char ch_idx)
+{
+        if (r->left) {
+                ch_idx = give_ch_idx(r->left, depth, ch_idx);
+        } else {
+                r->ch_idx = ch_idx;
+                switch (depth) {
+                case 1:
+                case 2:
+                /* In depths 1 & 2 one ch_idx contains 2 no_idx rooms */
+                        if (r->no_idx >= 2)
+                                return ch_idx + 1;
+                        break;
+                case 3:
+                case 4:
+                /* In depths 3 & 4 one ch_idx contains 4 no_idx rooms */
+                        if (r->no_idx >= 4)
+                                return ch_idx + 1;
+                        break;
+                }
+                return ch_idx;
+        }
+        if (r->right)
+                ch_idx = give_ch_idx(r->right, depth, ch_idx);
+        return ch_idx;
+}
+
+static void give_idx(struct room *r, int depth)
+{
+        give_no_idx(r, depth, 1);
+        give_ch_idx(r, depth, 'A');
 }
 
 static int init_room(struct room **r)
@@ -272,7 +327,7 @@ static int init_room(struct room **r)
         }
         depth = i - 1;
         polish_room(*r);
-        give_idx(*r);
+        give_idx(*r, depth);
         return depth;
 }
 
@@ -285,10 +340,6 @@ static void init_path(struct path **p, struct door **d, struct room *r)
 static void init_level(struct level *l)
 {
         l->depth = init_room(&l->r);
-#ifdef DEBUG
-        mvwprintw(infow, 0, 0, "Level depth: %d", l->depth);
-        wrefresh(infow);
-#endif
         init_path(&l->p, &l->d, l->r);
 }
 
@@ -325,7 +376,7 @@ static void show_rooms(const struct room *r)
         if (!r->left) {
                 show_room(r);
 #ifdef DEBUG
-                mvwprintw(gamew, r->tl_y, r->tl_x, "%d-%d", r->ch_idx, r->no_idx);
+                mvwprintw(gamew, r->tl_y, r->tl_x, "%c-%d", r->ch_idx, r->no_idx);
                 wrefresh(gamew);
                 fprintf(logfile, "depth: %d\ntl: %d-%d\nbr: %d-%d\n\n",
                         r->depth, r->tl_x, r->tl_y, r->br_x, r->br_y);
