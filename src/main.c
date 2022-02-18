@@ -8,6 +8,7 @@ struct hunter {
 };
 
 struct room {
+        int ch_idx, no_idx;
         int tl_x, tl_y, br_x, br_y;
         int depth;
         struct room *parent, *left, *right;
@@ -238,11 +239,18 @@ static void polish_room(struct room *r)
                   (room_len(r, 'v') - (min_area_len - 1));
 }
 
+static void give_idx(struct room *r)
+{
+
+}
+
 static void init_room(struct room **r)
 {
         int i, res, depth;
         struct room *t;
         t = malloc(sizeof(*t));
+        t->ch_idx = 0;
+        t->no_idx = 0;
         t->tl_x = 0;
         t->tl_y = 0;
         t->br_x = gamew_col-1;
@@ -262,6 +270,7 @@ static void init_room(struct room **r)
                 }
         }
         polish_room(*r);
+        give_idx(*r);
 }
 
 static void init_path(struct path **p, struct door **d, struct room *r)
@@ -309,6 +318,8 @@ static void show_rooms(const struct room *r)
         if (!r->left) {
                 show_room(r);
 #ifdef DEBUG
+                mvwprintw(gamew, r->tl_y, r->tl_x, "%d-%d", r->ch_idx, r->no_idx);
+                wrefresh(gamew);
                 fprintf(logfile, "depth: %d\ntl: %d-%d\nbr: %d-%d\n\n",
                         r->depth, r->tl_x, r->tl_y, r->br_x, r->br_y);
                 fflush(logfile);
