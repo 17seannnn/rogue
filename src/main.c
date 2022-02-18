@@ -26,6 +26,7 @@ struct door {
 };
 
 struct level {
+        int depth;
         struct room *r;
         struct path *p;
         struct door *d;
@@ -241,10 +242,10 @@ static void polish_room(struct room *r)
 
 static void give_idx(struct room *r)
 {
-
+        
 }
 
-static void init_room(struct room **r)
+static int init_room(struct room **r)
 {
         int i, res, depth;
         struct room *t;
@@ -269,8 +270,10 @@ static void init_room(struct room **r)
                         break;
                 }
         }
+        depth = i - 1;
         polish_room(*r);
         give_idx(*r);
+        return depth;
 }
 
 static void init_path(struct path **p, struct door **d, struct room *r)
@@ -281,7 +284,11 @@ static void init_path(struct path **p, struct door **d, struct room *r)
 
 static void init_level(struct level *l)
 {
-        init_room(&l->r);
+        l->depth = init_room(&l->r);
+#ifdef DEBUG
+        mvwprintw(infow, 0, 0, "Level depth: %d", l->depth);
+        wrefresh(infow);
+#endif
         init_path(&l->p, &l->d, l->r);
 }
 
