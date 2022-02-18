@@ -106,6 +106,24 @@ static void end_game()
         end_curses();
 }
 
+static int is_room(const struct room *r, int cur_x, int cur_y)
+{
+        int res;
+        if (r->left) {
+                res = is_room(r->left, cur_x, cur_y);
+                if (res)
+                        return 1;
+        } else {
+                if (cur_x >= r->tl_x && cur_x <= r->br_x &&
+                    cur_y >= r->tl_y && cur_y <= r->br_y)
+                        return 1;
+                return 0;
+        }
+        if (r->right)
+                res = is_room(r->left, cur_x, cur_y);
+        return res;
+}
+
 static int room_len(const struct room *r, char dir)
 {
         if (!r)
@@ -120,7 +138,7 @@ static int room_len(const struct room *r, char dir)
         }
 }
 
-static int get_split_type(struct room *r)
+static int get_split_type(const struct room *r)
 {
         if (room_len(r, 'h') > min_area_len_to_split &&
             room_len(r, 'v') > min_area_len_to_split)
@@ -375,13 +393,6 @@ static void show_rooms(const struct room *r)
                 show_rooms(r->left);
         if (!r->left) {
                 show_room(r);
-#ifdef DEBUG
-                mvwprintw(gamew, r->tl_y, r->tl_x, "%c-%d", r->ch_idx, r->no_idx);
-                wrefresh(gamew);
-                fprintf(logfile, "depth: %d\ntl: %d-%d\nbr: %d-%d\n\n",
-                        r->depth, r->tl_x, r->tl_y, r->br_x, r->br_y);
-                fflush(logfile);
-#endif
                 return;
         }
         if (r->right)
@@ -390,9 +401,9 @@ static void show_rooms(const struct room *r)
 
 static void handle_fov(const struct hunter *h, const struct level *l)
 {
-        struct room *r;
         show_rooms(l->r);
         show_hunter(h);
+        wrefresh(infow);
 }
 
 static void move_hunter(struct hunter *h, int c)
