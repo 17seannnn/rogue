@@ -285,7 +285,7 @@ static int give_no_idx(struct room *r, int depth, int no_idx)
         return no_idx;
 }
 
-static char give_ch_idx(struct room *r, int depth, char ch_idx)
+static int give_ch_idx(struct room *r, int depth, int ch_idx)
 {
         if (r->left) {
                 ch_idx = give_ch_idx(r->left, depth, ch_idx);
