@@ -120,7 +120,7 @@ static int room_len(const struct room *r, char dir)
         }
 }
 
-static int get_split_type(const struct room *r)
+static int rand_split_type(const struct room *r)
 {
         if (room_len(r, 'h') > min_area_len_to_split &&
             room_len(r, 'v') > min_area_len_to_split)
@@ -161,7 +161,7 @@ static int split_room(struct room *r)
                         return 0;
                 return 1;
         }
-        type = get_split_type(r);
+        type = rand_split_type(r);
         if (type == -1)
                 return 0;
         init_split_children(r);
@@ -366,7 +366,7 @@ static struct room *get_room(struct room *r, int ch_idx, int no_idx)
         return t;
 }
 
-static int get_door_side(struct room *r)
+static int rand_door_side(struct room *r)
 {
         int side, got;
         for (side = rand() % 4, got = 0; ; side++) {
@@ -404,7 +404,7 @@ static void place_door(struct door **d, struct room *r)
         *d = malloc(sizeof(**d));
         (*d)->owner = r;
         (*d)->next = NULL;
-        side = get_door_side(r);
+        side = rand_door_side(r);
         switch (side) {
         case dir_left:
                 (*d)->cur_x = r->tl_x;
