@@ -15,12 +15,14 @@ struct room {
 };
 
 struct path {
-        int cur_x, cur_y, dir, len;
+        int cur_x, cur_y;
+        int dir, len;
         struct path *next;
 };
 
 struct door {
         int cur_x, cur_y;
+        int side;
         struct room *owner;
         struct door *next;
 };
@@ -374,14 +376,13 @@ static int rand_door_side(struct room *r)
 
 static void place_door(struct door **d, struct room *r)
 {
-        int side;
         for ( ; *d; d = &(*d)->next)
                 {}
         *d = malloc(sizeof(**d));
         (*d)->owner = r;
         (*d)->next = NULL;
-        side = rand_door_side(r);
-        switch (side) {
+        (*d)->side = rand_door_side(r);
+        switch ((*d)->side) {
         case dir_left:
                 (*d)->cur_x = r->tl_x;
                 /*
