@@ -366,44 +366,45 @@ static struct room *get_room(struct room *r, int ch_idx, int no_idx)
         return t;
 }
 
-static void place_door(struct door **d, struct room *r)
+static int get_door_side(struct room *r)
 {
-        int i, side, sides[4] = { 0, 0, 0, 0 };
-        for ( ; *d; d = &(*d)->next)
-                {}
-        for (side = dir_left; side <= dir_bottom; side++) {
+        int side, got;
+        for (side = rand() % 4, got = 0; ; side++) {
                 switch (side) {
                 case dir_left:
-                        if (r->tl_x - 1 > 0)
-                                sides[side] = 1;
+                        if (r->tl_x - 1 >= 0)
+                                got = 1;
                         break;
                 case dir_top:
-                        if (r->tl_y - 1 > 0)
-                                sides[side] = 1;
+                        if (r->tl_y - 1 >= 0)
+                                got = 1;
                         break;
                 case dir_right:
                         if (r->br_x + 1 < gamew_col)
-                                sides[side] = 1;
+                                got = 1;
                         break;
                 case dir_bottom:
                         if (r->br_y + 1 < gamew_row)
-                                sides[side] = 1;
+                                got = 1;
+                        else
+                                side = dir_left-1;
                         break;
                 }
-        }
-        /* Randomize the side to place door */
-        for (i = rand() % 4 + 1, side = dir_left; i; i--) {
-                for ( ; side <= dir_bottom; side++) {
-                        if (sides[side])
+                if (got)
                         break;
-                }
-                side = side + 1 > dir_bottom ? dir_left : side + 1;
         }
-        if (side > dir_bottom)
-                return;
+        return side;
+}
+
+static void place_door(struct door **d, struct room *r)
+{
+        int side;
+        for ( ; *d; d = &(*d)->next)
+                {}
         *d = malloc(sizeof(**d));
         (*d)->owner = r;
         (*d)->next = NULL;
+        side = get_door_side(r);
         switch (side) {
         case dir_left:
                 (*d)->cur_x = r->tl_x;
