@@ -368,43 +368,43 @@ static struct room *get_room(struct room *r, int ch_idx, int no_idx)
 
 static void place_door(struct door **d, struct room *r)
 {
-        int i, j, dirs[4] = { 0, 0, 0, 0 };
+        int i, side, sides[4] = { 0, 0, 0, 0 };
         for ( ; *d; d = &(*d)->next)
                 {}
-        for (i = dir_left; i <= dir_bottom; i++) {
-                switch (i) {
+        for (side = dir_left; side <= dir_bottom; side++) {
+                switch (side) {
                 case dir_left:
                         if (r->tl_x - 1 > 0)
-                                dirs[i] = 1;
+                                sides[side] = 1;
                         break;
                 case dir_top:
                         if (r->tl_y - 1 > 0)
-                                dirs[i] = 1;
+                                sides[side] = 1;
                         break;
                 case dir_right:
                         if (r->br_x + 1 < gamew_col)
-                                dirs[i] = 1;
+                                sides[side] = 1;
                         break;
                 case dir_bottom:
                         if (r->br_y + 1 < gamew_row)
-                                dirs[i] = 1;
+                                sides[side] = 1;
                         break;
                 }
         }
         /* Randomize the side to place door */
-        for (i = rand() % 4 + 1, j = dir_left; i; i--) {
-                for (j = j + 1 > dir_bottom ? dir_left : j + 1;
-                     j <= dir_bottom; j++) {
-                        if (dirs[j])
-                                break;
+        for (i = rand() % 4 + 1, side = dir_left; i; i--) {
+                for ( ; side <= dir_bottom; side++) {
+                        if (sides[side])
+                        break;
                 }
+                side = side + 1 > dir_bottom ? dir_left : side + 1;
         }
-        if (j > dir_bottom)
+        if (side > dir_bottom)
                 return;
         *d = malloc(sizeof(**d));
         (*d)->owner = r;
         (*d)->next = NULL;
-        switch (j) {
+        switch (side) {
         case dir_left:
                 (*d)->cur_x = r->tl_x;
                 /*
