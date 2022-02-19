@@ -248,8 +248,7 @@ static int give_no_idx(struct room *r, int depth, int no_idx)
                 r->no_idx = no_idx;
                 if (no_idx >= (depth <= 2 ? 2 : 4))
                         return 1;
-                else
-                        return no_idx + 1;
+                return no_idx + 1;
         }
         if (r->right)
                 no_idx = give_no_idx(r->right, depth, no_idx);
@@ -262,20 +261,8 @@ static int give_ch_idx(struct room *r, int depth, int ch_idx)
                 ch_idx = give_ch_idx(r->left, depth, ch_idx);
         } else {
                 r->ch_idx = ch_idx;
-                switch (depth) {
-                case 1:
-                case 2:
-                /* In depths 1 & 2 one ch_idx contains 2 no_idx rooms */
-                        if (r->no_idx >= 2)
-                                return ch_idx + 1;
-                        break;
-                case 3:
-                case 4:
-                /* In depths 3 & 4 one ch_idx contains 4 no_idx rooms */
-                        if (r->no_idx >= 4)
-                                return ch_idx + 1;
-                        break;
-                }
+                if (r->no_idx >= (depth <= 2 ? 2 : 4))
+                        return ch_idx + 1;
                 return ch_idx;
         }
         if (r->right)
