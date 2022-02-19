@@ -309,21 +309,21 @@ static int init_room(struct room **r)
         return depth;
 }
 
-static int is_room(const struct room *r, int cur_x, int cur_y)
+static int is_room(const struct room *r, int x, int y)
 {
         int res;
         if (r->left) {
-                res = is_room(r->left, cur_x, cur_y);
+                res = is_room(r->left, x, y);
                 if (res)
                         return 1;
         } else {
-                if (cur_x >= r->tl_x && cur_x <= r->br_x &&
-                    cur_y >= r->tl_y && cur_y <= r->br_y)
+                if (x >= r->tl_x && x <= r->br_x &&
+                    y >= r->tl_y && y <= r->br_y)
                         return 1;
                 return 0;
         }
         if (r->right)
-                res = is_room(r->left, cur_x, cur_y);
+                res = is_room(r->left, x, y);
         return res;
 }
 
@@ -413,7 +413,7 @@ static int pave_ver(struct level *l, struct door *d1,
 }
 
 static int pave_hor(struct level *l, struct door *d1,
-                                     struct door *d2, int height)
+                                     struct door *d2, int width)
 {
         return 0;
 }
