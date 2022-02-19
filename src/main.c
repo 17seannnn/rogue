@@ -106,24 +106,6 @@ static void end_game()
         end_curses();
 }
 
-static int is_room(const struct room *r, int cur_x, int cur_y)
-{
-        int res;
-        if (r->left) {
-                res = is_room(r->left, cur_x, cur_y);
-                if (res)
-                        return 1;
-        } else {
-                if (cur_x >= r->tl_x && cur_x <= r->br_x &&
-                    cur_y >= r->tl_y && cur_y <= r->br_y)
-                        return 1;
-                return 0;
-        }
-        if (r->right)
-                res = is_room(r->left, cur_x, cur_y);
-        return res;
-}
-
 static int room_len(const struct room *r, char dir)
 {
         if (!r)
@@ -349,16 +331,77 @@ static int init_room(struct room **r)
         return depth;
 }
 
-static void init_path(struct path **p, struct door **d, struct room *r)
+static int is_room(const struct room *r, int cur_x, int cur_y)
 {
-        *p = NULL;
-        *d = NULL;
+        int res;
+        if (r->left) {
+                res = is_room(r->left, cur_x, cur_y);
+                if (res)
+                        return 1;
+        } else {
+                if (cur_x >= r->tl_x && cur_x <= r->br_x &&
+                    cur_y >= r->tl_y && cur_y <= r->br_y)
+                        return 1;
+                return 0;
+        }
+        if (r->right)
+                res = is_room(r->left, cur_x, cur_y);
+        return res;
+}
+
+static struct room *get_room(struct room *r, int ch_idx, int no_idx)
+{
+        struct room *t;
+        if (r->left) {
+                t = get_room(r->left, ch_idx, no_idx);
+                if (t)
+                        return t;
+        } else {
+                if (r->ch_idx == ch_idx && r->no_idx == no_idx)
+                        return r;
+                return NULL;
+        }
+        if (r->right)
+                t = get_room(r->right, ch_idx, no_idx);
+        return t;
+}
+
+static void pave_path(struct path **p, struct room *r1, struct room *r2)
+{
+#ifdef DEBUG
+        fprintf(logfile, "Path:\n%c-%d\n%c-%d\n\n", r1->ch_idx, r1->no_idx,
+                                                    r2->ch_idx, r2->no_idx);
+#endif
+}
+
+static void init_path(struct level *l)
+{
+        int c, n, next_c, next_n;
+        struct room *r1, *r2;
+        l->p = NULL;
+        l->d = NULL;
+        c = 'A';
+        n = 1;
+        next_c = c;
+        next_n = n + 1;
+        while ((r1 = get_room(l->r, c, n)) &&
+               (r2 = get_room(l->r, next_c, next_n))) {
+                pave_path(&l->p, r1, r2);
+                c = next_c;
+                n = next_n;
+                if (next_n >= (l->depth <= 2 ? 2 : 4)) {
+                        next_c++;
+                        next_n = 1;
+                } else {
+                        next_n++;
+                }
+        }
 }
 
 static void init_level(struct level *l)
 {
         l->depth = init_room(&l->r);
-        init_path(&l->p, &l->d, l->r);
+        init_path(l);
 }
 
 static void end_level(struct level *l)
