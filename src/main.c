@@ -405,9 +405,38 @@ static void place_door(struct door **d, struct room *r)
         }
 }
 
-static void pave_path(struct level *l, struct room *r1, struct room *r2)
+static int pave_ver(struct level *l, struct door *d1,
+                                     struct door *d2, int height)
 {
-        int h, w;
+        return 0;
+}
+
+static int pave_hor(struct level *l, struct door *d1,
+                                     struct door *d2, int height)
+{
+        return 0;
+}
+
+/* Pave the way between last doors */
+static void pave_path(struct level *l)
+{
+        int h, w, order;
+        struct door *d1, *d2;
+        for (d1 = l->d; d1->next->next; d1 = d1->next)
+                {}
+        d2 = d1->next;
+        h = d2->cur_y - d1->cur_y;
+        w = d2->cur_x - d1->cur_x;
+        order = rand() % 2;
+        while (h && w) {
+                if (order) {
+                        h = pave_ver(l, d1, d2, h);
+                        w = pave_hor(l, d1, d2, w);
+                } else {
+                        w = pave_hor(l, d1, d2, w);
+                        h = pave_ver(l, d1, d2, h);
+                }
+        }
 }
 
 static void init_path(struct level *l)
@@ -424,7 +453,7 @@ static void init_path(struct level *l)
                (r2 = get_room(l->r, next_c, next_n))) {
                 place_door(&l->d, r1);
                 place_door(&l->d, r2);
-                pave_path(l, r1, r2);
+                pave_path(l);
                 c = next_c;
                 n = next_n;
                 if (next_n >= (l->depth <= 2 ? 2 : 4)) {
