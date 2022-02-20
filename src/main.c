@@ -325,11 +325,11 @@ static int is_room(const struct room *r, int x, int y)
         return res;
 }
 
-static struct room *get_room(struct room *r, int ch_idx, int no_idx)
+static struct room *get_room_by_idx(struct room *r, int ch_idx, int no_idx)
 {
         struct room *t;
         if (r->left) {
-                t = get_room(r->left, ch_idx, no_idx);
+                t = get_room_by_idx(r->left, ch_idx, no_idx);
                 if (t)
                         return t;
         } else {
@@ -338,7 +338,7 @@ static struct room *get_room(struct room *r, int ch_idx, int no_idx)
                 return NULL;
         }
         if (r->right)
-                t = get_room(r->right, ch_idx, no_idx);
+                t = get_room_by_idx(r->right, ch_idx, no_idx);
         return t;
 }
 
@@ -387,8 +387,8 @@ static void init_path(struct level *l)
         n = 1;
         next_c = c;
         next_n = n + 1;
-        while ((r1 = get_room(l->r, c, n)) &&
-               (r2 = get_room(l->r, next_c, next_n))) {
+        while ((r1 = get_room_by_idx(l->r, c, n)) &&
+               (r2 = get_room_by_idx(l->r, next_c, next_n))) {
                 pave_path(l, r1, r2);
                 c = next_c;
                 n = next_n;
