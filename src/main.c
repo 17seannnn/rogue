@@ -16,13 +16,11 @@ struct room {
 
 struct path {
         int cur_x, cur_y;
-        int dir, len;
         struct path *next;
 };
 
 struct door {
         int cur_x, cur_y;
-        int side;
         struct room *owner;
         struct door *next;
 };
@@ -344,100 +342,39 @@ static struct room *get_room(struct room *r, int ch_idx, int no_idx)
         return t;
 }
 
-static int rand_door_side(struct room *r)
-{
-        int side, got;
-        for (side = rand() % 4, got = 0; ; side++) {
-                switch (side) {
-                case dir_left:
-                        if (r->tl_x - 1 >= 0)
-                                got = 1;
-                        break;
-                case dir_top:
-                        if (r->tl_y - 1 >= 0)
-                                got = 1;
-                        break;
-                case dir_right:
-                        if (r->br_x + 1 < gamew_col)
-                                got = 1;
-                        break;
-                case dir_bottom:
-                        if (r->br_y + 1 < gamew_row)
-                                got = 1;
-                        else
-                                side = dir_left-1;
-                        break;
-                }
-                if (got)
-                        break;
-        }
-        return side;
-}
-
-static void place_door(struct door **d, struct room *r)
+static void place_door(struct door **d, struct room *owner, int x, int y)
 {
         for ( ; *d; d = &(*d)->next)
                 {}
         *d = malloc(sizeof(**d));
-        (*d)->owner = r;
+        (*d)->cur_x = x;
+        (*d)->cur_y = y;
+        (*d)->owner = owner;
         (*d)->next = NULL;
-        (*d)->side = rand_door_side(r);
-        switch ((*d)->side) {
-        case dir_left:
-                (*d)->cur_x = r->tl_x;
-                /*
-                 * + 1 & - 2 guarantee that door won`t be
-                 * placed in the corner of the room
-                 */
-                (*d)->cur_y = r->tl_y + 1 + rand() % (room_len(r, 'v') - 2);
-                break;
-        case dir_top:
-                (*d)->cur_x = r->tl_x + 1 + rand() % (room_len(r, 'h') - 2);
-                (*d)->cur_y = r->tl_y;
-                break;
-        case dir_right:
-                (*d)->cur_x = r->br_x;
-                (*d)->cur_y = r->tl_y + 1 + rand() % (room_len(r, 'v') - 2);
-                break;
-        case dir_bottom:
-                (*d)->cur_x = r->tl_x + 1 + rand() % (room_len(r, 'h') - 2);
-                (*d)->cur_y = r->br_y;
-                break;
-        }
 }
 
-static int pave_ver(struct level *l, struct door *d1,
-                                     struct door *d2, int height)
+static int can_pave(struct level *l, int x, int y)
 {
-        return 0;
+        if (is_room(l->r, x, y))
+                return 0;
+        if (x < 0 || x >= gamew_col || y < 0 || y >= gamew_row)
+                return 0;
+        return 1;
 }
 
-static int pave_hor(struct level *l, struct door *d1,
-                                     struct door *d2, int width)
+static void add_path(struct path **p, int x, int y)
 {
-        return 0;
-}
-
-/* Pave the way between last doors */
-static void pave_path(struct level *l)
-{
-        int h, w, order;
-        struct door *d1, *d2;
-        for (d1 = l->d; d1->next->next; d1 = d1->next)
+        for ( ; *p; p = &(*p)->next)
                 {}
-        d2 = d1->next;
-        h = d2->cur_y - d1->cur_y;
-        w = d2->cur_x - d1->cur_x;
-        order = rand() % 2;
-        while (h && w) {
-                if (order) {
-                        h = pave_ver(l, d1, d2, h);
-                        w = pave_hor(l, d1, d2, w);
-                } else {
-                        w = pave_hor(l, d1, d2, w);
-                        h = pave_ver(l, d1, d2, h);
-                }
-        }
+        *p = malloc(sizeof(**p));
+        (*p)->cur_x = x;
+        (*p)->cur_y = y;
+        (*p)->next = NULL;
+}
+
+static void pave_path(struct level *l, struct room *r1, struct room *r2)
+{
+
 }
 
 static void init_path(struct level *l)
@@ -452,9 +389,7 @@ static void init_path(struct level *l)
         next_n = n + 1;
         while ((r1 = get_room(l->r, c, n)) &&
                (r2 = get_room(l->r, next_c, next_n))) {
-                place_door(&l->d, r1);
-                place_door(&l->d, r2);
-                pave_path(l);
+                pave_path(l, r1, r2);
                 c = next_c;
                 n = next_n;
                 if (next_n >= (l->depth <= 2 ? 2 : 4)) {
@@ -475,6 +410,7 @@ static void init_level(struct level *l)
 static void end_level(struct level *l)
 {
         free_room(l->r);
+        /* TODO free path and doors */
 }
 
 static void show_hunter(const struct hunter *h)
@@ -514,9 +450,17 @@ static void show_rooms(const struct room *r, const struct door *d)
                 show_rooms(r->right, d);
 }
 
+static void show_path(struct path *p)
+{
+        for ( ; p; p = p->next)
+                mvwaddch(gamew, p->cur_y, p->cur_x, '"');
+        wrefresh(gamew);
+}
+
 static void handle_fov(const struct hunter *h, const struct level *l)
 {
         show_rooms(l->r, l->d);
+        show_path(l->p);
         show_hunter(h);
         wrefresh(infow);
 }
