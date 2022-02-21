@@ -356,7 +356,6 @@ static int is_room(const struct room *r, int x, int y)
         return r ? 1 : 0;
 }
 
-/* TODO
 static int is_wall(struct room *r, int x, int y)
 {
         r = get_room_by_coord(r, x, y);
@@ -368,7 +367,6 @@ static int is_wall(struct room *r, int x, int y)
                         return 1;
         return 0;
 }
-*/
 
 static void add_path(struct path **p, int x, int y)
 {
@@ -388,7 +386,6 @@ static int is_path(struct path *p, int x, int y)
         return 0;
 }
 
-/* TODO
 static void place_door(struct door **d, struct room *owner, int x, int y)
 {
         for ( ; *d; d = &(*d)->next)
@@ -399,7 +396,6 @@ static void place_door(struct door **d, struct room *owner, int x, int y)
         (*d)->owner = owner;
         (*d)->next = NULL;
 }
-*/
 
 static int is_door(struct door *d, int x, int y)
 {
@@ -554,10 +550,10 @@ static void show_room(const struct room *r, const struct door *d)
                         for (x = r->tl_x + 1; x < r->br_x; x++)
                                 mvwaddch(gamew, y, x, '#');
         }
-        for ( ; d && d->owner != r; d = d->next)
-                {}
-        if (d)
-                mvwaddch(gamew, d->cur_y, d->cur_x, '+');
+        for ( ; d; d = d->next) {
+                if (d->owner == r)
+                        mvwaddch(gamew, d->cur_y, d->cur_x, '+');
+        }
         wrefresh(gamew);
 }
 
