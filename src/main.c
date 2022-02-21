@@ -505,6 +505,26 @@ static void init_path(struct level *l)
         }
 }
 
+static void free_path(struct path *p)
+{
+        struct path *t;
+        while (p) {
+                t = p;
+                p = p->next;
+                free(t);
+        }
+}
+
+static void free_door(struct door *d)
+{
+        struct door *t;
+        while (d) {
+                t = d;
+                d = d->next;
+                free(t);
+        }
+}
+
 static void init_level(struct level *l)
 {
         l->depth = init_room(&l->r);
@@ -514,7 +534,8 @@ static void init_level(struct level *l)
 static void end_level(struct level *l)
 {
         free_room(l->r);
-        /* TODO free path and doors */
+        free_path(l->p);
+        free_door(l->d);
 }
 
 static void show_hunter(const struct hunter *h)
