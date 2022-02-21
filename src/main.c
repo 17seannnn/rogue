@@ -53,14 +53,16 @@ enum {
         split_type_ver = 0,
         split_type_hor,
 
-        dir_left = 0,
-        dir_top,
-        dir_right,
-        dir_bottom,
+        pave_steps_range = 10,
 
         hunter_symb = '@',
         door_symb   = '+'
 };
+
+static int abs_int(int i)
+{
+        return i < 0 ? i * -1 : i;
+}
 
 static void init_curses()
 {
@@ -104,6 +106,11 @@ static void init_game(struct hunter *h)
 static void end_game()
 {
         end_curses();
+}
+
+static int is_ok(int x, int y)
+{
+        return x >= 0 && x < gamew_col && y >= 0 && y < gamew_row;
 }
 
 static int room_len(const struct room *r, char dir)
@@ -307,25 +314,8 @@ static int init_room(struct room **r)
         return depth;
 }
 
-static int is_room(const struct room *r, int x, int y)
-{
-        int res;
-        if (r->left) {
-                res = is_room(r->left, x, y);
-                if (res)
-                        return 1;
-        } else {
-                if (x >= r->tl_x && x <= r->br_x &&
-                    y >= r->tl_y && y <= r->br_y)
-                        return 1;
-                return 0;
-        }
-        if (r->right)
-                res = is_room(r->left, x, y);
-        return res;
-}
-
-static struct room *get_room_by_idx(struct room *r, int ch_idx, int no_idx)
+static struct room *get_room_by_idx(const struct room *r, int ch_idx,
+                                                          int no_idx)
 {
         struct room *t;
         if (r->left) {
@@ -334,7 +324,7 @@ static struct room *get_room_by_idx(struct room *r, int ch_idx, int no_idx)
                         return t;
         } else {
                 if (r->ch_idx == ch_idx && r->no_idx == no_idx)
-                        return r;
+                        return (struct room *)r;
                 return NULL;
         }
         if (r->right)
@@ -342,6 +332,63 @@ static struct room *get_room_by_idx(struct room *r, int ch_idx, int no_idx)
         return t;
 }
 
+static struct room *get_room_by_coord(const struct room *r, int x, int y)
+{
+        struct room *t;
+        if (r->left) {
+                t = get_room_by_coord(r->left, x, y);
+                if (t)
+                        return t;
+        } else {
+                if (x >= r->tl_x && x <= r->br_x &&
+                    y >= r->tl_y && y <= r->br_y)
+                        return (struct room *)r;
+                return NULL;
+        }
+        if (r->right)
+                t = get_room_by_coord(r->right, x, y);
+        return t;
+}
+
+static int is_room(const struct room *r, int x, int y)
+{
+        r = get_room_by_coord(r, x, y);
+        return r ? 1 : 0;
+}
+
+/* TODO
+static int is_wall(struct room *r, int x, int y)
+{
+        r = get_room_by_coord(r, x, y);
+        if (r)
+                if ((x >= r->tl_x && x <= r->br_x &&
+                    (y == r->tl_y || y == r->br_y)) ||
+                    (y >= r->tl_y && y <= r->br_y &&
+                    (x == r->tl_x || x == r->br_x)))
+                        return 1;
+        return 0;
+}
+*/
+
+static void add_path(struct path **p, int x, int y)
+{
+        struct path *t;
+        t = malloc(sizeof(t));
+        t->cur_x = x;
+        t->cur_y = y;
+        t->next = *p;
+        *p = t;
+}
+
+static int is_path(struct path *p, int x, int y)
+{
+        for ( ; p; p = p->next)
+                if (p->cur_x == x && p->cur_y == y)
+                        return 1;
+        return 0;
+}
+
+/* TODO
 static void place_door(struct door **d, struct room *owner, int x, int y)
 {
         for ( ; *d; d = &(*d)->next)
@@ -352,29 +399,86 @@ static void place_door(struct door **d, struct room *owner, int x, int y)
         (*d)->owner = owner;
         (*d)->next = NULL;
 }
+*/
+
+static int is_door(struct door *d, int x, int y)
+{
+        for ( ; d; d = d->next)
+                if (d->cur_x == x && d->cur_y == y)
+                        return 1;
+        return 0;
+}
 
 static int can_pave(struct level *l, int x, int y)
 {
-        if (is_room(l->r, x, y))
-                return 0;
-        if (x < 0 || x >= gamew_col || y < 0 || y >= gamew_row)
-                return 0;
-        return 1;
+        return is_ok(x, y) && !is_room(l->r, x, y) &&
+               !is_path(l->p, x, y) && !is_door(l->d, x, y);
 }
 
-static void add_path(struct path **p, int x, int y)
+static int pave_hor(struct level *l, int b_x, int b_y, int e_x, int e_y)
 {
-        for ( ; *p; p = &(*p)->next)
-                {}
-        *p = malloc(sizeof(**p));
-        (*p)->cur_x = x;
-        (*p)->cur_y = y;
-        (*p)->next = NULL;
+        int steps;
+        steps = rand() % pave_steps_range + 1;
+        if (steps > abs_int(e_x - b_x) + 1)
+                steps = abs_int(e_x - b_x) + 1;
+        for ( ; steps > 0; steps--) {
+                if (can_pave(l, b_x, b_y)) {
+                        add_path(&l->p, b_x, b_y);
+                } else {
+                }
+                if (e_x - b_x > 0)
+                        b_x++;
+                else
+                if (e_x - b_x < 0)
+                        b_x--;
+                else
+                        break;
+        }
+        return b_x;
+}
+
+static int pave_ver(struct level *l, int b_x, int b_y, int e_x, int e_y)
+{
+        int steps;
+        steps = rand() % pave_steps_range + 1;
+        if (steps > abs_int(e_y - b_y) + 1)
+                steps = abs_int(e_y - b_y) + 1;
+        for ( ; steps > 0; steps--) {
+                if (can_pave(l, b_x, b_y)) {
+                        add_path(&l->p, b_x, b_y);
+                } else {
+                }
+                if (e_y - b_y > 0)
+                        b_y++;
+                else
+                if (e_y - b_y < 0)
+                        b_y--;
+                else
+                        break;
+        }
+        return b_y;
 }
 
 static void pave_path(struct level *l, struct room *r1, struct room *r2)
 {
-
+        int order;
+        int b_x, b_y, e_x, e_y;
+        b_x = r1->tl_x + rand() % room_len(r1, 'h');
+        b_y = r1->tl_y + rand() % room_len(r1, 'v');
+        e_x = r2->tl_x + rand() % room_len(r2, 'h');
+        e_y = r2->tl_y + rand() % room_len(r2, 'v');
+        order = rand() % 2;
+        for (;;) {
+                if (order) {
+                        b_x = pave_hor(l, b_x, b_y, e_x, e_y);
+                        b_y = pave_ver(l, b_x, b_y, e_x, e_y);
+                } else {
+                        b_y = pave_ver(l, b_x, b_y, e_x, e_y);
+                        b_x = pave_hor(l, b_x, b_y, e_x, e_y);
+                }
+                if (b_x == e_x && b_y == e_y)
+                        break;
+        }
 }
 
 static void init_path(struct level *l)
@@ -462,7 +566,6 @@ static void handle_fov(const struct hunter *h, const struct level *l)
         show_rooms(l->r, l->d);
         show_path(l->p);
         show_hunter(h);
-        wrefresh(infow);
 }
 
 static void move_hunter(struct hunter *h, int c)
