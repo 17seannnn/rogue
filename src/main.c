@@ -405,7 +405,7 @@ static int is_door(struct door *d, int x, int y)
         return 0;
 }
 
-static int can_pave(struct level *l, int x, int y)
+static int is_empty(struct level *l, int x, int y)
 {
         return is_ok(x, y) && !is_room(l->r, x, y) &&
                !is_path(l->p, x, y) && !is_door(l->d, x, y);
@@ -418,7 +418,7 @@ static int pave_hor(struct level *l, int b_x, int b_y, int e_x, int e_y)
         if (steps > abs_int(e_x - b_x) + 1)
                 steps = abs_int(e_x - b_x) + 1;
         for ( ; steps > 0; steps--) {
-                if (can_pave(l, b_x, b_y)) {
+                if (is_empty(l, b_x, b_y)) {
                         add_path(&l->p, b_x, b_y);
                 } else {
                         if (is_wall(l->r, b_x, b_y))
@@ -444,7 +444,7 @@ static int pave_ver(struct level *l, int b_x, int b_y, int e_x, int e_y)
         if (steps > abs_int(e_y - b_y) + 1)
                 steps = abs_int(e_y - b_y) + 1;
         for ( ; steps > 0; steps--) {
-                if (can_pave(l, b_x, b_y)) {
+                if (is_empty(l, b_x, b_y)) {
                         add_path(&l->p, b_x, b_y);
                 } else {
                         if (is_wall(l->r, b_x, b_y))
