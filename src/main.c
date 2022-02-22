@@ -386,7 +386,7 @@ static int is_path(struct path *p, int x, int y)
         return 0;
 }
 
-static void place_door(struct door **d, struct room *owner, int x, int y)
+static void add_door(struct door **d, struct room *owner, int x, int y)
 {
         struct door *t;
         t = malloc(sizeof(*t));
@@ -422,7 +422,7 @@ static int pave_hor(struct level *l, int b_x, int b_y, int e_x, int e_y)
                         add_path(&l->p, b_x, b_y);
                 } else {
                         if (is_wall(l->r, b_x, b_y))
-                                place_door(&l->d,
+                                add_door(&l->d,
                                            get_room_by_coord(l->r, b_x, b_y),
                                            b_x, b_y);
                 }
@@ -448,7 +448,7 @@ static int pave_ver(struct level *l, int b_x, int b_y, int e_x, int e_y)
                         add_path(&l->p, b_x, b_y);
                 } else {
                         if (is_wall(l->r, b_x, b_y))
-                                place_door(&l->d,
+                                add_door(&l->d,
                                            get_room_by_coord(l->r, b_x, b_y),
                                            b_x, b_y);
                 }
