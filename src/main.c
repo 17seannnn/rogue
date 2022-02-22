@@ -388,13 +388,13 @@ static int is_path(struct path *p, int x, int y)
 
 static void place_door(struct door **d, struct room *owner, int x, int y)
 {
-        for ( ; *d; d = &(*d)->next)
-                {}
-        *d = malloc(sizeof(**d));
-        (*d)->cur_x = x;
-        (*d)->cur_y = y;
-        (*d)->owner = owner;
-        (*d)->next = NULL;
+        struct door *t;
+        t = malloc(sizeof(*t));
+        t->cur_x = x;
+        t->cur_y = y;
+        t->owner = owner;
+        t->next = *d;
+        *d = t;
 }
 
 static int is_door(struct door *d, int x, int y)
@@ -421,6 +421,10 @@ static int pave_hor(struct level *l, int b_x, int b_y, int e_x, int e_y)
                 if (can_pave(l, b_x, b_y)) {
                         add_path(&l->p, b_x, b_y);
                 } else {
+                        if (is_wall(l->r, b_x, b_y))
+                                place_door(&l->d,
+                                           get_room_by_coord(l->r, b_x, b_y),
+                                           b_x, b_y);
                 }
                 if (e_x - b_x > 0)
                         b_x++;
@@ -443,6 +447,10 @@ static int pave_ver(struct level *l, int b_x, int b_y, int e_x, int e_y)
                 if (can_pave(l, b_x, b_y)) {
                         add_path(&l->p, b_x, b_y);
                 } else {
+                        if (is_wall(l->r, b_x, b_y))
+                                place_door(&l->d,
+                                           get_room_by_coord(l->r, b_x, b_y),
+                                           b_x, b_y);
                 }
                 if (e_y - b_y > 0)
                         b_y++;
@@ -477,6 +485,24 @@ static void pave_path(struct level *l, struct room *r1, struct room *r2)
         }
 }
 
+static void fix_door(struct level *l)
+{
+        struct door **d = &l->d, *t;
+        struct path *p = l->p;
+        while (*d) {
+                if (!is_path(p, (*d)->cur_x-1, (*d)->cur_y) &&
+                    !is_path(p, (*d)->cur_x+1, (*d)->cur_y) &&
+                    !is_path(p, (*d)->cur_x, (*d)->cur_y-1) &&
+                    !is_path(p, (*d)->cur_x, (*d)->cur_y+1)) {
+                        t = *d;
+                        *d = (*d)->next;
+                        free(t);
+                } else {
+                        d = &(*d)->next;
+                }
+        }
+}
+
 static void init_path(struct level *l)
 {
         int c, n, next_c, next_n;
@@ -499,6 +525,7 @@ static void init_path(struct level *l)
                         next_n++;
                 }
         }
+        fix_door(l);
 }
 
 static void free_path(struct path *p)
