@@ -1,3 +1,5 @@
+/* path.c - path generating */
+
 #include <stdlib.h>
 #include <curses.h>
 

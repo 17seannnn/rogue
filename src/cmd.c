@@ -1,3 +1,5 @@
+/* cmd.c - hunter`s cmd control */
+
 #include "rogue.h"
 
 static void move_hunter(struct hunter *h, int c)

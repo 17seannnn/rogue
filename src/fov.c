@@ -1,3 +1,5 @@
+/* fov - fov system */
+
 #include "rogue.h"
 
 void handle_fov(const struct hunter *h, const struct level *l)

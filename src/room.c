@@ -1,3 +1,5 @@
+/* room.c - room generating */
+
 #include <stdlib.h>
 #include <curses.h>
 

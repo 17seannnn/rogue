@@ -1,3 +1,5 @@
+/* hunter.c - hunter control */
+
 #include <curses.h>
 
 #include "rogue.h"

@@ -1,3 +1,5 @@
+/* curses.c - curses control funcs and vars */
+
 #include <curses.h>
 
 #include "rogue.h"

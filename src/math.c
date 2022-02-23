@@ -1,3 +1,5 @@
+/* math.c - math funcs */
+
 #include "rogue.h"
 
 int abs_int(int i)

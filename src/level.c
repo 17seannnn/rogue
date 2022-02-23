@@ -1,3 +1,5 @@
+/* level.c - level control*/
+
 #include "rogue.h"
 
 int is_ok(int x, int y)
