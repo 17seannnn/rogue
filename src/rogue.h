@@ -63,9 +63,9 @@ void init_curses();
 void end_curses();
 
 /* room */
-int init_room(struct room **r);
-void free_room(struct room *r);
 int room_len(const struct room *r, char dir);
+void free_room(struct room *r);
+int init_room(struct room **r);
 struct room *get_room_by_idx(const struct room *r, int ch_idx, int no_idx);
 struct room *get_room_by_coord(const struct room *r, int x, int y);
 int is_room(const struct room *r, int x, int y);
@@ -74,11 +74,11 @@ void show_rooms(const struct room *r, const struct door *d);
 
 /* path */
 int is_path(struct path *p, int x, int y);
+int is_door(struct door *d, int x, int y);
 void init_path(struct level *l);
 void free_path(struct path *p);
-void show_path(struct path *p);
-int is_door(struct door *d, int x, int y);
 void free_door(struct door *d);
+void show_path(struct path *p);
 
 /* level */
 int is_ok(int x, int y);
