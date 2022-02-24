@@ -18,6 +18,11 @@ enum {
         infow_row = 1
 };
 
+/* common */
+struct coord {
+        int x, y;
+};
+
 /* room */
 struct room {
         int ch_idx, no_idx;
@@ -41,6 +46,7 @@ struct door {
 /* level */
 struct level {
         int depth;
+        struct coord start, end;
         struct room *r;
         struct path *p;
         struct door *d;
@@ -85,6 +91,7 @@ int is_ok(int x, int y);
 int is_empty(struct level *l, int x, int y);
 void init_level(struct level *l);
 void end_level(struct level *l);
+void show_points(struct coord start, struct coord end);
 
 /* hunter */
 void init_hunter(struct hunter *h);
