@@ -19,8 +19,8 @@ static void init_points(struct level *l)
 {
         struct room *r;
         r = get_room_by_idx(l->r, 'A', 1);
-        l->start.x = r->tl_x + 1 + rand() % (room_len(r, 'h') - 2);
-        l->start.y = r->tl_y + 1 + rand() % (room_len(r, 'v') - 2);
+        l->start.x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+        l->start.y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
         switch (l->depth) {
         case 1:
                 r = get_room_by_idx(l->r, 'A', 2);
@@ -35,8 +35,8 @@ static void init_points(struct level *l)
                 r = get_room_by_idx(l->r, 'D', 4);
                 break;
         }
-        l->end.x = r->tl_x + 1 + rand() % (room_len(r, 'h') - 2);
-        l->end.y = r->tl_y + 1 + rand() % (room_len(r, 'v') - 2);
+        l->end.x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+        l->end.y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
 }
 
 void init_level(struct level *l, struct hunter *h)

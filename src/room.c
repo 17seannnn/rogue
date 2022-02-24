@@ -20,9 +20,9 @@ int room_len(const struct room *r, char dir)
                 return 0;
         switch (dir) {
         case 'h':
-                return r->br_x - r->tl_x + 1;
+                return r->br.x - r->tl.x + 1;
         case 'v':
-                return r->br_y - r->tl_y + 1;
+                return r->br.y - r->tl.y + 1;
         default:
                 return 0;
         }
@@ -76,32 +76,32 @@ static int split_room(struct room *r)
         switch (type) {
         case split_type_hor:
                 /*
-                 * r->tl_* + (min_area_len - 1) guarantees at least
+                 * r->tl.* + (min_area_len - 1) guarantees at least
                  * (min_area_len - 2) empty spaces for rooms
                  *
                  * rand() % (room_len(r, *) - min_area_len_to_split + 1)
                  * mean if we`ve more len than min len to split then we`ve
                  * chance to build bigger room
                  */
-                split = r->tl_x + (min_area_len - 1) + rand() %
+                split = r->tl.x + (min_area_len - 1) + rand() %
                         (room_len(r, 'h') - min_area_len_to_split + 1);
-                r->left->br_x = split;
-                r->right->tl_x = split;
+                r->left->br.x = split;
+                r->right->tl.x = split;
                 /* Make empty space between areas */
                 if (room_len(r->left, 'h') > room_len(r->right, 'h'))
-                        r->left->br_x -= 2;
+                        r->left->br.x -= 2;
                 else
-                        r->right->tl_x += 2;
+                        r->right->tl.x += 2;
                 break;
         case split_type_ver:
-                split = r->tl_y + (min_area_len - 1) + rand() %
+                split = r->tl.y + (min_area_len - 1) + rand() %
                         (room_len(r, 'v') - min_area_len_to_split + 1);
-                r->left->br_y = split;
-                r->right->tl_y = split;
+                r->left->br.y = split;
+                r->right->tl.y = split;
                 if (room_len(r->left, 'v') > room_len(r->right, 'v'))
-                        r->left->br_y -= 2;
+                        r->left->br.y -= 2;
                 else
-                        r->right->tl_y += 2;
+                        r->right->tl.y += 2;
                 break;
         }
         return 1;
@@ -140,11 +140,11 @@ static void polish_room(struct room *r)
                 polish_room(r->right);
                 return;
         }
-        r->tl_x = r->tl_x + rand() % (room_len(r, 'h') - min_area_len + 1);
-        r->br_x = r->tl_x + (min_area_len - 1) + rand() %
+        r->tl.x = r->tl.x + rand() % (room_len(r, 'h') - min_area_len + 1);
+        r->br.x = r->tl.x + (min_area_len - 1) + rand() %
                   (room_len(r, 'h') - (min_area_len - 1));
-        r->tl_y = r->tl_y + rand() % (room_len(r, 'v') - min_area_len + 1);
-        r->br_y = r->tl_y + (min_area_len - 1) + rand() %
+        r->tl.y = r->tl.y + rand() % (room_len(r, 'v') - min_area_len + 1);
+        r->br.y = r->tl.y + (min_area_len - 1) + rand() %
                   (room_len(r, 'v') - (min_area_len - 1));
 }
 
@@ -191,10 +191,10 @@ int init_room(struct room **r)
         t = malloc(sizeof(*t));
         t->ch_idx = 0;
         t->no_idx = 0;
-        t->tl_x = 0;
-        t->tl_y = 0;
-        t->br_x = gamew_col-1;
-        t->br_y = gamew_row-1;
+        t->tl.x = 0;
+        t->tl.y = 0;
+        t->br.x = gamew_col-1;
+        t->br.y = gamew_row-1;
         t->depth = 0;
         t->parent = NULL;
         t->left = NULL;
@@ -240,8 +240,8 @@ struct room *get_room_by_coord(const struct room *r, int x, int y)
                 if (t)
                         return t;
         } else {
-                if (x >= r->tl_x && x <= r->br_x &&
-                    y >= r->tl_y && y <= r->br_y)
+                if (x >= r->tl.x && x <= r->br.x &&
+                    y >= r->tl.y && y <= r->br.y)
                         return (struct room *)r;
                 return NULL;
         }
@@ -260,10 +260,10 @@ int is_wall(const struct room *r, int x, int y)
 {
         r = get_room_by_coord(r, x, y);
         if (r)
-                if ((x >= r->tl_x && x <= r->br_x &&
-                    (y == r->tl_y || y == r->br_y)) ||
-                    (y >= r->tl_y && y <= r->br_y &&
-                    (x == r->tl_x || x == r->br_x)))
+                if ((x >= r->tl.x && x <= r->br.x &&
+                    (y == r->tl.y || y == r->br.y)) ||
+                    (y >= r->tl.y && y <= r->br.y &&
+                    (x == r->tl.x || x == r->br.x)))
                         return 1;
         return 0;
 }
@@ -271,16 +271,16 @@ int is_wall(const struct room *r, int x, int y)
 static void show_room(const struct room *r, const struct door *d)
 {
         int x, y;
-        for (y = r->tl_y; y <= r->br_y; y++) {
-                mvwaddch(gamew, y, r->tl_x, '#');
-                mvwaddch(gamew, y, r->br_x, '#');
-                if (y == r->tl_y || y == r->br_y)
-                        for (x = r->tl_x + 1; x < r->br_x; x++)
+        for (y = r->tl.y; y <= r->br.y; y++) {
+                mvwaddch(gamew, y, r->tl.x, '#');
+                mvwaddch(gamew, y, r->br.x, '#');
+                if (y == r->tl.y || y == r->br.y)
+                        for (x = r->tl.x + 1; x < r->br.x; x++)
                                 mvwaddch(gamew, y, x, '#');
         }
         for ( ; d; d = d->next) {
                 if (d->owner == r)
-                        mvwaddch(gamew, d->cur_y, d->cur_x, '+');
+                        mvwaddch(gamew, d->pos.y, d->pos.x, '+');
         }
         wrefresh(gamew);
 }

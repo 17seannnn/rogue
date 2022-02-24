@@ -28,19 +28,19 @@ struct coord {
 /* room */
 struct room {
         int ch_idx, no_idx;
-        int tl_x, tl_y, br_x, br_y;
+        struct coord tl, br;
         int depth;
         struct room *parent, *left, *right;
 };
 
 /* path */
 struct path {
-        int cur_x, cur_y;
+        struct coord pos;
         struct path *next;
 };
 
 struct door {
-        int cur_x, cur_y;
+        struct coord pos;
         struct room *owner;
         struct door *next;
 };
@@ -57,7 +57,7 @@ struct level {
 /* hunter */
 struct hunter {
         int symb;
-        int cur_x, cur_y;
+        struct coord pos;
 };
 
 /* curses */

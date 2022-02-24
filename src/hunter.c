@@ -11,12 +11,12 @@ enum {
 void init_hunter(struct hunter *h, struct level *l)
 {
         h->symb = hunter_symb;
-        h->cur_x = l->start.x;
-        h->cur_y = l->start.y;
+        h->pos.x = l->start.x;
+        h->pos.y = l->start.y;
 }
 
 void show_hunter(const struct hunter *h)
 {
-        mvwaddch(gamew, h->cur_y, h->cur_x, h->symb);
+        mvwaddch(gamew, h->pos.y, h->pos.x, h->symb);
         wrefresh(gamew);
 }

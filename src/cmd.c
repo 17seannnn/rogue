@@ -7,19 +7,19 @@ static void move_hunter(struct hunter *h, int c)
         switch (c) {
                 case 'h':
                 case KEY_LEFT:
-                        h->cur_x -= 1;
+                        h->pos.x -= 1;
                         break;
                 case 'j':
                 case KEY_DOWN:
-                        h->cur_y += 1;
+                        h->pos.y += 1;
                         break;
                 case 'k':
                 case KEY_UP:
-                        h->cur_y -= 1;
+                        h->pos.y -= 1;
                         break;
                 case 'l':
                 case KEY_RIGHT:
-                        h->cur_x += 1;
+                        h->pos.x += 1;
                         break;
                 default:
                         break;

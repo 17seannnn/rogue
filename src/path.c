@@ -13,8 +13,8 @@ static void add_path(struct path **p, int x, int y)
 {
         struct path *t;
         t = malloc(sizeof(t));
-        t->cur_x = x;
-        t->cur_y = y;
+        t->pos.x = x;
+        t->pos.y = y;
         t->next = *p;
         *p = t;
 }
@@ -23,8 +23,8 @@ static void add_door(struct door **d, struct room *owner, int x, int y)
 {
         struct door *t;
         t = malloc(sizeof(*t));
-        t->cur_x = x;
-        t->cur_y = y;
+        t->pos.x = x;
+        t->pos.y = y;
         t->owner = owner;
         t->next = *d;
         *d = t;
@@ -33,7 +33,7 @@ static void add_door(struct door **d, struct room *owner, int x, int y)
 int is_path(const struct path *p, int x, int y)
 {
         for ( ; p; p = p->next)
-                if (p->cur_x == x && p->cur_y == y)
+                if (p->pos.x == x && p->pos.y == y)
                         return 1;
         return 0;
 }
@@ -41,7 +41,7 @@ int is_path(const struct path *p, int x, int y)
 int is_door(const struct door *d, int x, int y)
 {
         for ( ; d; d = d->next)
-                if (d->cur_x == x && d->cur_y == y)
+                if (d->pos.x == x && d->pos.y == y)
                         return 1;
         return 0;
 }
@@ -106,10 +106,10 @@ static void pave_path(struct level *l, struct room *r1, struct room *r2)
 {
         int order;
         int b_x, b_y, e_x, e_y;
-        b_x = r1->tl_x + rand() % room_len(r1, 'h');
-        b_y = r1->tl_y + rand() % room_len(r1, 'v');
-        e_x = r2->tl_x + rand() % room_len(r2, 'h');
-        e_y = r2->tl_y + rand() % room_len(r2, 'v');
+        b_x = r1->tl.x + rand() % room_len(r1, 'h');
+        b_y = r1->tl.y + rand() % room_len(r1, 'v');
+        e_x = r2->tl.x + rand() % room_len(r2, 'h');
+        e_y = r2->tl.y + rand() % room_len(r2, 'v');
         order = rand() % 2;
         for (;;) {
                 if (order) {
@@ -129,10 +129,10 @@ static void fix_door(struct level *l)
         struct door **d = &l->d, *t;
         struct path *p = l->p;
         while (*d) {
-                if (!is_path(p, (*d)->cur_x-1, (*d)->cur_y) &&
-                    !is_path(p, (*d)->cur_x+1, (*d)->cur_y) &&
-                    !is_path(p, (*d)->cur_x, (*d)->cur_y-1) &&
-                    !is_path(p, (*d)->cur_x, (*d)->cur_y+1)) {
+                if (!is_path(p, (*d)->pos.x-1, (*d)->pos.y) &&
+                    !is_path(p, (*d)->pos.x+1, (*d)->pos.y) &&
+                    !is_path(p, (*d)->pos.x, (*d)->pos.y-1) &&
+                    !is_path(p, (*d)->pos.x, (*d)->pos.y+1)) {
                         t = *d;
                         *d = (*d)->next;
                         free(t);
@@ -189,6 +189,6 @@ void free_door(struct door *d)
 void show_path(const struct path *p)
 {
         for ( ; p; p = p->next)
-                mvwaddch(gamew, p->cur_y, p->cur_x, '"');
+                mvwaddch(gamew, p->pos.y, p->pos.x, '"');
         wrefresh(gamew);
 }
