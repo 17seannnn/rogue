@@ -28,12 +28,12 @@ static void play_game(struct level *l, struct hunter *h)
         int c;
         handle_fov(l, h);
         while ((c = wgetch(gamew)) != 27) {
-                do_cmd(c, h);
+                do_cmd(c, h, l);
                 handle_fov(l, h);
         }
 }
 
-int main(int argc, char **argv)
+int main()
 {
         struct hunter h;
         struct level l;
