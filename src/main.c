@@ -1,3 +1,5 @@
+/* main.c - main game functions */
+
 #include <stdlib.h>
 #include <time.h>
 

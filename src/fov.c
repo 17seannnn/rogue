@@ -1,4 +1,4 @@
-/* fov - fov system */
+/* fov.c - fov system */
 
 #include "rogue.h"
 
