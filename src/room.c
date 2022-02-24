@@ -277,6 +277,9 @@ static void show_room(const struct room *r, const struct door *d)
                 if (y == r->tl.y || y == r->br.y)
                         for (x = r->tl.x + 1; x < r->br.x; x++)
                                 mvwaddch(gamew, y, x, '#');
+                else
+                        for (x = r->tl.x + 1; x < r->br.x; x++)
+                                mvwaddch(gamew, y, x, '.');
         }
         for ( ; d; d = d->next) {
                 if (d->owner == r)
