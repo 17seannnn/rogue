@@ -46,7 +46,7 @@ int is_door(const struct door *d, int x, int y)
         return 0;
 }
 
-static int pave_hor(struct level *l, int b_x, int b_y, int e_x, int e_y)
+static int pave_hor(struct level *l, int b_x, int b_y, int e_x)
 {
         int steps;
         steps = rand() % pave_steps_range + 1;
@@ -74,7 +74,7 @@ static int pave_hor(struct level *l, int b_x, int b_y, int e_x, int e_y)
         return b_x;
 }
 
-static int pave_ver(struct level *l, int b_x, int b_y, int e_x, int e_y)
+static int pave_ver(struct level *l, int b_x, int b_y, int e_y)
 {
         int steps;
         steps = rand() % pave_steps_range + 1;
@@ -113,11 +113,11 @@ static void pave_path(struct level *l, struct room *r1, struct room *r2)
         order = rand() % 2;
         for (;;) {
                 if (order) {
-                        b_x = pave_hor(l, b_x, b_y, e_x, e_y);
-                        b_y = pave_ver(l, b_x, b_y, e_x, e_y);
+                        b_x = pave_hor(l, b_x, b_y, e_x);
+                        b_y = pave_ver(l, b_x, b_y, e_y);
                 } else {
-                        b_y = pave_ver(l, b_x, b_y, e_x, e_y);
-                        b_x = pave_hor(l, b_x, b_y, e_x, e_y);
+                        b_y = pave_ver(l, b_x, b_y, e_y);
+                        b_x = pave_hor(l, b_x, b_y, e_x);
                 }
                 if (b_x == e_x && b_y == e_y)
                         break;
