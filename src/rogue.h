@@ -89,16 +89,16 @@ void show_path(struct path *p);
 /* level */
 int is_ok(int x, int y);
 int is_empty(struct level *l, int x, int y);
-void init_level(struct level *l);
+void init_level(struct level *l, struct hunter *h);
 void end_level(struct level *l);
 void show_points(struct coord start, struct coord end);
 
 /* hunter */
-void init_hunter(struct hunter *h);
+void init_hunter(struct hunter *h, struct level *l);
 void show_hunter(const struct hunter *h);
 
 /* fov */
-void handle_fov(const struct hunter *h, const struct level *l);
+void handle_fov(const struct level *l, const struct hunter *h);
 
 /* cmd */
 void do_cmd(int c, struct hunter *h);

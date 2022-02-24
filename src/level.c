@@ -39,11 +39,12 @@ static void init_points(struct level *l)
         l->end.y = r->tl_y + 1 + rand() % (room_len(r, 'v') - 2);
 }
 
-void init_level(struct level *l)
+void init_level(struct level *l, struct hunter *h)
 {
         l->depth = init_room(&l->r);
         init_path(l);
         init_points(l);
+        init_hunter(h, l);
 }
 
 void end_level(struct level *l)

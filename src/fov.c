@@ -2,7 +2,7 @@
 
 #include "rogue.h"
 
-void handle_fov(const struct hunter *h, const struct level *l)
+void handle_fov(const struct level *l, const struct hunter *h)
 {
         show_rooms(l->r, l->d);
         show_path(l->p);
