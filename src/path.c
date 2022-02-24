@@ -30,7 +30,7 @@ static void add_door(struct door **d, struct room *owner, int x, int y)
         *d = t;
 }
 
-int is_path(struct path *p, int x, int y)
+int is_path(const struct path *p, int x, int y)
 {
         for ( ; p; p = p->next)
                 if (p->cur_x == x && p->cur_y == y)
@@ -38,7 +38,7 @@ int is_path(struct path *p, int x, int y)
         return 0;
 }
 
-int is_door(struct door *d, int x, int y)
+int is_door(const struct door *d, int x, int y)
 {
         for ( ; d; d = d->next)
                 if (d->cur_x == x && d->cur_y == y)
@@ -186,7 +186,7 @@ void free_door(struct door *d)
         }
 }
 
-void show_path(struct path *p)
+void show_path(const struct path *p)
 {
         for ( ; p; p = p->next)
                 mvwaddch(gamew, p->cur_y, p->cur_x, '"');

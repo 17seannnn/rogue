@@ -9,7 +9,7 @@ int is_ok(int x, int y)
         return x >= 0 && x < gamew_col && y >= 0 && y < gamew_row;
 }
 
-int is_empty(struct level *l, int x, int y)
+int is_empty(const struct level *l, int x, int y)
 {
         return is_ok(x, y) && !is_room(l->r, x, y) &&
                !is_path(l->p, x, y) && !is_door(l->d, x, y);

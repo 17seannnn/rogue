@@ -77,23 +77,23 @@ int init_room(struct room **r);
 struct room *get_room_by_idx(const struct room *r, int ch_idx, int no_idx);
 struct room *get_room_by_coord(const struct room *r, int x, int y);
 int is_room(const struct room *r, int x, int y);
-int is_wall(struct room *r, int x, int y);
+int is_wall(const struct room *r, int x, int y);
 void show_rooms(const struct room *r, const struct door *d);
 
 /* path */
-int is_path(struct path *p, int x, int y);
-int is_door(struct door *d, int x, int y);
+int is_path(const struct path *p, int x, int y);
+int is_door(const struct door *d, int x, int y);
 void init_path(struct level *l);
 void free_path(struct path *p);
 void free_door(struct door *d);
-void show_path(struct path *p);
+void show_path(const struct path *p);
 
 /* level */
 int is_ok(int x, int y);
-int is_empty(struct level *l, int x, int y);
+int is_empty(const struct level *l, int x, int y);
 void init_level(struct level *l, struct hunter *h);
 void end_level(struct level *l);
-void show_points(struct coord start, struct coord end);
+void show_points(const struct coord start, const struct coord end);
 
 /* hunter */
 void init_hunter(struct hunter *h, struct level *l);

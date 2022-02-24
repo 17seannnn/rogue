@@ -256,7 +256,7 @@ int is_room(const struct room *r, int x, int y)
         return r ? 1 : 0;
 }
 
-int is_wall(struct room *r, int x, int y)
+int is_wall(const struct room *r, int x, int y)
 {
         r = get_room_by_coord(r, x, y);
         if (r)
