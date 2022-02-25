@@ -6,7 +6,7 @@
 #include "rogue.h"
 
 enum {
-        pave_steps_range = 10
+        pave_steps_range = 1
 };
 
 static void add_path(struct path **p, int x, int y)
