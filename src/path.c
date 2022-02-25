@@ -56,9 +56,7 @@ static int pave_hor(struct level *l, int b_x, int b_y, int e_x)
                 if (is_empty(l, b_x, b_y)) {
                         add_path(&l->p, b_x, b_y);
                 } else {
-                        if (is_wall(l->r, b_x, b_y) &&
-                            (!is_wall(l->r, b_x-1, b_y) ||
-                             !is_wall(l->r, b_x+1, b_y)))
+                        if (is_wall(l->r, b_x, b_y))
                                 add_door(&l->d,
                                            get_room_by_coord(l->r, b_x, b_y),
                                            b_x, b_y);
@@ -84,9 +82,7 @@ static int pave_ver(struct level *l, int b_x, int b_y, int e_y)
                 if (is_empty(l, b_x, b_y)) {
                         add_path(&l->p, b_x, b_y);
                 } else {
-                        if (is_wall(l->r, b_x, b_y) &&
-                            (!is_wall(l->r, b_x, b_y-1) ||
-                             !is_wall(l->r, b_x, b_y+1)))
+                        if (is_wall(l->r, b_x, b_y))
                                 add_door(&l->d,
                                            get_room_by_coord(l->r, b_x, b_y),
                                            b_x, b_y);
@@ -106,10 +102,11 @@ static void pave_path(struct level *l, struct room *r1, struct room *r2)
 {
         int order;
         int b_x, b_y, e_x, e_y;
-        b_x = r1->tl.x + rand() % room_len(r1, 'h');
-        b_y = r1->tl.y + rand() % room_len(r1, 'v');
-        e_x = r2->tl.x + rand() % room_len(r2, 'h');
-        e_y = r2->tl.y + rand() % room_len(r2, 'v');
+        /* Coordinates are inside room, not in walls */
+        b_x = r1->tl.x + 1 + rand() % (room_len(r1, 'h') - 2);
+        b_y = r1->tl.y + 1 + rand() % (room_len(r1, 'v') - 2);
+        e_x = r2->tl.x + 1 + rand() % (room_len(r2, 'h') - 2);
+        e_y = r2->tl.y + 1 + rand() % (room_len(r2, 'v') - 2);
         order = rand() % 2;
         for (;;) {
                 if (order) {
