@@ -25,10 +25,10 @@ static void end_game()
 
 static void play_game(struct level *l, struct hunter *h)
 {
-        int c;
+        int c, again = 0;
         handle_fov(l, h);
-        while ((c = wgetch(gamew)) != 27) {
-                do_cmd(c, h, l);
+        while (again || (c = wgetch(gamew)) != 27) {
+                again = do_cmd(c, h, l);
                 handle_fov(l, h);
         }
 }

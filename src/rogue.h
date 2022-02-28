@@ -104,6 +104,6 @@ void show_hunter(const struct hunter *h);
 void handle_fov(const struct level *l, const struct hunter *h);
 
 /* cmd */
-void do_cmd(int c, struct hunter *h, struct level *l);
+int do_cmd(int c, struct hunter *h, struct level *l);
 
 #endif
