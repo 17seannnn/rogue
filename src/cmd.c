@@ -18,7 +18,7 @@ int do_cmd(int c, struct hunter *h, struct level *l)
         case 'H':
                 if (can_move(l, h->pos.x-1, h->pos.y)) {
                         do_move(h, -1, 0);
-                        return 1;
+                        return !is_door(l->d, h->pos.x, h->pos.y);
                 }
                 return 0;
         case 'j':
@@ -28,7 +28,7 @@ int do_cmd(int c, struct hunter *h, struct level *l)
         case 'J':
                 if (can_move(l, h->pos.x, h->pos.y+1)) {
                         do_move(h, 0, 1);
-                        return 1;
+                        return !is_door(l->d, h->pos.x, h->pos.y);
                 }
                 return 0;
         case 'k':
@@ -38,7 +38,7 @@ int do_cmd(int c, struct hunter *h, struct level *l)
         case 'K':
                 if (can_move(l, h->pos.x, h->pos.y-1)) {
                         do_move(h, 0, -1);
-                        return 1;
+                        return !is_door(l->d, h->pos.x, h->pos.y);
                 }
                 return 0;
         case 'l':
@@ -48,7 +48,7 @@ int do_cmd(int c, struct hunter *h, struct level *l)
         case 'L':
                 if (can_move(l, h->pos.x+1, h->pos.y)) {
                         do_move(h, 1, 0);
-                        return 1;
+                        return !is_door(l->d, h->pos.x, h->pos.y);
                 }
                 return 0;
         case 'y':
@@ -58,7 +58,7 @@ int do_cmd(int c, struct hunter *h, struct level *l)
         case 'Y':
                 if (can_move(l, h->pos.x-1, h->pos.y-1)) {
                         do_move(h, -1, -1);
-                        return 1;
+                        return !is_door(l->d, h->pos.x, h->pos.y);
                 }
                 return 0;
         case 'u':
@@ -68,7 +68,7 @@ int do_cmd(int c, struct hunter *h, struct level *l)
         case 'U':
                 if (can_move(l, h->pos.x+1, h->pos.y-1)) {
                         do_move(h, 1, -1);
-                        return 1;
+                        return !is_door(l->d, h->pos.x, h->pos.y);
                 }
                 return 0;
         case 'b':
@@ -78,7 +78,7 @@ int do_cmd(int c, struct hunter *h, struct level *l)
         case 'B':
                 if (can_move(l, h->pos.x-1, h->pos.y+1)) {
                         do_move(h, -1, 1);
-                        return 1;
+                        return !is_door(l->d, h->pos.x, h->pos.y);
                 }
                 return 0;
         case 'n':
@@ -88,7 +88,7 @@ int do_cmd(int c, struct hunter *h, struct level *l)
         case 'N':
                 if (can_move(l, h->pos.x+1, h->pos.y+1)) {
                         do_move(h, 1, 1);
-                        return 1;
+                        return !is_door(l->d, h->pos.x, h->pos.y);
                 }
                 return 0;
         default:
