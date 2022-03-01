@@ -15,7 +15,7 @@ static void add_beast(struct beast **b, int x, int y)
         *b = t;
 }
 
-int is_beast(struct beast *b, int x, int y)
+int is_beast(const struct beast *b, int x, int y)
 {
         for ( ; b; b = b->next)
                 if (b->pos.x == x && b->pos.y == y)

@@ -98,6 +98,7 @@ void free_door(struct door *d);
 void show_path(const struct path *p);
 
 /* beast */
+int is_beast(const struct beast *b, int x, int y);
 void init_beast(struct level *l, const struct hunter *h);
 void free_beast(struct beast *b);
 void handle_beast(const struct level *l, struct hunter *h);

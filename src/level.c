@@ -18,7 +18,8 @@ int is_empty(const struct level *l, int x, int y)
 int can_move(const struct level *l, int x, int y)
 {
         return (is_room(l->r, x, y) && (!is_wall(l->r, x, y) ||
-                is_door(l->d, x, y))) || is_path(l->p, x, y);
+                is_door(l->d, x, y)) && !is_beast(l->b, x, y)) ||
+               (is_path(l->p, x, y) && !is_beast(l->b, x, y));
 }
 
 static void init_points(struct level *l)
