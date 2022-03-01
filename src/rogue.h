@@ -58,7 +58,7 @@ struct door {
 struct beast {
         int symb;
         struct coord pos;
-        int hp, dmg;
+        int hp, dmg, fov;
         struct beast *next;
 };
 
