@@ -76,6 +76,7 @@ struct level {
 struct hunter {
         int symb;
         struct coord pos;
+        int hp, dmg;
 };
 
 /* curses */
@@ -125,6 +126,7 @@ void show_points(const struct coord start, const struct coord end);
 int is_hunter(const struct hunter *h, int x, int y);
 void init_hunter(struct hunter *h, struct level *l);
 void show_hunter(const struct hunter *h);
+void show_info(const struct hunter *h);
 
 /* fov */
 void handle_fov(const struct level *l, const struct hunter *h);
