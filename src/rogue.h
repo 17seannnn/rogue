@@ -17,7 +17,16 @@ enum {
         gamew_col = 80,
         gamew_row = 22,
         infow_col = 80,
-        infow_row = 1
+        infow_row = 1,
+
+        side_northwest = 0,
+        side_north,
+        side_northeast,
+        side_east,
+        side_southeast,
+        side_south,
+        side_southwest,
+        side_west
 };
 
 /* common */
@@ -101,7 +110,7 @@ void show_path(const struct path *p);
 int is_beast(const struct beast *b, int x, int y);
 void init_beast(struct level *l, const struct hunter *h);
 void free_beast(struct beast *b);
-void handle_beast(const struct level *l, struct hunter *h);
+void handle_beast(struct level *l, struct hunter *h);
 void show_beast(const struct beast *b);
 
 /* level */
