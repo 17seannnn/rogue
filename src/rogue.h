@@ -107,12 +107,13 @@ void show_beast(const struct beast *b);
 /* level */
 int is_ok(int x, int y);
 int is_empty(const struct level *l, int x, int y);
-int can_move(const struct level *l, int x, int y);
+int can_move(const struct level *l, const struct hunter *h, int x, int y);
 void init_level(struct level *l, struct hunter *h);
 void end_level(struct level *l);
 void show_points(const struct coord start, const struct coord end);
 
 /* hunter */
+int is_hunter(const struct hunter *h, int x, int y);
 void init_hunter(struct hunter *h, struct level *l);
 void show_hunter(const struct hunter *h);
 

@@ -8,6 +8,11 @@ enum {
         hunter_symb = '@'
 };
 
+int is_hunter(const struct hunter *h, int x, int y)
+{
+        return h->pos.x == x && h->pos.y == y;
+}
+
 void init_hunter(struct hunter *h, struct level *l)
 {
         h->symb = hunter_symb;
