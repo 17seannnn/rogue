@@ -45,6 +45,14 @@ struct door {
         struct door *next;
 };
 
+/* beast */
+struct beast {
+        int symb;
+        struct coord pos;
+        int hp, dmg;
+        struct beast *next;
+};
+
 /* level */
 struct level {
         int depth;
@@ -52,6 +60,7 @@ struct level {
         struct room *r;
         struct path *p;
         struct door *d;
+        struct beast *b;
 };
 
 /* hunter */
@@ -87,6 +96,12 @@ void init_path(struct level *l);
 void free_path(struct path *p);
 void free_door(struct door *d);
 void show_path(const struct path *p);
+
+/* beast */
+void init_beast(struct level *l, const struct hunter *h);
+void free_beast(struct beast *b);
+void handle_beast(const struct level *l, struct hunter *h);
+void show_beast(const struct beast *b);
 
 /* level */
 int is_ok(int x, int y);

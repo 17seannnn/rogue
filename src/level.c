@@ -51,6 +51,7 @@ void init_level(struct level *l, struct hunter *h)
         init_path(l);
         init_points(l);
         init_hunter(h, l);
+        init_beast(l, h);
 }
 
 void end_level(struct level *l)
@@ -58,6 +59,7 @@ void end_level(struct level *l)
         free_room(l->r);
         free_path(l->p);
         free_door(l->d);
+        free_beast(l->b);
 }
 
 void show_points(struct coord start, struct coord end)

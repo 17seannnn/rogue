@@ -29,6 +29,7 @@ static void play_game(struct level *l, struct hunter *h)
         handle_fov(l, h);
         while (again || (c = wgetch(gamew)) != 27) {
                 again = do_cmd(c, h, l);
+                handle_beast(l, h);
                 handle_fov(l, h);
         }
 }
