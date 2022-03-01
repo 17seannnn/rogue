@@ -15,6 +15,14 @@ static void add_beast(struct beast **b, int x, int y)
         *b = t;
 }
 
+int is_beast(struct beast *b, int x, int y)
+{
+        for ( ; b; b = b->next)
+                if (b->pos.x == x && b->pos.y == y)
+                        return 1;
+        return 0;
+}
+
 void init_beast(struct level *l, const struct hunter *h)
 {
         int ch, no;
