@@ -54,7 +54,7 @@ static void move_beast(struct beast *b, int dx, int dy)
 }
 
 /* Return -1 when the search fails */
-static int search_hunter(struct beast *b, struct hunter *h)
+static int search_hunter(const struct beast *b, const struct hunter *h)
 {
         if (h->pos.x >= b->pos.x - b->fov && h->pos.x <= b->pos.x + b->fov &&
             h->pos.y >= b->pos.y - b->fov && h->pos.y <= b->pos.y + b->fov) {
@@ -78,10 +78,63 @@ static int search_hunter(struct beast *b, struct hunter *h)
         return -1;
 }
 
-static int try_side(struct level *l, int side, int x, int y)
+static int can_side(const struct level *l, int side, int x, int y)
 {
-/* TODO upgrade */
-        return side == -1 ? rand() % 8 : side;
+        switch (side) {
+        case side_northwest:
+                x--;
+                y--;
+                break;
+        case side_north:
+                y--;
+                break;
+        case side_northeast:
+                x++;
+                y--;
+                break;
+        case side_east:
+                x++;
+                break;
+        case side_southeast:
+                x++;
+                y++;
+                break;
+        case side_south:
+                y++;
+                break;
+        case side_southwest:
+                x--;
+                y++;
+                break;
+        case side_west:
+                x--;
+                break;
+        default:
+                return 0;
+        }
+        return !is_beast(l->b, x, y) && ((is_room(l->r, x, y) &&
+               (!is_wall(l->r, x, y) || is_door(l->d, x, y))) ||
+                is_path(l->p, x, y));
+}
+
+static int try_side(const struct level *l, int side, int x, int y)
+{
+        if (can_side(l, side, x, y)) {
+                return side;
+        } else {
+                if (rand() % 2) {
+                        if (can_side(l, side-1, x, y))
+                                return side - 1;
+                        else if (can_side(l, side+1, x, y))
+                                return side + 1;
+                } else {
+                        if (can_side(l, side+1, x, y))
+                                return side + 1;
+                        else if (can_side(l, side-1, x, y))
+                                return side - 1;
+                }
+        }
+        return rand() % 8;
 }
 
 void handle_beast(struct level *l, struct hunter *h)
