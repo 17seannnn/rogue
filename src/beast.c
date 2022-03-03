@@ -50,7 +50,7 @@ void free_beast(struct beast *b)
         }
 }
 
-void del_beast(struct beast **b, struct beast *del)
+static void del_beast(struct beast **b, struct beast *del)
 {
         for ( ; *b && *b != del; b = &(*b)->next)
                 {}
@@ -60,9 +60,47 @@ void del_beast(struct beast **b, struct beast *del)
         free(del);
 }
 
+static void try_attack_hunter(const struct creature *b, struct creature *h,
+                                                        int side)
+{
+        int x = b->pos.x, y = b->pos.y;
+        switch (side) {
+        case side_northwest:
+                x--;
+                y--;
+                break;
+        case side_north:
+                y--;
+                break;
+        case side_northeast:
+                x++;
+                y--;
+                break;
+        case side_east:
+                x++;
+                break;
+        case side_southeast:
+                x++;
+                y++;
+                break;
+        case side_south:
+                y++;
+                break;
+        case side_southwest:
+                x--;
+                y++;
+                break;
+        case side_west:
+                x--;
+                break;
+        }
+        if (is_hunter(h, x, y))
+                attack(b, h);
+}
+
 void handle_beast(struct level *l, struct creature *h)
 {
-        int side;
+        int res, side;
         struct beast *b;
         struct creature *c;
         for (b = l->b; b; b = b->next) {
@@ -73,6 +111,8 @@ void handle_beast(struct level *l, struct creature *h)
                 }
                 side = search_creature(c, h);
                 side = try_side(l, side, c->pos.x, c->pos.y);
-                move_creature(l, h, c, side);
+                res = move_creature(l, h, c, side);
+                if (!res)
+                        try_attack_hunter(c, h, side);
         }
 }
