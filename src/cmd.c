@@ -55,7 +55,11 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 0;
         case 'H':
                 res = move_creature(l, h, h, side_west);
-                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
+                if (!res)
+                        try_attack_beast(h, l->b, side_west);
+                if (!res || is_door(l->d, h->pos.x, h->pos.y))
+                        return 0;
+                return 1;
         case 'j':
                 res = move_creature(l, h, h, side_south);
                 if (!res)
@@ -63,7 +67,11 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 0;
         case 'J':
                 res = move_creature(l, h, h, side_south);
-                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
+                if (!res)
+                        try_attack_beast(h, l->b, side_south);
+                if (!res || is_door(l->d, h->pos.x, h->pos.y))
+                        return 0;
+                return 1;
         case 'k':
                 res = move_creature(l, h, h, side_north);
                 if (!res)
@@ -71,7 +79,11 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 0;
         case 'K':
                 res = move_creature(l, h, h, side_north);
-                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
+                if (!res)
+                        try_attack_beast(h, l->b, side_north);
+                if (!res || is_door(l->d, h->pos.x, h->pos.y))
+                        return 0;
+                return 1;
         case 'l':
                 res = move_creature(l, h, h, side_east);
                 if (!res)
@@ -79,7 +91,11 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 0;
         case 'L':
                 res = move_creature(l, h, h, side_east);
-                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
+                if (!res)
+                        try_attack_beast(h, l->b, side_east);
+                if (!res || is_door(l->d, h->pos.x, h->pos.y))
+                        return 0;
+                return 1;
         case 'y':
                 res = move_creature(l, h, h, side_northwest);
                 if (!res)
@@ -87,7 +103,11 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 0;
         case 'Y':
                 res = move_creature(l, h, h, side_northwest);
-                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
+                if (!res)
+                        try_attack_beast(h, l->b, side_northwest);
+                if (!res || is_door(l->d, h->pos.x, h->pos.y))
+                        return 0;
+                return 1;
         case 'u':
                 res = move_creature(l, h, h, side_northeast);
                 if (!res)
@@ -95,7 +115,11 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 0;
         case 'U':
                 res = move_creature(l, h, h, side_northeast);
-                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
+                if (!res)
+                        try_attack_beast(h, l->b, side_northeast);
+                if (!res || is_door(l->d, h->pos.x, h->pos.y))
+                        return 0;
+                return 1;
         case 'b':
                 res = move_creature(l, h, h, side_southwest);
                 if (!res)
@@ -103,7 +127,11 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 0;
         case 'B':
                 res = move_creature(l, h, h, side_southwest);
-                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
+                if (!res)
+                        try_attack_beast(h, l->b, side_southwest);
+                if (!res || is_door(l->d, h->pos.x, h->pos.y))
+                        return 0;
+                return 1;
         case 'n':
                 res = move_creature(l, h, h, side_southeast);
                 if (!res)
@@ -111,7 +139,11 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 0;
         case 'N':
                 res = move_creature(l, h, h, side_southeast);
-                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
+                if (!res)
+                        try_attack_beast(h, l->b, side_southeast);
+                if (!res || is_door(l->d, h->pos.x, h->pos.y))
+                        return 0;
+                return 1;
         default:
                 return 0;
         }
