@@ -54,31 +54,6 @@ static void move_beast(struct beast *b, int dx, int dy)
         b->c.pos.y += dy;
 }
 
-/* Return -1 when the search fails */
-static int search_hunter(const struct creature *b, const struct creature *h)
-{
-        if (h->pos.x >= b->pos.x - b->fov && h->pos.x <= b->pos.x + b->fov &&
-            h->pos.y >= b->pos.y - b->fov && h->pos.y <= b->pos.y + b->fov) {
-                if (h->pos.x < b->pos.x && h->pos.y < b->pos.y)
-                        return side_northwest;
-                if (h->pos.x == b->pos.x && h->pos.y < b->pos.y)
-                        return side_north;
-                if (h->pos.x > b->pos.x && h->pos.y < b->pos.y)
-                        return side_northeast;
-                if (h->pos.x > b->pos.x && h->pos.y == b->pos.y)
-                        return side_east;
-                if (h->pos.x > b->pos.x && h->pos.y > b->pos.y)
-                        return side_southeast;
-                if (h->pos.x == b->pos.x && h->pos.y > b->pos.y)
-                        return side_south;
-                if (h->pos.x < b->pos.x && h->pos.y > b->pos.y)
-                        return side_southwest;
-                if (h->pos.x < b->pos.x && h->pos.y == b->pos.y)
-                        return side_west;
-        }
-        return -1;
-}
-
 static int can_side(const struct level *l, int side, int x, int y)
 {
         switch (side) {
@@ -145,7 +120,7 @@ void handle_beast(struct level *l, struct creature *h)
         struct creature *c;
         for (b = l->b; b; b = b->next) {
                 c = &b->c;
-                side = search_hunter(c, h);
+                side = search_creature(c, h);
                 side = try_side(l, side, c->pos.x, c->pos.y);
                 switch (side) {
                 case side_northwest:

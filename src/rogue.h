@@ -107,6 +107,7 @@ void show_path(const struct path *p);
 
 /* creature */
 void show_creature(const struct creature *c);
+int search_creature(const struct creature *c1, const struct creature *c2);
 
 /* beast */
 int is_beast(const struct beast *b, int x, int y);
