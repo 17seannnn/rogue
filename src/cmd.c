@@ -2,95 +2,58 @@
 
 #include "rogue.h"
 
-static void do_move(struct creature *h, int dx, int dy)
-{
-        h->pos.x += dx;
-        h->pos.y += dy;
-}
-
 int do_cmd(int c, struct creature *h, struct level *l)
 {
+        int res;
         switch (c) {
         case 'h':
-                if (can_move(l, h, h->pos.x-1, h->pos.y))
-                        do_move(h, -1, 0);
+                move_creature(l, h, h, side_west);
                 return 0;
         case 'H':
-                if (can_move(l, h, h->pos.x-1, h->pos.y)) {
-                        do_move(h, -1, 0);
-                        return !is_door(l->d, h->pos.x, h->pos.y);
-                }
-                return 0;
+                res = move_creature(l, h, h, side_west);
+                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
         case 'j':
-                if (can_move(l, h, h->pos.x, h->pos.y+1))
-                        do_move(h, 0, 1);
+                move_creature(l, h, h, side_south);
                 return 0;
         case 'J':
-                if (can_move(l, h, h->pos.x, h->pos.y+1)) {
-                        do_move(h, 0, 1);
-                        return !is_door(l->d, h->pos.x, h->pos.y);
-                }
-                return 0;
+                res = move_creature(l, h, h, side_south);
+                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
         case 'k':
-                if (can_move(l, h, h->pos.x, h->pos.y-1))
-                        do_move(h, 0, -1);
+                move_creature(l, h, h, side_north);
                 return 0;
         case 'K':
-                if (can_move(l, h, h->pos.x, h->pos.y-1)) {
-                        do_move(h, 0, -1);
-                        return !is_door(l->d, h->pos.x, h->pos.y);
-                }
-                return 0;
+                res = move_creature(l, h, h, side_north);
+                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
         case 'l':
-                if (can_move(l, h, h->pos.x+1, h->pos.y))
-                        do_move(h, 1, 0);
+                move_creature(l, h, h, side_east);
                 return 0;
         case 'L':
-                if (can_move(l, h, h->pos.x+1, h->pos.y)) {
-                        do_move(h, 1, 0);
-                        return !is_door(l->d, h->pos.x, h->pos.y);
-                }
-                return 0;
+                res = move_creature(l, h, h, side_east);
+                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
         case 'y':
-                if (can_move(l, h, h->pos.x-1, h->pos.y-1))
-                        do_move(h, -1, -1);
+                move_creature(l, h, h, side_northwest);
                 return 0;
         case 'Y':
-                if (can_move(l, h, h->pos.x-1, h->pos.y-1)) {
-                        do_move(h, -1, -1);
-                        return !is_door(l->d, h->pos.x, h->pos.y);
-                }
-                return 0;
+                res = move_creature(l, h, h, side_northwest);
+                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
         case 'u':
-                if (can_move(l, h, h->pos.x+1, h->pos.y-1))
-                        do_move(h, 1, -1);
+                move_creature(l, h, h, side_northeast);
                 return 0;
         case 'U':
-                if (can_move(l, h, h->pos.x+1, h->pos.y-1)) {
-                        do_move(h, 1, -1);
-                        return !is_door(l->d, h->pos.x, h->pos.y);
-                }
-                return 0;
+                res = move_creature(l, h, h, side_northeast);
+                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
         case 'b':
-                if (can_move(l, h, h->pos.x-1, h->pos.y+1))
-                        do_move(h, -1, 1);
+                move_creature(l, h, h, side_southwest);
                 return 0;
         case 'B':
-                if (can_move(l, h, h->pos.x-1, h->pos.y+1)) {
-                        do_move(h, -1, 1);
-                        return !is_door(l->d, h->pos.x, h->pos.y);
-                }
-                return 0;
+                res = move_creature(l, h, h, side_southwest);
+                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
         case 'n':
-                if (can_move(l, h, h->pos.x+1, h->pos.y+1))
-                        do_move(h, 1, 1);
+                move_creature(l, h, h, side_southeast);
                 return 0;
         case 'N':
-                if (can_move(l, h, h->pos.x+1, h->pos.y+1)) {
-                        do_move(h, 1, 1);
-                        return !is_door(l->d, h->pos.x, h->pos.y);
-                }
-                return 0;
+                res = move_creature(l, h, h, side_southeast);
+                return res ? !is_door(l->d, h->pos.x, h->pos.y) : 0;
         default:
                 return 0;
         }

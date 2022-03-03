@@ -1,4 +1,5 @@
 /* beast.c - control beasts */
+
 #include <stdlib.h>
 
 #include "rogue.h"
@@ -48,12 +49,6 @@ void free_beast(struct beast *b)
         }
 }
 
-static void move_beast(struct beast *b, int dx, int dy)
-{
-        b->c.pos.x += dx;
-        b->c.pos.y += dy;
-}
-
 void handle_beast(struct level *l, struct creature *h)
 {
         int side;
@@ -63,39 +58,6 @@ void handle_beast(struct level *l, struct creature *h)
                 c = &b->c;
                 side = search_creature(c, h);
                 side = try_side(l, side, c->pos.x, c->pos.y);
-                switch (side) {
-                case side_northwest:
-                        if (can_move(l, h, c->pos.x-1, c->pos.y-1))
-                                move_beast(b, -1, -1);
-                        break;
-                case side_north:
-                        if (can_move(l, h, c->pos.x, c->pos.y-1))
-                                move_beast(b, 0, -1);
-                        break;
-                case side_northeast:
-                        if (can_move(l, h, c->pos.x+1, c->pos.y-1))
-                                move_beast(b, 1, -1);
-                        break;
-                case side_east:
-                        if (can_move(l, h, c->pos.x+1, c->pos.y))
-                                move_beast(b, 1, 0);
-                        break;
-                case side_southeast:
-                        if (can_move(l, h, c->pos.x+1, c->pos.y+1))
-                                move_beast(b, 1, 1);
-                        break;
-                case side_south:
-                        if (can_move(l, h, c->pos.x, c->pos.y+1))
-                                move_beast(b, 0, 1);
-                        break;
-                case side_southwest:
-                        if (can_move(l, h, c->pos.x-1, c->pos.y+1))
-                                move_beast(b, -1, 1);
-                        break;
-                case side_west:
-                        if (can_move(l, h, c->pos.x-1, c->pos.y))
-                                move_beast(b, -1, 0);
-                        break;
-                }
+                move_creature(l, h, c, side);
         }
 }
