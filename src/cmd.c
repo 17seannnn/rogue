@@ -5,42 +5,13 @@
 static int try_attack_beast(const struct creature *h, struct beast *b,
                              int side)
 {
-        int x = h->pos.x, y = h->pos.y;
-        switch (side) {
-        case side_northwest:
-                x--;
-                y--;
-                break;
-        case side_north:
-                y--;
-                break;
-        case side_northeast:
-                x++;
-                y--;
-                break;
-        case side_east:
-                x++;
-                break;
-        case side_southeast:
-                x++;
-                y++;
-                break;
-        case side_south:
-                y++;
-                break;
-        case side_southwest:
-                x--;
-                y++;
-                break;
-        case side_west:
-                x--;
-                break;
-        }
-        for ( ; b; b = b->next) {
-                if (b->c.pos.x == x && b->c.pos.y == y) {
+        int x, y;
+        get_side_diff(side, &x, &y);
+        x += h->pos.x;
+        y += h->pos.y;
+        for ( ; b; b = b->next)
+                if (b->c.pos.x == x && b->c.pos.y == y)
                         return attack(h, &b->c);
-                }
-        }
         return 0;
 }
 

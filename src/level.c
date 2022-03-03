@@ -22,40 +22,53 @@ int can_move(const struct level *l, const struct creature *h, int x, int y)
                 is_door(l->d, x, y))) || is_path(l->p, x, y));
 }
 
-int can_side(const struct level *l, int side, int x, int y)
+void get_side_diff(int side, int *dx, int *dy)
 {
         switch (side) {
         case side_northwest:
-                x--;
-                y--;
+                *dx = -1;
+                *dy = -1;
                 break;
         case side_north:
-                y--;
+                *dx = 0;
+                *dy = -1;
                 break;
         case side_northeast:
-                x++;
-                y--;
+                *dx = 1;
+                *dy = -1;
                 break;
         case side_east:
-                x++;
+                *dx = 1;
+                *dy = 0;
                 break;
         case side_southeast:
-                x++;
-                y++;
+                *dx = 1;
+                *dy = 1;
                 break;
         case side_south:
-                y++;
+                *dx = 0;
+                *dy = 1;
                 break;
         case side_southwest:
-                x--;
-                y++;
+                *dx = -1;
+                *dy = 1;
                 break;
         case side_west:
-                x--;
+                *dx = -1;
+                *dy = 0;
                 break;
         default:
-                return 0;
+                *dx = 0;
+                *dy = 0;
         }
+}
+
+int can_side(const struct level *l, int side, int x, int y)
+{
+        int dx, dy;
+        get_side_diff(side, &dx, &dy);
+        x += dx;
+        y += dy;
         return !is_beast(l->b, x, y) && ((is_room(l->r, x, y) &&
                (!is_wall(l->r, x, y) || is_door(l->d, x, y))) ||
                 is_path(l->p, x, y));

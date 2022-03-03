@@ -63,37 +63,10 @@ static void del_beast(struct beast **b, struct beast *del)
 static void try_attack_hunter(const struct creature *b, struct creature *h,
                                                         int side)
 {
-        int x = b->pos.x, y = b->pos.y;
-        switch (side) {
-        case side_northwest:
-                x--;
-                y--;
-                break;
-        case side_north:
-                y--;
-                break;
-        case side_northeast:
-                x++;
-                y--;
-                break;
-        case side_east:
-                x++;
-                break;
-        case side_southeast:
-                x++;
-                y++;
-                break;
-        case side_south:
-                y++;
-                break;
-        case side_southwest:
-                x--;
-                y++;
-                break;
-        case side_west:
-                x--;
-                break;
-        }
+        int x, y;
+        get_side_diff(side, &x, &y);
+        x += b->pos.x;
+        y += b->pos.y;
         if (is_hunter(h, x, y))
                 attack(b, h);
 }
