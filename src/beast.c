@@ -14,6 +14,7 @@ static void add_beast(struct beast **b, int x, int y)
         t->c.hp = 10;
         t->c.dmg = 1;
         t->c.fov = 5;
+        t->c.cast = cast_beast;
         t->next = *b;
         *b = t;
 }

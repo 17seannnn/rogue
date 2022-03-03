@@ -17,8 +17,11 @@ enum {
         gamew_col = 80,
         gamew_row = 22,
         infow_col = 80,
-        infow_row = 1,
+        infow_row = 1
+};
 
+/* common */
+enum {
         side_northwest = 0,
         side_north,
         side_northeast,
@@ -27,6 +30,12 @@ enum {
         side_south,
         side_southwest,
         side_west
+};
+
+/* creature */
+enum {
+        cast_hunter = 0,
+        cast_beast
 };
 
 /* common */
@@ -59,6 +68,7 @@ struct creature {
         int symb;
         struct coord pos;
         int hp, dmg, fov;
+        int cast;
 };
 
 /* beast */
