@@ -50,6 +50,16 @@ void free_beast(struct beast *b)
         }
 }
 
+void del_beast(struct beast **b, struct beast *del)
+{
+        for ( ; *b && *b != del; b = &(*b)->next)
+                {}
+        if (!*b)
+                return;
+        *b = (*b)->next;
+        free(del);
+}
+
 void handle_beast(struct level *l, struct creature *h)
 {
         int side;
@@ -57,6 +67,10 @@ void handle_beast(struct level *l, struct creature *h)
         struct creature *c;
         for (b = l->b; b; b = b->next) {
                 c = &b->c;
+                if (c->hp <= 0) {
+                        del_beast(&l->b, b);
+                        continue;
+                }
                 side = search_creature(c, h);
                 side = try_side(l, side, c->pos.x, c->pos.y);
                 move_creature(l, h, c, side);

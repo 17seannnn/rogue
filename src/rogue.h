@@ -145,6 +145,9 @@ void show_info(const struct creature *h);
 /* fov */
 void handle_fov(const struct level *l, const struct creature *h);
 
+/* fight */
+int attack(const struct creature *a, struct creature *d);
+
 /* cmd */
 int do_cmd(int c, struct creature *h, struct level *l);
 
