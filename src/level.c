@@ -22,6 +22,66 @@ int can_move(const struct level *l, const struct creature *h, int x, int y)
                 is_door(l->d, x, y))) || is_path(l->p, x, y));
 }
 
+int can_side(const struct level *l, int side, int x, int y)
+{
+        switch (side) {
+        case side_northwest:
+                x--;
+                y--;
+                break;
+        case side_north:
+                y--;
+                break;
+        case side_northeast:
+                x++;
+                y--;
+                break;
+        case side_east:
+                x++;
+                break;
+        case side_southeast:
+                x++;
+                y++;
+                break;
+        case side_south:
+                y++;
+                break;
+        case side_southwest:
+                x--;
+                y++;
+                break;
+        case side_west:
+                x--;
+                break;
+        default:
+                return 0;
+        }
+        return !is_beast(l->b, x, y) && ((is_room(l->r, x, y) &&
+               (!is_wall(l->r, x, y) || is_door(l->d, x, y))) ||
+                is_path(l->p, x, y));
+}
+
+/* Return side random side if can`t go throught first one */
+int try_side(const struct level *l, int side, int x, int y)
+{
+        if (can_side(l, side, x, y)) {
+                return side;
+        } else {
+                if (rand() % 2) {
+                        if (can_side(l, side-1, x, y))
+                                return side - 1;
+                        else if (can_side(l, side+1, x, y))
+                                return side + 1;
+                } else {
+                        if (can_side(l, side+1, x, y))
+                                return side + 1;
+                        else if (can_side(l, side-1, x, y))
+                                return side - 1;
+                }
+        }
+        return rand() % 8;
+}
+
 static void init_points(struct level *l)
 {
         struct room *r;

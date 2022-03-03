@@ -119,6 +119,8 @@ void handle_beast(struct level *l, struct creature *h);
 int is_ok(int x, int y);
 int is_empty(const struct level *l, int x, int y);
 int can_move(const struct level *l, const struct creature *h, int x, int y);
+int can_side(const struct level *l, int side, int x, int y);
+int try_side(const struct level *l, int side, int x, int y);
 void init_level(struct level *l, struct creature *h);
 void end_level(struct level *l);
 void show_points(const struct coord start, const struct coord end);

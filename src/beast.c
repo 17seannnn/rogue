@@ -54,65 +54,6 @@ static void move_beast(struct beast *b, int dx, int dy)
         b->c.pos.y += dy;
 }
 
-static int can_side(const struct level *l, int side, int x, int y)
-{
-        switch (side) {
-        case side_northwest:
-                x--;
-                y--;
-                break;
-        case side_north:
-                y--;
-                break;
-        case side_northeast:
-                x++;
-                y--;
-                break;
-        case side_east:
-                x++;
-                break;
-        case side_southeast:
-                x++;
-                y++;
-                break;
-        case side_south:
-                y++;
-                break;
-        case side_southwest:
-                x--;
-                y++;
-                break;
-        case side_west:
-                x--;
-                break;
-        default:
-                return 0;
-        }
-        return !is_beast(l->b, x, y) && ((is_room(l->r, x, y) &&
-               (!is_wall(l->r, x, y) || is_door(l->d, x, y))) ||
-                is_path(l->p, x, y));
-}
-
-static int try_side(const struct level *l, int side, int x, int y)
-{
-        if (can_side(l, side, x, y)) {
-                return side;
-        } else {
-                if (rand() % 2) {
-                        if (can_side(l, side-1, x, y))
-                                return side - 1;
-                        else if (can_side(l, side+1, x, y))
-                                return side + 1;
-                } else {
-                        if (can_side(l, side+1, x, y))
-                                return side + 1;
-                        else if (can_side(l, side-1, x, y))
-                                return side - 1;
-                }
-        }
-        return rand() % 8;
-}
-
 void handle_beast(struct level *l, struct creature *h)
 {
         int side;
