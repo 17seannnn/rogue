@@ -1,3 +1,4 @@
+/* beast.c - control beasts */
 #include <stdlib.h>
 
 #include "rogue.h"
@@ -6,25 +7,25 @@ static void add_beast(struct beast **b, int x, int y)
 {
         struct beast *t;
         t = malloc(sizeof(*t));
-        t->symb = 'B';
-        t->pos.x = x;
-        t->pos.y = y;
-        t->hp = 10;
-        t->dmg = 1;
+        t->c.symb = 'B';
+        t->c.pos.x = x;
+        t->c.pos.y = y;
+        t->c.hp = 10;
+        t->c.dmg = 1;
+        t->c.fov = 5;
         t->next = *b;
-        t->fov = 5;
         *b = t;
 }
 
 int is_beast(const struct beast *b, int x, int y)
 {
         for ( ; b; b = b->next)
-                if (b->pos.x == x && b->pos.y == y)
+                if (b->c.pos.x == x && b->c.pos.y == y)
                         return 1;
         return 0;
 }
 
-void init_beast(struct level *l, const struct hunter *h)
+void init_beast(struct level *l, const struct creature *h)
 {
         int ch, no;
         struct room *r;
@@ -49,12 +50,12 @@ void free_beast(struct beast *b)
 
 static void move_beast(struct beast *b, int dx, int dy)
 {
-        b->pos.x += dx;
-        b->pos.y += dy;
+        b->c.pos.x += dx;
+        b->c.pos.y += dy;
 }
 
 /* Return -1 when the search fails */
-static int search_hunter(const struct beast *b, const struct hunter *h)
+static int search_hunter(const struct creature *b, const struct creature *h)
 {
         if (h->pos.x >= b->pos.x - b->fov && h->pos.x <= b->pos.x + b->fov &&
             h->pos.y >= b->pos.y - b->fov && h->pos.y <= b->pos.y + b->fov) {
@@ -137,52 +138,48 @@ static int try_side(const struct level *l, int side, int x, int y)
         return rand() % 8;
 }
 
-void handle_beast(struct level *l, struct hunter *h)
+void handle_beast(struct level *l, struct creature *h)
 {
         int side;
         struct beast *b;
+        struct creature *c;
         for (b = l->b; b; b = b->next) {
-                side = search_hunter(b, h);
-                side = try_side(l, side, b->pos.x, b->pos.y);
+                c = &b->c;
+                side = search_hunter(c, h);
+                side = try_side(l, side, c->pos.x, c->pos.y);
                 switch (side) {
                 case side_northwest:
-                        if (can_move(l, h, b->pos.x-1, b->pos.y-1))
+                        if (can_move(l, h, c->pos.x-1, c->pos.y-1))
                                 move_beast(b, -1, -1);
                         break;
                 case side_north:
-                        if (can_move(l, h, b->pos.x, b->pos.y-1))
+                        if (can_move(l, h, c->pos.x, c->pos.y-1))
                                 move_beast(b, 0, -1);
                         break;
                 case side_northeast:
-                        if (can_move(l, h, b->pos.x+1, b->pos.y-1))
+                        if (can_move(l, h, c->pos.x+1, c->pos.y-1))
                                 move_beast(b, 1, -1);
                         break;
                 case side_east:
-                        if (can_move(l, h, b->pos.x+1, b->pos.y))
+                        if (can_move(l, h, c->pos.x+1, c->pos.y))
                                 move_beast(b, 1, 0);
                         break;
                 case side_southeast:
-                        if (can_move(l, h, b->pos.x+1, b->pos.y+1))
+                        if (can_move(l, h, c->pos.x+1, c->pos.y+1))
                                 move_beast(b, 1, 1);
                         break;
                 case side_south:
-                        if (can_move(l, h, b->pos.x, b->pos.y+1))
+                        if (can_move(l, h, c->pos.x, c->pos.y+1))
                                 move_beast(b, 0, 1);
                         break;
                 case side_southwest:
-                        if (can_move(l, h, b->pos.x-1, b->pos.y+1))
+                        if (can_move(l, h, c->pos.x-1, c->pos.y+1))
                                 move_beast(b, -1, 1);
                         break;
                 case side_west:
-                        if (can_move(l, h, b->pos.x-1, b->pos.y))
+                        if (can_move(l, h, c->pos.x-1, c->pos.y))
                                 move_beast(b, -1, 0);
                         break;
                 }
         }
-}
-
-void show_beast(const struct beast *b)
-{
-        for ( ; b; b = b->next)
-                mvwaddch(gamew, b->pos.y, b->pos.x, b->symb);
 }

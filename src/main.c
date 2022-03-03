@@ -23,7 +23,7 @@ static void end_game()
         end_curses();
 }
 
-static void play_game(struct level *l, struct hunter *h)
+static void play_game(struct level *l, struct creature *h)
 {
         int c, again = 0;
         /* show msgs */
@@ -40,7 +40,7 @@ static void play_game(struct level *l, struct hunter *h)
 
 int main()
 {
-        struct hunter h;
+        struct creature h;
         struct level l;
         init_game();
         for (;;) {

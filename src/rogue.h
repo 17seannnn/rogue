@@ -54,11 +54,16 @@ struct door {
         struct door *next;
 };
 
-/* beast */
-struct beast {
+/* creature */
+struct creature {
         int symb;
         struct coord pos;
         int hp, dmg, fov;
+};
+
+/* beast */
+struct beast {
+        struct creature c;
         struct beast *next;
 };
 
@@ -70,13 +75,6 @@ struct level {
         struct path *p;
         struct door *d;
         struct beast *b;
-};
-
-/* hunter */
-struct hunter {
-        int symb;
-        struct coord pos;
-        int hp, dmg;
 };
 
 /* curses */
@@ -107,31 +105,32 @@ void free_path(struct path *p);
 void free_door(struct door *d);
 void show_path(const struct path *p);
 
+/* creature */
+void show_creature(const struct creature *c);
+
 /* beast */
 int is_beast(const struct beast *b, int x, int y);
-void init_beast(struct level *l, const struct hunter *h);
+void init_beast(struct level *l, const struct creature *h);
 void free_beast(struct beast *b);
-void handle_beast(struct level *l, struct hunter *h);
-void show_beast(const struct beast *b);
+void handle_beast(struct level *l, struct creature *h);
 
 /* level */
 int is_ok(int x, int y);
 int is_empty(const struct level *l, int x, int y);
-int can_move(const struct level *l, const struct hunter *h, int x, int y);
-void init_level(struct level *l, struct hunter *h);
+int can_move(const struct level *l, const struct creature *h, int x, int y);
+void init_level(struct level *l, struct creature *h);
 void end_level(struct level *l);
 void show_points(const struct coord start, const struct coord end);
 
 /* hunter */
-int is_hunter(const struct hunter *h, int x, int y);
-void init_hunter(struct hunter *h, struct level *l);
-void show_hunter(const struct hunter *h);
-void show_info(const struct hunter *h);
+int is_hunter(const struct creature *h, int x, int y);
+void init_hunter(struct creature *h, struct level *l);
+void show_info(const struct creature *h);
 
 /* fov */
-void handle_fov(const struct level *l, const struct hunter *h);
+void handle_fov(const struct level *l, const struct creature *h);
 
 /* cmd */
-int do_cmd(int c, struct hunter *h, struct level *l);
+int do_cmd(int c, struct creature *h, struct level *l);
 
 #endif

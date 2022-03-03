@@ -2,13 +2,13 @@
 
 #include "rogue.h"
 
-static void do_move(struct hunter *h, int dx, int dy)
+static void do_move(struct creature *h, int dx, int dy)
 {
         h->pos.x += dx;
         h->pos.y += dy;
 }
 
-int do_cmd(int c, struct hunter *h, struct level *l)
+int do_cmd(int c, struct creature *h, struct level *l)
 {
         switch (c) {
         case 'h':

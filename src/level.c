@@ -15,7 +15,7 @@ int is_empty(const struct level *l, int x, int y)
                !is_path(l->p, x, y) && !is_door(l->d, x, y);
 }
 
-int can_move(const struct level *l, const struct hunter *h, int x, int y)
+int can_move(const struct level *l, const struct creature *h, int x, int y)
 {
         return !is_hunter(h, x, y) && !is_beast(l->b, x, y) &&
                ((is_room(l->r, x, y) && (!is_wall(l->r, x, y) ||
@@ -46,7 +46,7 @@ static void init_points(struct level *l)
         l->end.y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
 }
 
-void init_level(struct level *l, struct hunter *h)
+void init_level(struct level *l, struct creature *h)
 {
         l->depth = init_room(&l->r);
         init_path(l);
