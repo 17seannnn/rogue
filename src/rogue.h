@@ -87,6 +87,14 @@ struct level {
         struct beast *b;
 };
 
+/* msg */
+struct message {
+        char text[msgw_col];
+        struct message *next;
+};
+
+extern struct message *msg;
+
 /* curses */
 extern WINDOW *msgw, *gamew, *infow;
 
@@ -121,6 +129,11 @@ int search_creature(const struct creature *c1, const struct creature *c2);
 int move_creature(const struct level *l, const struct creature *h,
                   struct creature *c, int side);
 
+/* hunter */
+int is_hunter(const struct creature *h, int x, int y);
+void init_hunter(struct creature *h, struct level *l);
+void show_info(const struct creature *h);
+
 /* beast */
 int is_beast(const struct beast *b, int x, int y);
 void init_beast(struct level *l, const struct creature *h);
@@ -138,10 +151,9 @@ void init_level(struct level *l, struct creature *h);
 void end_level(struct level *l);
 void show_points(const struct coord start, const struct coord end);
 
-/* hunter */
-int is_hunter(const struct creature *h, int x, int y);
-void init_hunter(struct creature *h, struct level *l);
-void show_info(const struct creature *h);
+/* msg */
+void add_msg(const char *text);
+void handle_msg();
 
 /* fov */
 void handle_fov(const struct level *l, const struct creature *h);
