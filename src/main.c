@@ -32,6 +32,8 @@ static void play_game(struct level *l, struct creature *h)
         while (again || (c = wgetch(gamew)) != 27) {
                 again = do_cmd(c, h, l);
                 handle_beast(l, h);
+                if (again)
+                        continue;
                 handle_fov(l, h);
                 show_info(h);
                 handle_msg();
