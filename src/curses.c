@@ -27,3 +27,11 @@ void end_curses()
 {
         endwin();
 }
+
+void wait_ch(int c)
+{
+        int t;
+        do
+                t = wgetch(gamew);
+        while (t != c);
+}

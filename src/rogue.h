@@ -104,6 +104,7 @@ int abs_int(int i);
 /* curses */
 void init_curses();
 void end_curses();
+void wait_ch();
 
 /* room */
 int room_len(const struct room *r, char dir);

@@ -38,7 +38,7 @@ static int show_msg(const char *text, int start_x)
 
 void handle_msg()
 {
-        int c, x;
+        int x;
         wclear(msgw);
         wrefresh(msgw);
         if (!msg)
@@ -49,18 +49,14 @@ void handle_msg()
                 return;
         if (x + strlen(msg->text)+1 + strlen(msg_more_text) >= msgw_col) {
                 show_msg(msg_more_text, x);
-                do
-                        c = wgetch(msgw);
-                while (c != ' ');
+                wait_ch(' ');
                 handle_msg();
         } else {
                 x = show_msg(msg->text, x);
                 del_msg(msg);
                 if (msg) {
                         show_msg(msg_more_text, x);
-                        do
-                                c = wgetch(msgw);
-                        while (c != ' ');
+                        wait_ch(' ');
                         handle_msg();
                 }
         }
