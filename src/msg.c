@@ -38,26 +38,22 @@ static int show_msg(const char *text, int start_x)
 
 void handle_msg()
 {
-        int x;
+        int first = 1, x = 0;
         wclear(msgw);
         wrefresh(msgw);
-        if (!msg)
-                return;
-        x = show_msg(msg->text, 0);
-        del_msg(msg);
-        if (!msg)
-                return;
-        if (x + strlen(msg->text)+1 + strlen(msg_more_text) >= msgw_col) {
-                show_msg(msg_more_text, x);
-                wait_ch(' ');
-                handle_msg();
-        } else {
-                x = show_msg(msg->text, x);
-                del_msg(msg);
-                if (msg) {
+        while (msg) {
+                if (first || x + strlen(msg->text)+1 +
+                             strlen(msg_more_text) <= msgw_col) {
+                        x = show_msg(msg->text, x);
+                        del_msg(msg);
+                        if (first)
+                                first = 0;
+                } else {
                         show_msg(msg_more_text, x);
                         wait_ch(' ');
-                        handle_msg();
+                        x = 0;
+                        wclear(msgw);
+                        wrefresh(msgw);
                 }
         }
 }
