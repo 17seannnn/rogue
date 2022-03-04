@@ -154,6 +154,7 @@ void show_points(const struct coord start, const struct coord end);
 
 /* msg */
 void add_msg(const char *text);
+void append_msg(const char *text);
 void handle_msg();
 
 /* fov */

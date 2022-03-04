@@ -29,16 +29,6 @@ static void play_game(struct level *l, struct creature *h)
         handle_fov(l, h);
         show_info(h);
         handle_msg();
-        add_msg("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        add_msg("1 Something...");
-        add_msg("2 Something...");
-        add_msg("3 Something...");
-        add_msg("2 Something...");
-        add_msg("2 Something...");
-        add_msg("2 Something...");
-        add_msg("2 Something...");
-        add_msg("2 Something...");
-        add_msg("2 Something...");
         while (again || (c = wgetch(gamew)) != 27) {
                 again = do_cmd(c, h, l);
                 handle_beast(l, h);
