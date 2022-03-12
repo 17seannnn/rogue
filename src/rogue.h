@@ -83,7 +83,7 @@ struct loot {
 };
 
 struct loot_list {
-        int x, y;
+        struct coord pos;
         const struct loot *l;
         struct loot_list *next;
 };
@@ -158,6 +158,8 @@ void show_path(const struct path *p);
 /* loot */
 void init_loot(struct level *l, const struct creature *h);
 void show_loot(struct loot_list *l);
+struct loot_list *get_loot_by_coord(struct loot_list *l, int x, int y);
+void try_loot(struct level *l, struct creature *h, int side);
 
 /* inv */
 void show_inv(struct loot_list *inv);
