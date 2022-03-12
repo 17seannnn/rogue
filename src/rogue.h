@@ -82,10 +82,10 @@ struct loot {
         int hp;  /* armor/poition */
 };
 
-/* inv */
-struct inventory {
+struct loot_list {
+        int x, y;
         const struct loot *l;
-        struct inventory *next;
+        struct loot_list *next;
 };
 
 /* creature */
@@ -95,7 +95,7 @@ struct creature {
         struct coord pos;
         int hp, dmg, fov;
         const struct loot *weapon;
-        struct inventory *inv;
+        struct loot_list *inv;
 };
 
 /* beast */
@@ -112,6 +112,7 @@ struct level {
         struct path *p;
         struct door *d;
         struct beast *b;
+        struct loot_list *l;
 };
 
 /* msg */
@@ -154,8 +155,11 @@ void free_path(struct path *p);
 void free_door(struct door *d);
 void show_path(const struct path *p);
 
+/* loot */
+void init_loot(struct level *l, const struct creature *h);
+
 /* inv */
-void show_inv(struct inventory *inv);
+void show_inv(struct loot_list *inv);
 
 /* creature */
 void show_creature(const struct creature *c);

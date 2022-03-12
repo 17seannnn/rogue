@@ -117,7 +117,7 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 1;
         case 'i':
                 show_inv(h->inv);
-                /* redraw screen */
+                /* TODO redraw_screen() */
                 return 0;
         default:
                 return 0;

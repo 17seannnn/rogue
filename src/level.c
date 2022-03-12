@@ -126,6 +126,7 @@ void init_level(struct level *l, struct creature *h)
         init_points(l);
         init_hunter(h, l);
         init_beast(l, h);
+        init_loot(l, h);
 }
 
 void end_level(struct level *l)

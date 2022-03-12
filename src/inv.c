@@ -2,10 +2,10 @@
 
 #include "rogue.h"
 
-void show_inv(struct inventory *inv)
+void show_inv(struct loot_list *inv)
 {
         int y = 0, x = 0;
-        struct inventory *t;
+        struct loot_list *t;
         wclear(invw);
         mvwprintw(invw, y, x, "Weapons");
         for (t = inv; t; t = t->next, y++)
