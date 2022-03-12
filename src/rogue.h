@@ -79,6 +79,12 @@ struct loot {
         int hp;  /* armor/poition */
 };
 
+/* inv */
+struct inventory {
+        const struct loot *l;
+        struct inventory *next;
+};
+
 /* creature */
 struct creature {
         int cast;
@@ -86,6 +92,7 @@ struct creature {
         struct coord pos;
         int hp, dmg, fov;
         const struct loot *weapon;
+        struct inventory *inv;
 };
 
 /* beast */
