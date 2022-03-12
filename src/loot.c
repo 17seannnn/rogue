@@ -4,6 +4,10 @@
 
 #include "rogue.h"
 
+enum {
+        loot_symb = ':'
+};
+
 const struct loot weapon_list[] = {
         { "Debug weapon", type_weapon, 1, 0 }
 };
@@ -31,4 +35,10 @@ void init_loot(struct level *l, const struct creature *h)
                                 add_loot(&l->l, r->tl.x+1, r->tl.y+2);
                 }
         }
+}
+
+void show_loot(struct loot_list *l)
+{
+        for ( ; l; l = l->next)
+                mvwaddch(gamew, l->y, l->x, loot_symb);
 }

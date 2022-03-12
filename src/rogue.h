@@ -157,6 +157,7 @@ void show_path(const struct path *p);
 
 /* loot */
 void init_loot(struct level *l, const struct creature *h);
+void show_loot(struct loot_list *l);
 
 /* inv */
 void show_inv(struct loot_list *inv);

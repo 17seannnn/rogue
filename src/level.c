@@ -124,9 +124,9 @@ void init_level(struct level *l, struct creature *h)
         l->depth = init_room(&l->r);
         init_path(l);
         init_points(l);
+        init_loot(l, h);
         init_hunter(h, l);
         init_beast(l, h);
-        init_loot(l, h);
 }
 
 void end_level(struct level *l)
