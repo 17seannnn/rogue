@@ -2,4 +2,4 @@
 
 #include "rogue.h"
 
-const struct loot weapon_list[] = { { type_weapon, 1, 0 } };
+const struct loot weapon_list[] = { { "Debug weapon", type_weapon, 1, 0 } };

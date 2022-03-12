@@ -115,6 +115,10 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 if (!res || is_door(l->d, h->pos.x, h->pos.y))
                         return 0;
                 return 1;
+        case 'i':
+                show_inv(h->inv);
+                /* redraw screen */
+                return 0;
         default:
                 return 0;
         }

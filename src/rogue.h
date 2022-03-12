@@ -17,7 +17,9 @@ enum {
         gamew_col = 80,
         gamew_row = 22,
         infow_col = 80,
-        infow_row = 1
+        infow_row = 1,
+        invw_col  = gamew_col / 2,
+        invw_row  = gamew_row
 };
 
 /* common */
@@ -74,6 +76,7 @@ struct door {
 
 /* loot */
 struct loot {
+        const char *name;
         int type;
         int dmg; /* weapon */
         int hp;  /* armor/poition */
@@ -120,7 +123,7 @@ struct message {
 extern struct message *msg;
 
 /* curses */
-extern WINDOW *msgw, *gamew, *infow;
+extern WINDOW *msgw, *gamew, *infow, *invw;
 
 /* loot */
 extern const struct loot weapon_list[];
@@ -150,6 +153,9 @@ void init_path(struct level *l);
 void free_path(struct path *p);
 void free_door(struct door *d);
 void show_path(const struct path *p);
+
+/* inv */
+void show_inv(struct inventory *inv);
 
 /* creature */
 void show_creature(const struct creature *c);
