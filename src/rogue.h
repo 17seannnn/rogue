@@ -65,10 +65,10 @@ struct door {
 
 /* creature */
 struct creature {
+        int cast;
         int symb;
         struct coord pos;
         int hp, dmg, fov;
-        int cast;
 };
 
 /* beast */

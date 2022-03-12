@@ -8,13 +8,13 @@ static void add_beast(struct beast **b, int x, int y)
 {
         struct beast *t;
         t = malloc(sizeof(*t));
+        t->c.cast = cast_beast;
         t->c.symb = 'B';
         t->c.pos.x = x;
         t->c.pos.y = y;
         t->c.hp = 10;
         t->c.dmg = 1;
         t->c.fov = 5;
-        t->c.cast = cast_beast;
         t->next = *b;
         *b = t;
 }
