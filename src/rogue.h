@@ -32,6 +32,15 @@ enum {
         side_west
 };
 
+/* loot */
+enum {
+        type_weapon = 0,
+        type_armor,
+        type_poition,
+
+        weapon_debug = 0
+};
+
 /* creature */
 enum {
         cast_hunter = 0,
@@ -63,12 +72,20 @@ struct door {
         struct door *next;
 };
 
+/* loot */
+struct loot {
+        int type;
+        int dmg; /* weapon */
+        int hp;  /* armor/poition */
+};
+
 /* creature */
 struct creature {
         int cast;
         int symb;
         struct coord pos;
         int hp, dmg, fov;
+        const struct loot *weapon;
 };
 
 /* beast */
@@ -97,6 +114,9 @@ extern struct message *msg;
 
 /* curses */
 extern WINDOW *msgw, *gamew, *infow;
+
+/* loot */
+extern const struct loot weapon_list[];
 
 /* math */
 int abs_int(int i);

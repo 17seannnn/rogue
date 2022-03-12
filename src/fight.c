@@ -12,7 +12,9 @@ static const char *msg_hit[] = {
 
 int attack(const struct creature *a, struct creature *d)
 {
-        d->hp -= a->dmg;
+        int dmg;
+        dmg = a->weapon ? a->weapon->dmg + a->dmg : a->dmg;
+        d->hp -= dmg;
         if (a->cast == cast_hunter) {
                 add_msg("You");
                 append_msg(msg_hit[rand() % 3]);
