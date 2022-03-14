@@ -33,6 +33,7 @@ void init_beast(struct level *l, const struct creature *h)
 {
         int ch, no;
         struct room *r;
+        l->b = NULL;
         for (ch = 'A'; ch <= 'D'; ch++) {
                 for (no = 1; no <= 4; no++) {
                         r = get_room_by_idx(l->r, ch, no);
