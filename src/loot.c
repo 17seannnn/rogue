@@ -12,6 +12,8 @@ const struct loot weapon_list[] = {
         { "Debug weapon", type_weapon, 1, 0 }
 };
 
+static const char msg_pickup[] = "You picked up ";
+
 static void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
 {
         struct loot_list *t;
@@ -77,4 +79,7 @@ void try_loot(struct level *l, struct creature *h, int side)
                 return;
         add_loot(&h->inv, ll->l, 0, 0);
         del_loot(&l->l, ll);
+        add_msg(msg_pickup);
+        append_msg(h->inv->l->name);
+        append_msg(".");
 }
