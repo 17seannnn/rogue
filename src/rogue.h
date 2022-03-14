@@ -39,6 +39,7 @@ enum {
         type_weapon = 0,
         type_armor,
         type_poition,
+        type_key,
 
         weapon_debug = 0
 };

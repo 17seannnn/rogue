@@ -34,6 +34,16 @@ void show_inv(struct loot_list *inv)
                         y++;
                 }
         }
+        wattrset(invw, A_REVERSE);
+        mvwprintw(invw, y, x, "Key");
+        wattrset(invw, A_NORMAL);
+        for (y++, t = inv; t; t = t->next) {
+                if (t->l->type == type_key) {
+                        mvwprintw(invw, y, x, t->l->name);
+                        y++;
+                        break;
+                }
+        }
         y++;
         wattrset(invw, A_REVERSE);
         mvwprintw(invw, y, x, "(end)");
