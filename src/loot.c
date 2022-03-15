@@ -14,7 +14,7 @@ const struct loot weapon_list[] = {
 
 static const char msg_pickup[] = "You picked up ";
 
-static void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
+void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
 {
         int idx;
         struct loot_list *t;
@@ -29,7 +29,7 @@ static void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
         *ll = t;
 }
 
-static void del_loot(struct loot_list **l, struct loot_list *del)
+void del_loot(struct loot_list **l, struct loot_list *del)
 {
         for ( ; *l; l = &(*l)->next) {
                 if (*l == del) {

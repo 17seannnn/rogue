@@ -31,7 +31,9 @@ enum {
         side_southeast,
         side_south,
         side_southwest,
-        side_west
+        side_west,
+
+        key_escape = 27
 };
 
 /* loot */
@@ -158,6 +160,8 @@ void free_door(struct door *d);
 void show_path(const struct path *p);
 
 /* loot */
+void add_loot(struct loot_list **ll, const struct loot *l, int x, int y);
+void del_loot(struct loot_list **l, struct loot_list *del);
 void init_loot(struct level *l, const struct creature *h);
 void show_loot(struct loot_list *l);
 struct loot_list *get_loot_by_coord(struct loot_list *l, int x, int y);
@@ -165,6 +169,7 @@ void try_loot(struct level *l, struct creature *h, int side);
 
 /* inv */
 void show_inv(struct loot_list *inv);
+void drop_inv(struct loot_list **ll, struct creature *h);
 
 /* creature */
 void show_creature(const struct creature *c);
