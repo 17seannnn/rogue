@@ -16,12 +16,16 @@ static const char msg_pickup[] = "You picked up ";
 
 static void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
 {
+        int idx;
         struct loot_list *t;
         t = malloc(sizeof(*t));
         t->pos.x = x;
         t->pos.y = y;
         t->l = l;
-        t->next = *ll;
+        for (idx = 'a'; *ll; ll = &(*ll)->next, idx++)
+                {}
+        t->idx = idx;
+        t->next = NULL;
         *ll = t;
 }
 

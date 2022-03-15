@@ -12,7 +12,7 @@ void show_inv(struct loot_list *inv)
         wattrset(invw, A_NORMAL);
         for (y++, t = inv; t; t = t->next) {
                 if (t->l->type == type_weapon) {
-                        mvwprintw(invw, y, x, t->l->name);
+                        mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
                         y++;
                 }
         }
@@ -21,7 +21,7 @@ void show_inv(struct loot_list *inv)
         wattrset(invw, A_NORMAL);
         for (y++, t = inv; t; t = t->next) {
                 if (t->l->type == type_armor) {
-                        mvwprintw(invw, y, x, t->l->name);
+                        mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
                         y++;
                 }
         }
@@ -30,7 +30,7 @@ void show_inv(struct loot_list *inv)
         wattrset(invw, A_NORMAL);
         for (y++, t = inv; t; t = t->next) {
                 if (t->l->type == type_poition) {
-                        mvwprintw(invw, y, x, t->l->name);
+                        mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
                         y++;
                 }
         }
@@ -39,7 +39,7 @@ void show_inv(struct loot_list *inv)
         wattrset(invw, A_NORMAL);
         for (y++, t = inv; t; t = t->next) {
                 if (t->l->type == type_key) {
-                        mvwprintw(invw, y, x, t->l->name);
+                        mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
                         y++;
                         break;
                 }

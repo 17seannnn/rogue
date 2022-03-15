@@ -84,6 +84,7 @@ struct loot {
 };
 
 struct loot_list {
+        int idx;
         struct coord pos;
         const struct loot *l;
         struct loot_list *next;
