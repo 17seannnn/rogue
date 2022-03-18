@@ -68,12 +68,14 @@ void drop_inv(struct loot_list **ll, struct creature *h)
                 handle_msg();
                 idx = wgetch(gamew);
                 switch (idx) {
-                case '*':
-                        show_inv(h->inv);
-                        break;
                 case key_escape:
                         add_msg("Never mind.");
                         return;
+                case '*':
+                        add_msg("You are checking inventory...");
+                        handle_msg();
+                        show_inv(h->inv);
+                        break;
                 default:
                         got = 1;
                         break;
