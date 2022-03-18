@@ -135,7 +135,7 @@ void wield(struct creature *h)
         }
         for (t = h->inv; t && t->idx != idx; t = t->next)
                 {}
-        if (!t) {
+        if (!t || t->l->type != type_weapon) {
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);

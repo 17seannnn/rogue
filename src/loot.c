@@ -12,6 +12,10 @@ const struct loot weapon_list[] = {
         { "Debug weapon", type_weapon, 1, 0 }
 };
 
+const struct loot armor_list[] = {
+        { "Debug armor", type_armor, 0, 5 }
+};
+
 static const char msg_pickup[] = "You picked up ";
 
 void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
@@ -61,7 +65,7 @@ void init_loot(struct level *l, const struct creature *h)
                 for (no = 1; no <= 4; no++) {
                         r = get_room_by_idx(l->r, ch, no);
                         if (r)
-                                add_loot(&l->l, &weapon_list[weapon_debug],
+                                add_loot(&l->l, &armor_list[armor_debug],
                                          r->tl.x+1, r->tl.y+2);
                 }
         }

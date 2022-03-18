@@ -23,6 +23,7 @@ void init_hunter(struct creature *h, struct level *l)
         h->dmg = 1;
         h->fov = 0;
         h->weapon = NULL;
+        h->armor = NULL;
         h->inv = NULL;
 }
 

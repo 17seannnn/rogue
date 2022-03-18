@@ -43,7 +43,9 @@ enum {
         type_poition,
         type_key,
 
-        weapon_debug = 0
+        weapon_debug = 0,
+
+        armor_debug = 0
 };
 
 /* creature */
