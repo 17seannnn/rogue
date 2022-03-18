@@ -141,6 +141,9 @@ int do_cmd(int c, struct creature *h, struct level *l)
         case 'w':
                 wield(h);
                 return 0;
+        case 'W':
+                wear(h);
+                return 0;
         default:
                 return 0;
         }

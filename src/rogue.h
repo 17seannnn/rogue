@@ -173,6 +173,7 @@ void try_loot(struct level *l, struct creature *h, int side);
 void show_inv(struct creature *h);
 void drop(struct loot_list **ll, struct creature *h);
 void wield(struct creature *h);
+void wear(struct creature *h);
 
 /* creature */
 void show_creature(const struct creature *c);
