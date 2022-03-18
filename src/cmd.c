@@ -133,7 +133,7 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 return 1;
         case 'i':
         case '*':
-                show_inv(h->inv);
+                show_inv(h);
                 return 0;
         case 'd':
                 drop(&l->l, h);

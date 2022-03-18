@@ -2,7 +2,7 @@
 
 #include "rogue.h"
 
-void show_inv(struct loot_list *inv)
+void show_inv(struct creature *h)
 {
         int y = 0, x = 0;
         struct loot_list *t;
@@ -10,25 +10,29 @@ void show_inv(struct loot_list *inv)
         wattrset(invw, A_REVERSE);
         mvwprintw(invw, y, x, "Weapons");
         wattrset(invw, A_NORMAL);
-        for (y++, t = inv; t; t = t->next) {
+        for (y++, t = h->inv; t; t = t->next) {
                 if (t->l->type == type_weapon) {
-                        mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
+                        mvwprintw(invw, y, x, "%c - %s %s",
+                                  t->idx, t->l->name,
+                                  h->weapon == t ? "(being worn)" : "");
                         y++;
                 }
         }
         wattrset(invw, A_REVERSE);
         mvwprintw(invw, y, x, "Armor");
         wattrset(invw, A_NORMAL);
-        for (y++, t = inv; t; t = t->next) {
+        for (y++, t = h->inv; t; t = t->next) {
                 if (t->l->type == type_armor) {
-                        mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
+                        mvwprintw(invw, y, x, "%c - %s %s",
+                                  t->idx, t->l->name,
+                                  h->armor == t ? "(being worn)" : "");
                         y++;
                 }
         }
         wattrset(invw, A_REVERSE);
         mvwprintw(invw, y, x, "Poitions");
         wattrset(invw, A_NORMAL);
-        for (y++, t = inv; t; t = t->next) {
+        for (y++, t = h->inv; t; t = t->next) {
                 if (t->l->type == type_poition) {
                         mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
                         y++;
@@ -37,7 +41,7 @@ void show_inv(struct loot_list *inv)
         wattrset(invw, A_REVERSE);
         mvwprintw(invw, y, x, "Key");
         wattrset(invw, A_NORMAL);
-        for (y++, t = inv; t; t = t->next) {
+        for (y++, t = h->inv; t; t = t->next) {
                 if (t->l->type == type_key) {
                         mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
                         y++;
@@ -74,7 +78,7 @@ void drop(struct loot_list **ll, struct creature *h)
                 case '*':
                         add_msg("You are checking inventory...");
                         handle_msg();
-                        show_inv(h->inv);
+                        show_inv(h);
                         break;
                 default:
                         got = 1;
@@ -122,7 +126,7 @@ void wield(struct creature *h)
                 case '*':
                         add_msg("You are checking inventory...");
                         handle_msg();
-                        show_inv(h->inv);
+                        show_inv(h);
                         break;
                 default:
                         got = 1;

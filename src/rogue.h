@@ -98,7 +98,7 @@ struct creature {
         int symb;
         struct coord pos;
         int hp, dmg, fov;
-        const struct loot_list *weapon;
+        const struct loot_list *weapon, *armor;
         struct loot_list *inv;
 };
 
@@ -168,7 +168,7 @@ struct loot_list *get_loot_by_coord(struct loot_list *l, int x, int y);
 void try_loot(struct level *l, struct creature *h, int side);
 
 /* inv */
-void show_inv(struct loot_list *inv);
+void show_inv(struct creature *h);
 void drop(struct loot_list **ll, struct creature *h);
 void wield(struct creature *h);
 
