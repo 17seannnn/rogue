@@ -53,7 +53,7 @@ void show_inv(struct loot_list *inv)
         /* TODO redraw screen */
 }
 
-void drop_inv(struct loot_list **ll, struct creature *h)
+void drop(struct loot_list **ll, struct creature *h)
 {
         int idx, got;
         char buf[] = " ";
@@ -87,12 +87,59 @@ void drop_inv(struct loot_list **ll, struct creature *h)
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);
-                append_msg("' can`t be dropped.");
+                append_msg("' can't be dropped.");
                 return;
         }
         add_msg("You dropped ");
         append_msg(t->l->name);
         append_msg(".");
+        if (h->weapon == t)
+                h->weapon = NULL;
         add_loot(ll, t->l, h->pos.x, h->pos.y);
         del_loot(&h->inv, t);
+}
+
+void wield(struct creature *h)
+{
+        int idx, got;
+        char buf[] = " ";
+        struct loot_list *t;
+        for (got = 0; !got; ) {
+                add_msg("What do you want to wield? [");
+                for (t = h->inv; t; t = t->next) {
+                        if (t->l->type == type_weapon) {
+                                buf[0] = t->idx;
+                                append_msg(buf);
+                        }
+                }
+                append_msg(" or *]");
+                handle_msg();
+                idx = wgetch(gamew);
+                switch (idx) {
+                case key_escape:
+                        add_msg("Never mind.");
+                        return;
+                case '*':
+                        add_msg("You are checking inventory...");
+                        handle_msg();
+                        show_inv(h->inv);
+                        break;
+                default:
+                        got = 1;
+                        break;
+                }
+        }
+        for (t = h->inv; t && t->idx != idx; t = t->next)
+                {}
+        if (!t) {
+                add_msg("'");
+                buf[0] = idx;
+                append_msg(buf);
+                append_msg("' can't be wielded.");
+                return;
+        }
+        add_msg("You wield ");
+        append_msg(t->l->name);
+        append_msg(".");
+        h->weapon = t;
 }

@@ -22,7 +22,7 @@ void init_hunter(struct creature *h, struct level *l)
         h->hp = 10;
         h->dmg = 1;
         h->fov = 0;
-        h->weapon = &weapon_list[weapon_debug];
+        h->weapon = NULL;
         h->inv = NULL;
 }
 

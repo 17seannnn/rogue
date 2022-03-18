@@ -136,7 +136,10 @@ int do_cmd(int c, struct creature *h, struct level *l)
                 show_inv(h->inv);
                 return 0;
         case 'd':
-                drop_inv(&l->l, h);
+                drop(&l->l, h);
+                return 0;
+        case 'w':
+                wield(h);
                 return 0;
         default:
                 return 0;
