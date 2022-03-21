@@ -105,9 +105,9 @@ void try_loot(struct level *l, struct creature *h, int side)
         ll = get_loot_by_coord(l->l, x, y);
         if (!ll)
                 return;
+        add_msg(msg_pickup);
+        append_msg(ll->l->name);
+        append_msg(".");
         add_loot(&h->inv, ll->l, 0, 0);
         del_loot(&l->l, ll);
-        add_msg(msg_pickup);
-        append_msg(h->inv->l->name);
-        append_msg(".");
 }
