@@ -195,3 +195,51 @@ void wear(struct creature *h)
         append_msg(".");
         h->armor = t;
 }
+
+void quaff(struct creature *h)
+{
+        int idx, got;
+        char buf[] = " ";
+        struct loot_list *t;
+        for (got = 0; !got; ) {
+                add_msg("What do you want to quaff? [");
+                for (t = h->inv; t; t = t->next) {
+                        if (t->l->type == type_poition) {
+                                buf[0] = t->idx;
+                                append_msg(buf);
+                        }
+                }
+                append_msg(" or *]");
+                handle_msg();
+                idx = wgetch(gamew);
+                switch (idx) {
+                case key_escape:
+                        add_msg("Never mind.");
+                        return;
+                case '*':
+                        add_msg("You are checking inventory...");
+                        handle_msg();
+                        show_inv(h);
+                        break;
+                default:
+                        got = 1;
+                        break;
+                }
+        }
+        for (t = h->inv; t && t->idx != idx; t = t->next)
+                {}
+        if (!t || t->l->type != type_poition) {
+                add_msg("'");
+                buf[0] = idx;
+                append_msg(buf);
+                append_msg("' can't be quaffed.");
+                return;
+        }
+        add_msg("You quaffed ");
+        append_msg(t->l->name);
+        append_msg(".");
+        h->hp += t->l->hp;
+        if (h->hp > 100)
+                h->hp = 100;
+        del_loot(&h->inv, t);
+}

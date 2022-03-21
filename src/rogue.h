@@ -45,7 +45,9 @@ enum {
 
         weapon_debug = 0,
 
-        armor_debug = 0
+        armor_debug = 0,
+
+        poition_debug = 0
 };
 
 /* creature */
@@ -134,6 +136,8 @@ extern WINDOW *msgw, *gamew, *infow, *invw;
 
 /* loot */
 extern const struct loot weapon_list[];
+extern const struct loot armor_list[];
+extern const struct loot poition_list[];
 
 /* math */
 int abs_int(int i);
@@ -174,6 +178,7 @@ void show_inv(struct creature *h);
 void drop(struct loot_list **ll, struct creature *h);
 void wield(struct creature *h);
 void wear(struct creature *h);
+void quaff(struct creature *h);
 
 /* creature */
 void show_creature(const struct creature *c);
