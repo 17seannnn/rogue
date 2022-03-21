@@ -39,10 +39,10 @@ void show_inv(struct creature *h)
                 }
         }
         wattrset(invw, A_REVERSE);
-        mvwprintw(invw, y, x, "Key");
+        mvwprintw(invw, y, x, "Keys");
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
-                if (t->l->type == type_key) {
+                if (t->l->type == type_key_level) {
                         mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
                         y++;
                         break;

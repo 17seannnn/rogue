@@ -41,13 +41,15 @@ enum {
         type_weapon = 0,
         type_armor,
         type_poition,
-        type_key,
+        type_key_level,
 
         weapon_debug = 0,
 
         armor_debug = 0,
 
-        poition_debug = 0
+        poition_debug = 0,
+
+        key_debug = 0
 };
 
 /* creature */
@@ -84,9 +86,9 @@ struct door {
 /* loot */
 struct loot {
         const char *name;
-        int type;
-        int dmg; /* weapon */
-        int hp;  /* armor/poition */
+        int type;  /* w/a/p/k */
+        int dmg;   /* weapon */
+        int hp;    /* armor/poition */
 };
 
 struct loot_list {
@@ -138,6 +140,7 @@ extern WINDOW *msgw, *gamew, *infow, *invw;
 extern const struct loot weapon_list[];
 extern const struct loot armor_list[];
 extern const struct loot poition_list[];
+extern const struct loot key_list[];
 
 /* math */
 int abs_int(int i);

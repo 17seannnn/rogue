@@ -11,13 +11,14 @@ enum {
 const struct loot weapon_list[] = {
         { "Debug weapon", type_weapon, 1, 0 }
 };
-
 const struct loot armor_list[] = {
         { "Debug armor", type_armor, 0, 5 }
 };
-
 const struct loot poition_list[] = {
         { "Debug poition", type_poition, 0, 50 }
+};
+const struct loot key_list[] = {
+        { "Debug level key", type_key_level, 0, 0 }
 };
 
 static const char msg_pickup[] = "You picked up ";
@@ -68,7 +69,10 @@ void init_loot(struct level *l, const struct creature *h)
         for (ch = 'A'; ch <= 'D'; ch++) {
                 for (no = 1; no <= 4; no++) {
                         r = get_room_by_idx(l->r, ch, no);
-                        if (r)
+                        if (r && no == 1)
+                                add_loot(&l->l, &key_list[poition_debug],
+                                         r->tl.x+1, r->tl.y+2);
+                        else if (r)
                                 add_loot(&l->l, &poition_list[poition_debug],
                                          r->tl.x+1, r->tl.y+2);
                 }
