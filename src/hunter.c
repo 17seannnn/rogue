@@ -15,19 +15,20 @@ int is_hunter(const struct creature *h, int x, int y)
 
 void init_hunter(struct creature *h, struct level *l)
 {
-        h->cast = cast_hunter;
-        h->symb = hunter_symb;
-        h->pos.x = l->start.x;
-        h->pos.y = l->start.y;
-        h->hp = 10;
-        h->dmg = 1;
-        h->fov = 0;
-        h->blood = 0;
-        h->exp = 0;
-        h->level = 0;
+        h->flags  = 0;
+        h->cast   = cast_hunter;
+        h->symb   = hunter_symb;
+        h->pos.x  = l->start.x;
+        h->pos.y  = l->start.y;
+        h->hp     = 10;
+        h->dmg    = 1;
+        h->fov    = 0;
+        h->blood  = 0;
+        h->exp    = 0;
+        h->level  = 0;
         h->weapon = NULL;
-        h->armor = NULL;
-        h->inv = NULL;
+        h->armor  = NULL;
+        h->inv    = NULL;
 }
 
 void show_info(const struct creature *h)

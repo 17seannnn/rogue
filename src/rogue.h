@@ -61,6 +61,8 @@ enum {
 
 /* creature */
 enum {
+        saw_hunter = 0x0001,
+
         cast_hunter = 0,
         cast_beast
 };
@@ -105,10 +107,10 @@ struct loot_list {
 
 /* creature */
 struct creature {
-        int cast;
-        int symb;
+        unsigned int flags;
+        int cast, symb;
         struct coord pos;
-        int hp, dmg, fov;
+        int fov, hp, dmg;
         int blood;
         int exp, level;
         const struct loot_list *weapon, *armor;
