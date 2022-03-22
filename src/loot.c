@@ -21,7 +21,7 @@ const struct loot key_list[] = {
         { "Debug level key", type_key, type_key_level }
 };
 
-static const char msg_pickup[] = "You picked up ";
+static const char msg_picked_up[] = "You picked up ";
 static const char msg_no_space[] = "You have no space in inventory.";
 
 void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
@@ -112,7 +112,7 @@ void try_loot(struct level *l, struct creature *h, int side)
                 add_msg(msg_no_space);
                 return;
         }
-        add_msg(msg_pickup);
+        add_msg(msg_picked_up);
         append_msg(ll->l->name);
         append_msg(".");
         add_loot(&h->inv, ll->l, 0, 0);

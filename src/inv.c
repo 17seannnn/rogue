@@ -2,6 +2,25 @@
 
 #include "rogue.h"
 
+static const char msg_nevermind[] = "Never mind.";
+static const char msg_checking_inv[] = "You are checking inventory...";
+static const char msg_or_inv[] = " or *]";
+
+static const char msg_todrop[] = "What do you want to drop? [";
+static const char msg_dropped[] = "You dropped ";
+static const char msg_not_dropped[] = "' can't be dropped.";
+
+static const char msg_towield[] = "What do you want to wield? [";
+static const char msg_wielding[] = "Now you are wielding ";
+static const char msg_not_worn[] = "' can't be worn.";
+
+static const char msg_towear[] = "What do you want to wear? [";
+static const char msg_wearing[] = "Now you are wearing ";
+
+static const char msg_toquaff[] = "What do you want to quaff? [";
+static const char msg_quaffed[] = "You quaffed  ";
+static const char msg_not_quaffed[] = " can't be quaffed.";
+
 void show_inv(struct creature *h)
 {
         int y = 0, x = 0;
@@ -63,20 +82,20 @@ void drop(struct loot_list **ll, struct creature *h)
         char buf[] = " ";
         struct loot_list *t;
         for (got = 0; !got; ) {
-                add_msg("What do you want to drop? [");
+                add_msg(msg_todrop);
                 for (t = h->inv; t; t = t->next) {
                         buf[0] = t->idx;
                         append_msg(buf);
                 }
-                append_msg(" or *]");
+                append_msg(msg_or_inv);
                 handle_msg();
                 idx = wgetch(gamew);
                 switch (idx) {
                 case key_escape:
-                        add_msg("Never mind.");
+                        add_msg(msg_nevermind);
                         return;
                 case '*':
-                        add_msg("You are checking inventory...");
+                        add_msg(msg_checking_inv);
                         handle_msg();
                         show_inv(h);
                         break;
@@ -91,10 +110,10 @@ void drop(struct loot_list **ll, struct creature *h)
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);
-                append_msg("' can't be dropped.");
+                append_msg(msg_not_dropped);
                 return;
         }
-        add_msg("You dropped ");
+        add_msg(msg_dropped);
         append_msg(t->l->name);
         append_msg(".");
         if (h->weapon == t)
@@ -112,22 +131,22 @@ void wield(struct creature *h)
         char buf[] = " ";
         struct loot_list *t;
         for (got = 0; !got; ) {
-                add_msg("What do you want to wield? [");
+                add_msg(msg_towield);
                 for (t = h->inv; t; t = t->next) {
                         if (t->l->type == type_weapon) {
                                 buf[0] = t->idx;
                                 append_msg(buf);
                         }
                 }
-                append_msg(" or *]");
+                append_msg(msg_or_inv);
                 handle_msg();
                 idx = wgetch(gamew);
                 switch (idx) {
                 case key_escape:
-                        add_msg("Never mind.");
+                        add_msg(msg_nevermind);
                         return;
                 case '*':
-                        add_msg("You are checking inventory...");
+                        add_msg(msg_checking_inv);
                         handle_msg();
                         show_inv(h);
                         break;
@@ -142,10 +161,10 @@ void wield(struct creature *h)
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);
-                append_msg("' can't be wielded.");
+                append_msg(msg_not_worn);
                 return;
         }
-        add_msg("You wield ");
+        add_msg(msg_wielding);
         append_msg(t->l->name);
         append_msg(".");
         h->weapon = t;
@@ -157,22 +176,22 @@ void wear(struct creature *h)
         char buf[] = " ";
         struct loot_list *t;
         for (got = 0; !got; ) {
-                add_msg("What do you want to wear? [");
+                add_msg(msg_towear);
                 for (t = h->inv; t; t = t->next) {
                         if (t->l->type == type_armor) {
                                 buf[0] = t->idx;
                                 append_msg(buf);
                         }
                 }
-                append_msg(" or *]");
+                append_msg(msg_or_inv);
                 handle_msg();
                 idx = wgetch(gamew);
                 switch (idx) {
                 case key_escape:
-                        add_msg("Never mind.");
+                        add_msg(msg_nevermind);
                         return;
                 case '*':
-                        add_msg("You are checking inventory...");
+                        add_msg(msg_checking_inv);
                         handle_msg();
                         show_inv(h);
                         break;
@@ -187,10 +206,10 @@ void wear(struct creature *h)
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);
-                append_msg("' can't be worn.");
+                append_msg(msg_not_worn);
                 return;
         }
-        add_msg("You wear ");
+        add_msg(msg_wearing);
         append_msg(t->l->name);
         append_msg(".");
         h->armor = t;
@@ -202,22 +221,22 @@ void quaff(struct creature *h)
         char buf[] = " ";
         struct loot_list *t;
         for (got = 0; !got; ) {
-                add_msg("What do you want to quaff? [");
+                add_msg(msg_toquaff);
                 for (t = h->inv; t; t = t->next) {
                         if (t->l->type == type_poition) {
                                 buf[0] = t->idx;
                                 append_msg(buf);
                         }
                 }
-                append_msg(" or *]");
+                append_msg(msg_or_inv);
                 handle_msg();
                 idx = wgetch(gamew);
                 switch (idx) {
                 case key_escape:
-                        add_msg("Never mind.");
+                        add_msg(msg_nevermind);
                         return;
                 case '*':
-                        add_msg("You are checking inventory...");
+                        add_msg(msg_checking_inv);
                         handle_msg();
                         show_inv(h);
                         break;
@@ -232,10 +251,10 @@ void quaff(struct creature *h)
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);
-                append_msg("' can't be quaffed.");
+                append_msg(msg_not_quaffed);
                 return;
         }
-        add_msg("You quaffed ");
+        add_msg(msg_quaffed);
         append_msg(t->l->name);
         append_msg(".");
         h->hp += t->l->val;
