@@ -9,7 +9,8 @@ void show_creature(const struct creature *c)
 }
 
 /* TODO move other modules */
-static int is_one_room(const struct room *r, struct coord pos1, struct coord pos2)
+static int is_one_room(const struct room *r, struct coord pos1,
+                                             struct coord pos2)
 {
         if (get_room_by_coord(r, pos1.x, pos1.y) ==
             get_room_by_coord(r, pos2.x, pos2.y))
@@ -17,25 +18,20 @@ static int is_one_room(const struct room *r, struct coord pos1, struct coord pos
         return 0;
 }
 
-static int is_near(struct coord pos1, struct coord pos2)
-{
-        if ((pos1.y == pos2.y && pos2.x >= pos1.x-1 && pos2.x <= pos1.x+1) ||
-            (pos1.x == pos2.x && pos2.y >= pos1.y-1 && pos2.y <= pos1.y+1))
-                return 1;
-        return 0;
-}
-
+/*
+ * If creatures are in one room or one of them is in door and
+ *   first`s fov may him see second then return 1 else 0
+ */
 static int can_see(const struct level *l, const struct creature *c1,
                                           const struct creature *c2)
 {
-        if (is_near(c1->pos, c2->pos) ||
-            ((is_one_room(l->r, c1->pos, c2->pos) ||
-              is_door(l->d, c1->pos.x, c1->pos.y) ||
-              is_door(l->d, c2->pos.x, c2->pos.y)) &&
-             c2->pos.x >= c1->pos.x - c1->fov      &&
-             c2->pos.x <= c1->pos.x + c1->fov      &&
-             c2->pos.y >= c1->pos.y - c1->fov      &&
-             c2->pos.y <= c1->pos.y + c1->fov))
+        if ((is_one_room(l->r, c1->pos, c2->pos) ||
+             is_door(l->d, c1->pos.x, c1->pos.y) ||
+             is_door(l->d, c2->pos.x, c2->pos.y)) &&
+             c2->pos.x >= c1->pos.x - c1->fov     &&
+             c2->pos.x <= c1->pos.x + c1->fov     &&
+             c2->pos.y >= c1->pos.y - c1->fov     &&
+             c2->pos.y <= c1->pos.y + c1->fov)
                 return 1;
         return 0;
 }
