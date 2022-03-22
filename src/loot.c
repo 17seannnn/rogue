@@ -22,6 +22,7 @@ const struct loot key_list[] = {
 };
 
 static const char msg_pickup[] = "You picked up ";
+static const char msg_no_space[] = "You have no space in inventory.";
 
 void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
 {
@@ -95,8 +96,10 @@ struct loot_list *get_loot_by_coord(struct loot_list *l, int x, int y)
 
 void try_loot(struct level *l, struct creature *h, int side)
 {
-        int x, y;
+        int count, x, y;
         struct loot_list *ll;
+        for (count = 0, ll = h->inv; ll; ll = ll->next, count++)
+                {}
         get_side_diff(side, &x, &y);
         x += h->pos.x;
         y += h->pos.y;
@@ -105,6 +108,10 @@ void try_loot(struct level *l, struct creature *h, int side)
         ll = get_loot_by_coord(l->l, x, y);
         if (!ll)
                 return;
+        if (count == max_inv) {
+                add_msg(msg_no_space);
+                return;
+        }
         add_msg(msg_pickup);
         append_msg(ll->l->name);
         append_msg(".");

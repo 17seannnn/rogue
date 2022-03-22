@@ -54,6 +54,11 @@ enum {
         key_debug = 0
 };
 
+/* inv */
+enum {
+        max_inv = 16
+};
+
 /* creature */
 enum {
         cast_hunter = 0,
