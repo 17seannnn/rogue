@@ -12,7 +12,7 @@ enum {
 static void add_path(struct path **p, int x, int y)
 {
         struct path *t;
-        t = malloc(sizeof(t));
+        t = malloc(sizeof(*t));
         t->pos.x = x;
         t->pos.y = y;
         t->next = *p;

@@ -80,6 +80,16 @@ void init_loot(struct level *l, const struct creature *h)
         }
 }
 
+void free_loot(struct loot_list *l)
+{
+        struct loot_list *t;
+        while (l) {
+                t = l;
+                l = l->next;
+                free(t);
+        }
+}
+
 void show_loot(const struct loot_list *l)
 {
         for ( ; l; l = l->next)

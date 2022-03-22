@@ -135,6 +135,7 @@ void end_level(struct level *l)
         free_path(l->p);
         free_door(l->d);
         free_beast(l->b);
+        free_loot(l->l);
 }
 
 void show_points(struct coord start, struct coord end)
