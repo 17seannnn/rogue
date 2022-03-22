@@ -14,7 +14,7 @@ extern FILE *logfile;
 enum {
         msgw_col  = 80,
         msgw_row  = 1,
-        gamew_col = 80,
+        gamew_col = 78,
         gamew_row = 22,
         infow_col = 80,
         infow_row = 1,
