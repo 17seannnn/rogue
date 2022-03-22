@@ -89,7 +89,7 @@ void handle_beast(struct level *l, struct creature *h)
                         del_beast(&l->b, b);
                         continue;
                 }
-                side = search_creature(c, h);
+                side = search_creature(l, c, h);
                 side = try_side(l, side, c->pos.x, c->pos.y);
                 res = move_creature(l, h, c, side);
                 if (!res)

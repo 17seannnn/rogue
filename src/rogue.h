@@ -193,7 +193,8 @@ void quaff(struct creature *h);
 
 /* creature */
 void show_creature(const struct creature *c);
-int search_creature(const struct creature *c1, const struct creature *c2);
+int search_creature(const struct level *l, const struct creature *c1,
+                                           const struct creature *c2);
 int move_creature(const struct level *l, const struct creature *h,
                   struct creature *c, int side);
 
