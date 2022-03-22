@@ -15,7 +15,7 @@ static const char msg_kill[] = " killed ";
 int attack(const struct creature *a, struct creature *d)
 {
         int dmg;
-        dmg = a->weapon ? a->weapon->l->dmg + a->dmg : a->dmg;
+        dmg = a->weapon ? a->weapon->l->val + a->dmg : a->dmg;
         d->hp -= dmg;
         add_msg(a->cast == cast_hunter ? "You" : "The beast");
         append_msg(d->hp > 0 ? msg_hit[rand() % 3] : msg_kill);

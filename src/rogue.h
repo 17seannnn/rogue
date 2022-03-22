@@ -41,7 +41,9 @@ enum {
         type_weapon = 0,
         type_armor,
         type_poition,
-        type_key_level,
+        type_key,
+
+        type_key_level = 0,
 
         weapon_debug = 0,
 
@@ -86,9 +88,7 @@ struct door {
 /* loot */
 struct loot {
         const char *name;
-        int type;  /* w/a/p/k */
-        int dmg;   /* weapon */
-        int hp;    /* armor/poition */
+        int type, val;
 };
 
 struct loot_list {

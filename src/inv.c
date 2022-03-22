@@ -42,7 +42,7 @@ void show_inv(struct creature *h)
         mvwprintw(invw, y, x, "Keys");
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
-                if (t->l->type == type_key_level) {
+                if (t->l->type == type_key) {
                         mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
                         y++;
                         break;
@@ -238,7 +238,7 @@ void quaff(struct creature *h)
         add_msg("You quaffed ");
         append_msg(t->l->name);
         append_msg(".");
-        h->hp += t->l->hp;
+        h->hp += t->l->val;
         if (h->hp > 100)
                 h->hp = 100;
         del_loot(&h->inv, t);

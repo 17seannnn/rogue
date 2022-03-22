@@ -9,16 +9,16 @@ enum {
 };
 
 const struct loot weapon_list[] = {
-        { "Debug weapon", type_weapon, 1, 0 }
+        { "Debug weapon", type_weapon, 1 }
 };
 const struct loot armor_list[] = {
-        { "Debug armor", type_armor, 0, 5 }
+        { "Debug armor", type_armor, 5 }
 };
 const struct loot poition_list[] = {
-        { "Debug poition", type_poition, 0, 50 }
+        { "Debug poition", type_poition, 50 }
 };
 const struct loot key_list[] = {
-        { "Debug level key", type_key_level, 0, 0 }
+        { "Debug level key", type_key, type_key_level }
 };
 
 static const char msg_pickup[] = "You picked up ";
