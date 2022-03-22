@@ -13,10 +13,10 @@ void init_curses()
         cbreak();
         curs_set(0);
         clear();
-        msgw  = newwin(msgw_row, msgw_col, 0, 0);
-        gamew = newwin(gamew_row, gamew_col, msgw_row, 1);
-        infow = newwin(infow_row, infow_col, msgw_row + gamew_row, 0);
-        invw  = newwin(invw_row, invw_col, msgw_row, gamew_col - invw_col);
+        msgw  = newwin(msgw_row,  msgw_col,  msgw_srow,  msgw_scol);
+        infow = newwin(infow_row, infow_col, infow_srow, infow_scol);
+        gamew = newwin(gamew_row, gamew_col, gamew_srow, gamew_scol);
+        invw  = newwin(invw_row,  invw_col,  invw_srow,  invw_scol);
         if (has_colors()) {
                 start_color();
                 use_default_colors();

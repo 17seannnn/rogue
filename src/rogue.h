@@ -12,14 +12,24 @@ extern FILE *logfile;
 
 /* curses */
 enum {
-        msgw_col  = 80,
-        msgw_row  = 1,
-        gamew_col = 78,
-        gamew_row = 22,
-        infow_col = 80,
-        infow_row = 1,
-        invw_col  = gamew_col / 2,
-        invw_row  = gamew_row
+        program_col = 80,
+        program_row = 24,
+        msgw_col    = program_col,
+        msgw_row    = 1,
+        msgw_scol   = 0,
+        msgw_srow   = 0,
+        infow_col   = 80,
+        infow_row   = 1,
+        infow_scol  = 0,
+        infow_srow  = program_row-1,
+        gamew_col   = program_col-2,
+        gamew_row   = program_row - (msgw_row + infow_row) - 2,
+        gamew_scol  = 1,
+        gamew_srow  = msgw_row + 1,
+        invw_col    = program_col / 2,
+        invw_row    = gamew_row,
+        invw_scol   = program_col - invw_col,
+        invw_srow   = gamew_srow
 };
 
 /* common */
@@ -143,7 +153,7 @@ struct message {
 extern struct message *msg;
 
 /* curses */
-extern WINDOW *msgw, *gamew, *infow, *invw;
+extern WINDOW *msgw, *infow, *gamew, *invw;
 
 /* loot */
 extern const struct loot weapon_list[];
