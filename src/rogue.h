@@ -182,12 +182,12 @@ void show_path(const struct path *p);
 void add_loot(struct loot_list **ll, const struct loot *l, int x, int y);
 void del_loot(struct loot_list **l, struct loot_list *del);
 void init_loot(struct level *l, const struct creature *h);
-void show_loot(struct loot_list *l);
-struct loot_list *get_loot_by_coord(struct loot_list *l, int x, int y);
+void show_loot(const struct loot_list *l);
+struct loot_list *get_loot_by_coord(const struct loot_list *l, int x, int y);
 void try_loot(struct level *l, struct creature *h, int side);
 
 /* inv */
-void show_inv(struct creature *h);
+void show_inv(const struct creature *h);
 void drop(struct loot_list **ll, struct creature *h);
 void wield(struct creature *h);
 void wear(struct creature *h);
@@ -202,7 +202,7 @@ int move_creature(const struct level *l, const struct creature *h,
 
 /* hunter */
 int is_hunter(const struct creature *h, int x, int y);
-void init_hunter(struct creature *h, struct level *l);
+void init_hunter(struct creature *h, const struct level *l);
 void show_info(const struct creature *h);
 
 /* beast */

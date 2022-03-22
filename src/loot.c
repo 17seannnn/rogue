@@ -80,17 +80,17 @@ void init_loot(struct level *l, const struct creature *h)
         }
 }
 
-void show_loot(struct loot_list *l)
+void show_loot(const struct loot_list *l)
 {
         for ( ; l; l = l->next)
                 mvwaddch(gamew, l->pos.y, l->pos.x, loot_symb);
 }
 
-struct loot_list *get_loot_by_coord(struct loot_list *l, int x, int y)
+struct loot_list *get_loot_by_coord(const struct loot_list *l, int x, int y)
 {
         for ( ; l; l = l->next)
                 if (l->pos.x == x && l->pos.y == y)
-                        return l;
+                        return (struct loot_list *)l;
         return NULL;
 }
 

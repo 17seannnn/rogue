@@ -21,7 +21,7 @@ static const char msg_toquaff[] = "What do you want to quaff? [";
 static const char msg_quaffed[] = "You quaffed  ";
 static const char msg_not_quaffed[] = " can't be quaffed.";
 
-void show_inv(struct creature *h)
+void show_inv(const struct creature *h)
 {
         int y = 0, x = 0;
         struct loot_list *t;
