@@ -104,6 +104,8 @@ struct creature {
         int symb;
         struct coord pos;
         int hp, dmg, fov;
+        int blood;
+        int exp, level;
         const struct loot_list *weapon, *armor;
         struct loot_list *inv;
 };
@@ -144,6 +146,7 @@ extern const struct loot key_list[];
 
 /* math */
 int abs_int(int i);
+double power(int x, int y);
 
 /* curses */
 void init_curses();

@@ -15,6 +15,9 @@ static void add_beast(struct beast **b, int x, int y)
         t->c.hp = 10;
         t->c.dmg = 1;
         t->c.fov = 5;
+        t->c.blood = 0;
+        t->c.exp = 1;
+        t->c.level = 1;
         t->c.weapon = NULL;
         t->c.armor = NULL;
         t->c.inv = NULL;

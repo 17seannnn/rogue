@@ -22,6 +22,9 @@ void init_hunter(struct creature *h, struct level *l)
         h->hp = 10;
         h->dmg = 1;
         h->fov = 0;
+        h->blood = 0;
+        h->exp = 0;
+        h->level = 0;
         h->weapon = NULL;
         h->armor = NULL;
         h->inv = NULL;
@@ -30,6 +33,7 @@ void init_hunter(struct creature *h, struct level *l)
 void show_info(const struct creature *h)
 {
         wclear(infow);
-        mvwprintw(infow, 0, 0, "HP:%d Dmg:%d", h->hp, h->dmg);
+        mvwprintw(infow, 0, 0, "HP:%d Dmg:%d Bld:%d Exp %d/%d ",
+                                h->hp, h->dmg, h->blood, h->exp, (int)power(2, h->level));
         wrefresh(infow);
 }
