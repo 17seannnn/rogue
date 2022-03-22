@@ -19,28 +19,33 @@ static int is_one_room(const struct room *r, struct coord pos1,
 }
 
 /*
- * If creatures are in one room or one of them is in door and
- *   first`s fov may him see second then return 1 else 0
+ * Return 1:
+ * if first creature is beast and saw hunter before
+ * if first and second are in one room and first can see with his fov second
+ * if first or second stands at the door and first can see with his fov second
  */
 static int can_see(const struct level *l, const struct creature *c1,
                                           const struct creature *c2)
 {
-        if ((is_one_room(l->r, c1->pos, c2->pos) ||
-             is_door(l->d, c1->pos.x, c1->pos.y) ||
-             is_door(l->d, c2->pos.x, c2->pos.y)) &&
-             c2->pos.x >= c1->pos.x - c1->fov     &&
-             c2->pos.x <= c1->pos.x + c1->fov     &&
-             c2->pos.y >= c1->pos.y - c1->fov     &&
-             c2->pos.y <= c1->pos.y + c1->fov)
+        if ((c1->cast == cast_beast && c1->flags & saw_hunter) ||
+            ((is_one_room(l->r, c1->pos, c2->pos) ||
+              is_door(l->d, c1->pos.x, c1->pos.y) ||
+              is_door(l->d, c2->pos.x, c2->pos.y)) &&
+             c2->pos.x >= c1->pos.x - c1->fov      &&
+             c2->pos.x <= c1->pos.x + c1->fov      &&
+             c2->pos.y >= c1->pos.y - c1->fov      &&
+             c2->pos.y <= c1->pos.y + c1->fov))
                 return 1;
         return 0;
 }
 
 /* Return the direction to 2nd creature relative to the 1st one and -1 on fail */
-int search_creature(const struct level *l, const struct creature *c1,
+int search_creature(const struct level *l, struct creature *c1,
                                            const struct creature *c2)
 {
         if (can_see(l, c1, c2)) {
+                if (c1->cast == cast_beast)
+                        c1->flags |= saw_hunter;
                 if (c2->pos.x < c1->pos.x && c2->pos.y < c1->pos.y)
                         return side_northwest;
                 if (c2->pos.x == c1->pos.x && c2->pos.y < c1->pos.y)
