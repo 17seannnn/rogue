@@ -216,6 +216,7 @@ int move_creature(const struct level *l, const struct creature *h,
 int is_hunter(const struct creature *h, int x, int y);
 void init_hunter(struct creature *h, const struct level *l);
 void show_info(const struct creature *h);
+int try_attack_beast(const struct creature *h, struct beast *b, int side);
 
 /* beast */
 int is_beast(const struct beast *b, int x, int y);

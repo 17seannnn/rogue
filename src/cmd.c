@@ -2,19 +2,6 @@
 
 #include "rogue.h"
 
-static int try_attack_beast(const struct creature *h, struct beast *b,
-                             int side)
-{
-        int x, y;
-        get_side_diff(side, &x, &y);
-        x += h->pos.x;
-        y += h->pos.y;
-        for ( ; b; b = b->next)
-                if (b->c.pos.x == x && b->c.pos.y == y)
-                        return attack(h, &b->c);
-        return 0;
-}
-
 int do_cmd(int c, struct creature *h, struct level *l)
 {
         int res;

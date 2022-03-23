@@ -39,3 +39,15 @@ void show_info(const struct creature *h)
                   h->hp, h->dmg, h->blood, h->exp, (int)power(2, h->level));
         wrefresh(infow);
 }
+
+int try_attack_beast(const struct creature *h, struct beast *b, int side)
+{
+        int x, y;
+        get_side_diff(side, &x, &y);
+        x += h->pos.x;
+        y += h->pos.y;
+        for ( ; b; b = b->next)
+                if (b->c.pos.x == x && b->c.pos.y == y)
+                        return attack(h, &b->c);
+        return 0;
+}
