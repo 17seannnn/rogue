@@ -8,16 +8,6 @@ void show_creature(const struct creature *c)
         wrefresh(gamew);
 }
 
-/* TODO move other modules */
-static int is_one_room(const struct room *r, struct coord pos1,
-                                             struct coord pos2)
-{
-        if (get_room_by_coord(r, pos1.x, pos1.y) ==
-            get_room_by_coord(r, pos2.x, pos2.y))
-                return 1;
-        return 0;
-}
-
 /*
  * Return 1:
  * if first creature is beast and saw hunter before

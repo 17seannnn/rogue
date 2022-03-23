@@ -177,6 +177,7 @@ int init_room(struct room **r);
 struct room *get_room_by_idx(const struct room *r, int ch_idx, int no_idx);
 struct room *get_room_by_coord(const struct room *r, int x, int y);
 int is_room(const struct room *r, int x, int y);
+int is_one_room(const struct room *r, struct coord pos1, struct coord pos2);
 int is_wall(const struct room *r, int x, int y);
 void show_rooms(const struct room *r, const struct door *d);
 
