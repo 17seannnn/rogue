@@ -56,10 +56,11 @@ static int pave_hor(struct level *l, int b_x, int b_y, int e_x)
                 if (is_empty(l, b_x, b_y)) {
                         add_path(&l->p, b_x, b_y);
                 } else {
-                        if (is_wall(l->r, b_x, b_y) && !is_door(l->d, b_x, b_y))
+                        if (is_wall(l->r, b_x, b_y) &&
+                            !is_door(l->d, b_x, b_y))
                                 add_door(&l->d,
-                                           get_room_by_coord(l->r, b_x, b_y),
-                                           b_x, b_y);
+                                         get_room_by_coord(l->r, b_x, b_y),
+                                         b_x, b_y);
                 }
                 if (e_x - b_x > 0)
                         b_x++;

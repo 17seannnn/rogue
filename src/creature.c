@@ -39,7 +39,10 @@ static int can_see(const struct level *l, const struct creature *c1,
         return 0;
 }
 
-/* Return the direction to 2nd creature relative to the 1st one and -1 on fail */
+/*
+ * Return the direction to 2nd creature relative to
+ *   the 1st one and -1 on fail
+ */
 int search_creature(const struct level *l, struct creature *c1,
                                            const struct creature *c2)
 {

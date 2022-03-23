@@ -34,7 +34,8 @@ void init_hunter(struct creature *h, const struct level *l)
 void show_info(const struct creature *h)
 {
         wclear(infow);
-        mvwprintw(infow, 0, 0, "HP:%d Dmg:%d Bld:%d Exp %d/%d ",
-                                h->hp, h->dmg, h->blood, h->exp, (int)power(2, h->level));
+        mvwprintw(infow, 0, 0,
+                  "HP:%d Dmg:%d Bld:%d Exp %d/%d ",
+                  h->hp, h->dmg, h->blood, h->exp, (int)power(2, h->level));
         wrefresh(infow);
 }
