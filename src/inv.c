@@ -64,7 +64,6 @@ void show_inv(const struct creature *h)
                 if (t->l->type == type_key) {
                         mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
                         y++;
-                        break;
                 }
         }
         y++;
