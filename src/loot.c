@@ -24,21 +24,31 @@ const struct loot key_list[] = {
 static const char msg_picked_up[] = "You picked up ";
 static const char msg_no_space[] = "You have no space in inventory.";
 
+static int has_idx(struct loot_list *l, int idx)
+{
+        for ( ; l; l = l->next)
+                if (l->idx == idx)
+                        return 1;
+        return 0;
+}
+
 void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
 {
-        int last_idx;
+        int idx;
         struct loot_list *t;
+        for (idx = 'a'; has_idx(*ll, idx); idx++)
+                {}
         t = malloc(sizeof(*t));
-        for (last_idx = 'a'-1; *ll; last_idx = (*ll)->idx, ll = &(*ll)->next)
-                if ((*ll)->idx - last_idx > 1)
-                        break;
-        t->idx = last_idx + 1;
+        t->idx = idx;
         t->pos.x = x;
         t->pos.y = y;
         t->l = l;
-        t->next = NULL;
-        for ( ; *ll; ll = &(*ll)->next)
+        for ( ; *ll && (*ll)->l->type < l->type; ll = &(*ll)->next)
                 {}
+        for ( ; *ll && (*ll)->l->type == l->type && (*ll)->idx < t->idx;
+             ll = &(*ll)->next)
+                {}
+        t->next = *ll;
         *ll = t;
 }
 
