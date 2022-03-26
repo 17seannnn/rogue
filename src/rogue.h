@@ -77,6 +77,11 @@ enum {
         cast_beast
 };
 
+/* cmd */
+enum {
+        again = 0x0001
+};
+
 /* common */
 struct coord {
         int x, y;
@@ -247,6 +252,6 @@ void handle_fov(const struct level *l, const struct creature *h);
 int attack(const struct creature *a, struct creature *d);
 
 /* cmd */
-int do_cmd(int c, struct creature *h, struct level *l);
+void do_cmd(int c, struct creature *h, struct level *l, int *flags);
 
 #endif

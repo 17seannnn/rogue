@@ -25,17 +25,22 @@ static void end_game()
 
 static void play_game(struct level *l, struct creature *h)
 {
-        int c, again = 0;
+        int c, flags = 0;
         handle_fov(l, h);
         show_info(h);
         handle_msg();
-        while (again || (c = wgetch(gamew)) != 27) {
-                again = do_cmd(c, h, l);
+        for (;;) {
+                if (!(flags & again)) {
+                        c = wgetch(gamew);
+                        if (c == key_escape)
+                                break;
+                }
+                do_cmd(c, h, l, &flags);
                 handle_beast(l, h);
-                if (again && !msg)
+                if (flags & again && !msg)
                         continue;
-                else
-                        again = 0;
+                else if (flags & again && msg)
+                        flags ^= again;
                 handle_fov(l, h);
                 show_info(h);
                 handle_msg();
