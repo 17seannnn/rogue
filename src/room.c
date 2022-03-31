@@ -253,8 +253,7 @@ struct room *get_room_by_coord(const struct room *r, int x, int y)
 
 int is_room(const struct room *r, int x, int y)
 {
-        r = get_room_by_coord(r, x, y);
-        return r ? 1 : 0;
+        return get_room_by_coord(r, x, y) ? 1 : 0;
 }
 
 int is_one_room(const struct room *r, struct coord pos1, struct coord pos2)
