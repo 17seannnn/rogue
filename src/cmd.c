@@ -2,153 +2,58 @@
 
 #include "rogue.h"
 
+static int get_char_side(int c)
+{
+        switch (c) {
+        case 'h': case 'H': return side_west;
+        case 'j': case 'J': return side_south;
+        case 'k': case 'K': return side_north;
+        case 'l': case 'L': return side_east;
+        case 'y': case 'Y': return side_northwest;
+        case 'u': case 'U': return side_northeast;
+        case 'b': case 'B': return side_southwest;
+        case 'n': case 'N': return side_southeast;
+        default:            return -1;
+        }
+}
+
+static int is_uppercase(int c)
+{
+        if (c >= 'A' && c <= 'Z')
+                return 1;
+        return 0;
+}
+
+static void try_move(struct level *l, struct creature *h, int c, int *flags)
+{
+        int side, x, y, res;
+        side = get_char_side(c);
+        get_side_diff(side, &x, &y);
+        x += h->pos.x;
+        y += h->pos.y;
+        try_loot(l, h, side);
+        res = move_creature(l, h, h, side);
+        if (!res)
+                try_attack_beast(h, l->b, side);
+        if (is_uppercase(c)) {
+                if (!res || is_door(l->d, x, y)) {
+                        if (*flags & again)
+                                *flags ^= again;
+                } else {
+                        *flags |= again;
+                }
+        }
+}
+
 void do_cmd(int c, struct creature *h, struct level *l, int *flags)
 {
         int res;
         switch (c) {
-        case 'h':
-                try_loot(l, h, side_west);
-                res = move_creature(l, h, h, side_west);
-                if (!res)
-                        try_attack_beast(h, l->b, side_west);
-                break;
-        case 'H':
-                try_loot(l, h, side_west);
-                res = move_creature(l, h, h, side_west);
-                if (!res)
-                        try_attack_beast(h, l->b, side_west);
-                if (!res || is_door(l->d, h->pos.x, h->pos.y)) {
-                        if (*flags & again)
-                                *flags ^= again;
-                } else {
-                        *flags |= again;
-                }
-                break;
-        case 'j':
-                try_loot(l, h, side_south);
-                res = move_creature(l, h, h, side_south);
-                if (!res)
-                        try_attack_beast(h, l->b, side_south);
-                break;
-        case 'J':
-                try_loot(l, h, side_south);
-                res = move_creature(l, h, h, side_south);
-                if (!res)
-                        try_attack_beast(h, l->b, side_south);
-                if (!res || is_door(l->d, h->pos.x, h->pos.y)) {
-                        if (*flags & again)
-                                *flags ^= again;
-                } else {
-                        *flags |= again;
-                }
-                break;
-        case 'k':
-                try_loot(l, h, side_north);
-                res = move_creature(l, h, h, side_north);
-                if (!res)
-                        try_attack_beast(h, l->b, side_north);
-                break;
-        case 'K':
-                try_loot(l, h, side_north);
-                res = move_creature(l, h, h, side_north);
-                if (!res)
-                        try_attack_beast(h, l->b, side_north);
-                if (!res || is_door(l->d, h->pos.x, h->pos.y)) {
-                        if (*flags & again)
-                                *flags ^= again;
-                } else {
-                        *flags |= again;
-                }
-                break;
-        case 'l':
-                try_loot(l, h, side_east);
-                res = move_creature(l, h, h, side_east);
-                if (!res)
-                        try_attack_beast(h, l->b, side_east);
-                break;
-        case 'L':
-                try_loot(l, h, side_east);
-                res = move_creature(l, h, h, side_east);
-                if (!res)
-                        try_attack_beast(h, l->b, side_east);
-                if (!res || is_door(l->d, h->pos.x, h->pos.y)) {
-                        if (*flags & again)
-                                *flags ^= again;
-                } else {
-                        *flags |= again;
-                }
-                break;
-        case 'y':
-                try_loot(l, h, side_northwest);
-                res = move_creature(l, h, h, side_northwest);
-                if (!res)
-                        try_attack_beast(h, l->b, side_northwest);
-                break;
-        case 'Y':
-                try_loot(l, h, side_northwest);
-                res = move_creature(l, h, h, side_northwest);
-                if (!res)
-                        try_attack_beast(h, l->b, side_northwest);
-                if (!res || is_door(l->d, h->pos.x, h->pos.y)) {
-                        if (*flags & again)
-                                *flags ^= again;
-                } else {
-                        *flags |= again;
-                }
-                break;
-        case 'u':
-                try_loot(l, h, side_northeast);
-                res = move_creature(l, h, h, side_northeast);
-                if (!res)
-                        try_attack_beast(h, l->b, side_northeast);
-                break;
-        case 'U':
-                try_loot(l, h, side_northeast);
-                res = move_creature(l, h, h, side_northeast);
-                if (!res)
-                        try_attack_beast(h, l->b, side_northeast);
-                if (!res || is_door(l->d, h->pos.x, h->pos.y)) {
-                        if (*flags & again)
-                                *flags ^= again;
-                } else {
-                        *flags |= again;
-                }
-                break;
-        case 'b':
-                try_loot(l, h, side_southwest);
-                res = move_creature(l, h, h, side_southwest);
-                if (!res)
-                        try_attack_beast(h, l->b, side_southwest);
-                break;
-        case 'B':
-                try_loot(l, h, side_southwest);
-                res = move_creature(l, h, h, side_southwest);
-                if (!res)
-                        try_attack_beast(h, l->b, side_southwest);
-                if (!res || is_door(l->d, h->pos.x, h->pos.y)) {
-                        if (*flags & again)
-                                *flags ^= again;
-                } else {
-                        *flags |= again;
-                }
-                break;
-        case 'n':
-                try_loot(l, h, side_southeast);
-                res = move_creature(l, h, h, side_southeast);
-                if (!res)
-                        try_attack_beast(h, l->b, side_southeast);
-                break;
-        case 'N':
-                try_loot(l, h, side_southeast);
-                res = move_creature(l, h, h, side_southeast);
-                if (!res)
-                        try_attack_beast(h, l->b, side_southeast);
-                if (!res || is_door(l->d, h->pos.x, h->pos.y)) {
-                        if (*flags & again)
-                                *flags ^= again;
-                } else {
-                        *flags |= again;
-                }
+        case 'h': case 'j': case 'k': case 'l':
+        case 'y': case 'u': case 'b': case 'n':
+        case 'H': case 'J': case 'K': case 'L':
+        case 'Y': case 'U': case 'B': case 'N':
+                try_move(l, h, c, flags);
                 break;
         case 'i':
         case '*':
