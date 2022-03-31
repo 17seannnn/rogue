@@ -7,7 +7,7 @@
 
 enum {
         room_splits_range = 4,
-        min_area_len = 5,
+        min_area_len = 4,
         min_area_len_to_split = min_area_len * 2 + 1,
 
         split_type_ver = 0,
