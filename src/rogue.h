@@ -157,6 +157,7 @@ struct message {
 };
 
 extern struct message *msg;
+extern const char msg_nevermind[];
 
 /* curses */
 extern WINDOW *msgw, *infow, *gamew, *invw;
@@ -224,6 +225,7 @@ void init_hunter(struct creature *h, const struct level *l);
 void show_info(const struct creature *h);
 void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(const struct creature *h, struct beast *b, int side);
+void go_next(struct level *l, struct creature *h, unsigned *flags);
 
 /* beast */
 int is_beast(const struct beast *b, int x, int y);

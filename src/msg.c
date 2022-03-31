@@ -8,6 +8,7 @@
 struct message *msg = NULL;
 
 static const char msg_more[] = "--More--";
+const char msg_nevermind[] = "Never mind.";
 
 void add_msg(const char *text)
 {

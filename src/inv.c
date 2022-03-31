@@ -2,7 +2,6 @@
 
 #include "rogue.h"
 
-static const char msg_nevermind[] = "Never mind.";
 static const char msg_checking_inv[] = "You are checking inventory...";
 static const char msg_or_inv[] = " or *]";
 

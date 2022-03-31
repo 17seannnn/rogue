@@ -28,7 +28,7 @@ void do_cmd(int c, struct creature *h, struct level *l, unsigned *flags)
                 quaff(h);
                 break;
         case '>':
-                *flags |= next_level;
+                go_next(l, h, flags);
                 break;
         default:
                 break;
