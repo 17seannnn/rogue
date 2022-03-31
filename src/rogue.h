@@ -146,9 +146,15 @@ struct beast {
 };
 
 /* level */
+struct point {
+        int symb;
+        struct coord pos;
+        unsigned flags;
+};
+
 struct level {
         int depth;
-        struct coord start, end;
+        struct point start, end;
         struct room *r;
         struct path *p;
         struct door *d;
@@ -192,6 +198,7 @@ struct room *get_room_by_coord(const struct room *r, int x, int y);
 int is_room(const struct room *r, int x, int y);
 int is_one_room(const struct room *r, struct coord pos1, struct coord pos2);
 int is_wall(const struct room *r, int x, int y);
+void show_room(const struct room *r, const struct door *d);
 void show_rooms(const struct room *r, const struct door *d);
 
 /* path */
@@ -251,7 +258,7 @@ int get_char_side(int c);
 void get_side_diff(int side, int *dx, int *dy);
 void init_level(struct level *l, struct creature *h);
 void end_level(struct level *l);
-void show_points(const struct coord start, const struct coord end);
+void show_point(struct point p);
 
 /* msg */
 void add_msg(const char *text);
@@ -259,7 +266,7 @@ void append_msg(const char *text);
 void handle_msg();
 
 /* fov */
-void handle_fov(const struct level *l, const struct creature *h);
+void handle_fov(struct level *l, const struct creature *h);
 
 /* fight */
 int attack(const struct creature *a, struct creature *d);

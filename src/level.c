@@ -4,6 +4,11 @@
 
 #include "rogue.h"
 
+enum {
+        start_point_symb = '<',
+        end_point_symb   = '>'
+};
+
 int is_ok(int x, int y)
 {
         return x >= 0 && x < gamew_col && y >= 0 && y < gamew_row;
@@ -19,8 +24,8 @@ int is_stop(const struct level *l, int x, int y)
 {
         const struct door *d;
         const struct loot_list *ll;
-        if ((l->start.x == x && l->start.y == y) ||
-            (l->end.x   == x && l->end.y   == y))
+        if ((l->start.pos.x == x && l->start.pos.y == y) ||
+            (l->end.pos.x   == x && l->end.pos.y   == y))
                 return 1;
         for (d = l->d; d; d = d->next)
                 if (d->pos.x == x && d->pos.y == y)
@@ -130,8 +135,10 @@ static void init_points(struct level *l)
 {
         struct room *r;
         r = get_room_by_idx(l->r, 'A', 1);
-        l->start.x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
-        l->start.y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+        l->start.pos.x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+        l->start.pos.y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+        l->start.symb = start_point_symb;
+        l->start.flags = 0;
         switch (l->depth) {
         case 1:
                 r = get_room_by_idx(l->r, 'A', 2);
@@ -146,8 +153,10 @@ static void init_points(struct level *l)
                 r = get_room_by_idx(l->r, 'D', 4);
                 break;
         }
-        l->end.x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
-        l->end.y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+        l->end.pos.x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+        l->end.pos.y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+        l->end.symb = end_point_symb;
+        l->end.flags = 0;
 }
 
 void init_level(struct level *l, struct creature *h)
@@ -175,8 +184,7 @@ void end_level(struct level *l)
         wrefresh(infow);
 }
 
-void show_points(struct coord start, struct coord end)
+void show_point(struct point p)
 {
-        mvwaddch(gamew, start.y, start.x, '<');
-        mvwaddch(gamew, end.y, end.x, '>');
+        mvwaddch(gamew, p.pos.y, p.pos.x, p.symb);
 }

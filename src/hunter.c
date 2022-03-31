@@ -22,8 +22,8 @@ void init_hunter(struct creature *h, const struct level *l)
         h->flags  = 0;
         h->cast   = cast_hunter;
         h->symb   = hunter_symb;
-        h->pos.x  = l->start.x;
-        h->pos.y  = l->start.y;
+        h->pos.x  = l->start.pos.x;
+        h->pos.y  = l->start.pos.y;
         h->hp     = 10;
         h->dmg    = 1;
         h->fov    = 0;
@@ -81,7 +81,7 @@ void go_next(const struct level *l, struct creature *h, unsigned *flags)
 {
         int c;
         struct loot_list *t;
-        if (h->pos.x != l->end.x || h->pos.y != l->end.y) {
+        if (h->pos.x != l->end.pos.x || h->pos.y != l->end.pos.y) {
                 add_msg(msg_no_endpoint);
                 return;
         }

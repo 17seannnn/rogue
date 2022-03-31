@@ -277,7 +277,7 @@ int is_wall(const struct room *r, int x, int y)
         return 0;
 }
 
-static void show_room(const struct room *r, const struct door *d)
+void show_room(const struct room *r, const struct door *d)
 {
         int x, y;
         for (y = r->tl.y; y <= r->br.y; y++) {
@@ -301,9 +301,9 @@ void show_rooms(const struct room *r, const struct door *d)
 {
         if (!r)
                 return;
-        if (r->left)
+        if (r->left) {
                 show_rooms(r->left, d);
-        if (!r->left) {
+        } else {
                 show_room(r, d);
                 return;
         }
