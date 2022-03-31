@@ -22,6 +22,21 @@ int can_move(const struct level *l, const struct creature *h, int x, int y)
                 is_door(l->d, x, y))) || is_path(l->p, x, y));
 }
 
+int get_char_side(int c)
+{
+        switch (c) {
+        case 'h': case 'H': return side_west;
+        case 'j': case 'J': return side_south;
+        case 'k': case 'K': return side_north;
+        case 'l': case 'L': return side_east;
+        case 'y': case 'Y': return side_northwest;
+        case 'u': case 'U': return side_northeast;
+        case 'b': case 'B': return side_southwest;
+        case 'n': case 'N': return side_southeast;
+        default:            return -1;
+        }
+}
+
 void get_side_diff(int side, int *dx, int *dy)
 {
         switch (side) {

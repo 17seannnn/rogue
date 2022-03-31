@@ -40,6 +40,27 @@ void show_info(const struct creature *h)
         wrefresh(infow);
 }
 
+void try_move(struct level *l, struct creature *h, int c, int *flags)
+{
+        int side, x, y, res;
+        side = get_char_side(c);
+        get_side_diff(side, &x, &y);
+        x += h->pos.x;
+        y += h->pos.y;
+        try_loot(l, h, side);
+        res = move_creature(l, h, h, side);
+        if (!res)
+                try_attack_beast(h, l->b, side);
+        if (c >= 'A' && c <= 'Z') {
+                if (!res || is_door(l->d, x, y)) {
+                        if (*flags & again)
+                                *flags ^= again;
+                } else {
+                        *flags |= again;
+                }
+        }
+}
+
 int try_attack_beast(const struct creature *h, struct beast *b, int side)
 {
         int x, y;
