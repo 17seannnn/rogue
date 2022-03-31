@@ -55,6 +55,11 @@ enum {
         ground_symb = '.'
 };
 
+/* path */
+enum {
+        path_symb = '"'
+};
+
 /* loot */
 enum {
         type_weapon = 0,
@@ -211,6 +216,7 @@ void show_room(const struct room *r, const struct door *d);
 void show_rooms(const struct room *r, const struct door *d);
 
 /* path */
+struct path *get_path_by_coord(const struct path *p, int x, int y);
 int is_path(const struct path *p, int x, int y);
 int is_door(const struct door *d, int x, int y);
 void init_path(struct level *l);

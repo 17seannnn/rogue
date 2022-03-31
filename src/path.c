@@ -32,12 +32,17 @@ static void add_door(struct door **d, struct room *owner, int x, int y)
         *d = t;
 }
 
-int is_path(const struct path *p, int x, int y)
+struct path *get_path_by_coord(const struct path *p, int x, int y)
 {
         for ( ; p; p = p->next)
                 if (p->pos.x == x && p->pos.y == y)
-                        return 1;
-        return 0;
+                        return (struct path *)p;
+        return NULL;
+}
+
+int is_path(const struct path *p, int x, int y)
+{
+        return get_path_by_coord(p, x, y) ? 1 : 0;
 }
 
 int is_door(const struct door *d, int x, int y)
@@ -189,6 +194,6 @@ void free_door(struct door *d)
 void show_path(const struct path *p)
 {
         for ( ; p; p = p->next)
-                mvwaddch(gamew, p->pos.y, p->pos.x, '"');
+                mvwaddch(gamew, p->pos.y, p->pos.x, path_symb);
         wrefresh(gamew);
 }
