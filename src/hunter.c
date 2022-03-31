@@ -56,7 +56,7 @@ void try_move(struct level *l, struct creature *h, int c, unsigned *flags)
         if (!res)
                 try_attack_beast(h, l->b, side);
         if (c >= 'A' && c <= 'Z') {
-                if (!res || is_door(l->d, x, y)) {
+                if (!res || is_stop(l, x, y)) {
                         if (*flags & again)
                                 *flags ^= again;
                 } else {
@@ -77,7 +77,7 @@ int try_attack_beast(const struct creature *h, struct beast *b, int side)
         return 0;
 }
 
-void go_next(struct level *l, struct creature *h, unsigned *flags)
+void go_next(const struct level *l, struct creature *h, unsigned *flags)
 {
         int c;
         struct loot_list *t;

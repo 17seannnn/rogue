@@ -225,7 +225,7 @@ void init_hunter(struct creature *h, const struct level *l);
 void show_info(const struct creature *h);
 void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(const struct creature *h, struct beast *b, int side);
-void go_next(struct level *l, struct creature *h, unsigned *flags);
+void go_next(const struct level *l, struct creature *h, unsigned *flags);
 
 /* beast */
 int is_beast(const struct beast *b, int x, int y);
@@ -236,6 +236,7 @@ void handle_beast(struct level *l, struct creature *h);
 /* level */
 int is_ok(int x, int y);
 int is_empty(const struct level *l, int x, int y);
+int is_stop(const struct level *l, int x, int y);
 int can_move(const struct level *l, const struct creature *h, int x, int y);
 int can_side(const struct level *l, int side, int x, int y);
 int try_side(const struct level *l, int side, int x, int y);

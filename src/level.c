@@ -15,6 +15,22 @@ int is_empty(const struct level *l, int x, int y)
                !is_path(l->p, x, y) && !is_door(l->d, x, y);
 }
 
+int is_stop(const struct level *l, int x, int y)
+{
+        const struct door *d;
+        const struct loot_list *ll;
+        if ((l->start.x == x && l->start.y == y) ||
+            (l->end.x   == x && l->end.y   == y))
+                return 1;
+        for (d = l->d; d; d = d->next)
+                if (d->pos.x == x && d->pos.y == y)
+                        return 1;
+        for (ll = l->l; ll; ll = ll->next)
+                if (ll->pos.x == x && ll->pos.y == y)
+                        return 1;
+        return 0;
+}
+
 int can_move(const struct level *l, const struct creature *h, int x, int y)
 {
         return !is_hunter(h, x, y) && !is_beast(l->b, x, y) &&
