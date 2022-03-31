@@ -10,6 +10,7 @@ enum {
 
 static const char msg_no_endpoint[] = "No endpoint here...";
 static const char msg_go_next_prompt[] = "Go next level? [yn]";
+static const char msg_no_key[] = "You don't have a key.";
 
 int is_hunter(const struct creature *h, int x, int y)
 {
@@ -79,8 +80,15 @@ int try_attack_beast(const struct creature *h, struct beast *b, int side)
 void go_next(struct level *l, struct creature *h, unsigned *flags)
 {
         int c;
+        struct loot_list *t;
         if (h->pos.x != l->end.x || h->pos.y != l->end.y) {
                 add_msg(msg_no_endpoint);
+                return;
+        }
+        for (t = h->inv; t && t->l->type != type_key; t = t->next)
+                {}
+        if (!t) {
+                add_msg(msg_no_key);
                 return;
         }
         add_msg(msg_go_next_prompt);
@@ -96,5 +104,6 @@ void go_next(struct level *l, struct creature *h, unsigned *flags)
         case 'Y':
         case 'y':
                 *flags |= next_level;
+                del_loot(&h->inv, t);
         }
 }
