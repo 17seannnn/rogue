@@ -79,7 +79,8 @@ enum {
 
 /* cmd */
 enum {
-        again = 0x0001
+        again      = 0x0001,
+        next_level = 0x0002
 };
 
 /* common */
@@ -221,7 +222,7 @@ int move_creature(const struct level *l, const struct creature *h,
 int is_hunter(const struct creature *h, int x, int y);
 void init_hunter(struct creature *h, const struct level *l);
 void show_info(const struct creature *h);
-void try_move(struct level *l, struct creature *h, int c, int *flags);
+void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(const struct creature *h, struct beast *b, int side);
 
 /* beast */
@@ -254,6 +255,6 @@ void handle_fov(const struct level *l, const struct creature *h);
 int attack(const struct creature *a, struct creature *d);
 
 /* cmd */
-void do_cmd(int c, struct creature *h, struct level *l, int *flags);
+void do_cmd(int c, struct creature *h, struct level *l, unsigned *flags);
 
 #endif

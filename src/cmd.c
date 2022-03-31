@@ -2,7 +2,7 @@
 
 #include "rogue.h"
 
-void do_cmd(int c, struct creature *h, struct level *l, int *flags)
+void do_cmd(int c, struct creature *h, struct level *l, unsigned *flags)
 {
         switch (c) {
         case 'h': case 'j': case 'k': case 'l':
@@ -26,6 +26,9 @@ void do_cmd(int c, struct creature *h, struct level *l, int *flags)
                 break;
         case 'q':
                 quaff(h);
+                break;
+        case '>':
+                *flags |= next_level;
                 break;
         default:
                 break;

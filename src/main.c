@@ -23,9 +23,10 @@ static void end_game()
         end_curses();
 }
 
-static void play_game(struct level *l, struct creature *h)
+static unsigned play_game(struct level *l, struct creature *h)
 {
-        int c, flags = 0;
+        int c;
+        unsigned flags = 0;
         handle_fov(l, h);
         show_info(h);
         handle_msg();
@@ -37,26 +38,32 @@ static void play_game(struct level *l, struct creature *h)
                 }
                 do_cmd(c, h, l, &flags);
                 handle_beast(l, h);
+                if (flags & next_level)
+                        break;
                 if (flags & again && !msg)
                         continue;
-                else if (flags & again && msg)
+                else
+                if (flags & again && msg)
                         flags ^= again;
                 handle_fov(l, h);
                 show_info(h);
                 handle_msg();
         }
+        return flags;
 }
 
 int main()
 {
+        unsigned flags;
         struct creature h;
         struct level l;
         init_game();
         for (;;) {
                 init_level(&l, &h);
-                play_game(&l, &h);
+                flags = play_game(&l, &h);
                 end_level(&l);
-                break;
+                if (!(flags & next_level))
+                        break;
         }
         end_game();
         return 0;

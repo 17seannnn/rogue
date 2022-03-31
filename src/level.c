@@ -151,6 +151,12 @@ void end_level(struct level *l)
         free_door(l->d);
         free_beast(l->b);
         free_loot(l->l);
+        wclear(msgw);
+        wclear(gamew);
+        wclear(infow);
+        wrefresh(msgw);
+        wrefresh(gamew);
+        wrefresh(infow);
 }
 
 void show_points(struct coord start, struct coord end)

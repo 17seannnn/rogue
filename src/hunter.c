@@ -40,7 +40,7 @@ void show_info(const struct creature *h)
         wrefresh(infow);
 }
 
-void try_move(struct level *l, struct creature *h, int c, int *flags)
+void try_move(struct level *l, struct creature *h, int c, unsigned *flags)
 {
         int side, x, y, res;
         side = get_char_side(c);
