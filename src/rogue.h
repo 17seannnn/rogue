@@ -94,18 +94,21 @@ struct room {
         struct coord tl, br;
         int depth;
         struct room *parent, *left, *right;
+        int seen;
 };
 
 /* path */
 struct path {
         struct coord pos;
         struct path *next;
+        int seen;
 };
 
 struct door {
         struct coord pos;
         struct room *owner;
         struct door *next;
+        int seen;
 };
 
 /* loot */
@@ -119,6 +122,7 @@ struct loot_list {
         struct coord pos;
         const struct loot *l;
         struct loot_list *next;
+        int seen;
 };
 
 /* creature */
@@ -131,6 +135,7 @@ struct creature {
         int exp, level;
         const struct loot_list *weapon, *armor;
         struct loot_list *inv;
+        int seen;
 };
 
 /* beast */
@@ -197,7 +202,8 @@ void free_door(struct door *d);
 void show_path(const struct path *p);
 
 /* loot */
-void add_loot(struct loot_list **ll, const struct loot *l, int x, int y);
+void add_loot(struct loot_list **ll, const struct loot *l,
+              int x, int y, int seen);
 void del_loot(struct loot_list **l, struct loot_list *del);
 void init_loot(struct level *l, const struct creature *h);
 void free_loot(struct loot_list *l);

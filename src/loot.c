@@ -32,7 +32,8 @@ static int has_idx(struct loot_list *l, int idx)
         return 0;
 }
 
-void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
+void add_loot(struct loot_list **ll, const struct loot *l,
+              int x, int y, int seen)
 {
         int idx;
         struct loot_list *t;
@@ -49,6 +50,7 @@ void add_loot(struct loot_list **ll, const struct loot *l, int x, int y)
              ll = &(*ll)->next)
                 {}
         t->next = *ll;
+        t->seen = seen;
         *ll = t;
 }
 
@@ -73,10 +75,10 @@ void init_loot(struct level *l, const struct creature *h)
                         r = get_room_by_idx(l->r, ch, no);
                         if (r && no == 1)
                                 add_loot(&l->l, &key_list[poition_debug],
-                                         r->tl.x+1, r->tl.y+2);
+                                         r->tl.x+1, r->tl.y+2, 0);
                         else if (r)
                                 add_loot(&l->l, &poition_list[poition_debug],
-                                         r->tl.x+1, r->tl.y+2);
+                                         r->tl.x+1, r->tl.y+2, 0);
                 }
         }
 }
@@ -126,6 +128,6 @@ void try_loot(struct level *l, struct creature *h, int side)
         add_msg(msg_picked_up);
         append_msg(ll->l->name);
         append_msg(".");
-        add_loot(&h->inv, ll->l, 0, 0);
+        add_loot(&h->inv, ll->l, 0, 0, 0);
         del_loot(&l->l, ll);
 }

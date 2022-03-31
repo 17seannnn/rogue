@@ -119,7 +119,7 @@ void drop(struct loot_list **ll, struct creature *h)
         else
         if (h->armor == t)
                 h->armor = NULL;
-        add_loot(ll, t->l, h->pos.x, h->pos.y);
+        add_loot(ll, t->l, h->pos.x, h->pos.y, 1);
         del_loot(&h->inv, t);
 }
 

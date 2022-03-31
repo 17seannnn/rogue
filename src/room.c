@@ -47,14 +47,14 @@ static int rand_split_type(const struct room *r)
 
 static void init_split_children(struct room *r)
 {
-        r->left = malloc(sizeof(*r));
-        *r->left = *r;
+        r->left         = malloc(sizeof(*r));
+        *(r->left)      = *r;
         r->left->depth++;
         r->left->parent = r;
-        r->left->left = NULL;
-        r->left->right = NULL;
-        r->right = malloc(sizeof(*r));
-        *r->right = *r->left;
+        r->left->left   = NULL;
+        r->left->right  = NULL;
+        r->right        = malloc(sizeof(*r));
+        *(r->right)     = *r->left;
 }
 
 static int split_room(struct room *r)
@@ -191,14 +191,15 @@ int init_room(struct room **r)
         t = malloc(sizeof(*t));
         t->ch_idx = 0;
         t->no_idx = 0;
-        t->tl.x = 0;
-        t->tl.y = 0;
-        t->br.x = gamew_col-1;
-        t->br.y = gamew_row-1;
-        t->depth = 0;
+        t->tl.x   = 0;
+        t->tl.y   = 0;
+        t->br.x   = gamew_col-1;
+        t->br.y   = gamew_row-1;
+        t->depth  = 0;
         t->parent = NULL;
-        t->left = NULL;
-        t->right = NULL;
+        t->left   = NULL;
+        t->right  = NULL;
+        t->seen   = 0;
         *r = t;
 
         depth = 1 + rand() % room_splits_range;
