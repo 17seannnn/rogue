@@ -161,6 +161,6 @@ void end_level(struct level *l)
 
 void show_points(struct coord start, struct coord end)
 {
-        mvwaddch(gamew, start.y, start.x, '{');
-        mvwaddch(gamew, end.y, end.x, '}');
+        mvwaddch(gamew, start.y, start.x, '<');
+        mvwaddch(gamew, end.y, end.x, '>');
 }
