@@ -32,6 +32,24 @@ static void fov_loot(struct loot_list *l, struct coord tl, struct coord br)
         }
 }
 
+static void fov_beasts(struct beast *b, struct coord tl, struct coord br)
+{
+        int x, y;
+        struct beast *t;
+        for (x = tl.x-1; x <= tl.x+1; x++) {
+                for (y = tl.y-1; y <= tl.y+1; y++) {
+                        for (t = b; t; t = t->next) {
+                                if (t->c.pos.x >= tl.x && t->c.pos.x <= br.x &&
+                                    t->c.pos.y >= tl.y && t->c.pos.y <= br.y) {
+                                        mvwaddch(gamew, t->c.pos.y, t->c.pos.x,
+                                                 t->c.symb);
+                                        t->c.flags |= seen_flag;
+                                }
+                        }
+                }
+        }
+}
+
 static void fov_room(struct level *l, const struct creature *h)
 {
         struct room *r = get_room_by_coord(l->r, h->pos.x, h->pos.y);
@@ -40,6 +58,7 @@ static void fov_room(struct level *l, const struct creature *h)
         show_room(r, l->d);
         fov_points(l, r);
         fov_loot(l->l, r->tl, r->br);
+        fov_beasts(l->b, r->tl, r->br);
 }
 
 static void fov_path(struct level *l, const struct creature *h)
