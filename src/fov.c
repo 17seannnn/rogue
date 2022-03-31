@@ -22,9 +22,11 @@ static void fov_loot(struct loot_list *l, struct coord tl, struct coord br)
                 for (y = tl.y-1; y <= tl.y+1; y++) {
                         for (t = l; t; t = t->next) {
                                 if (t->pos.x >= tl.x && t->pos.x <= br.x &&
-                                    t->pos.y >= tl.y && t->pos.y <= br.y)
+                                    t->pos.y >= tl.y && t->pos.y <= br.y) {
                                         mvwaddch(gamew, t->pos.y, t->pos.x,
                                                  loot_symb);
+                                        t->flags |= seen_flag;
+                                }
                         }
                 }
         }
