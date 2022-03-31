@@ -63,7 +63,9 @@ enum {
 
         poition_debug = 0,
 
-        key_debug = 0
+        key_debug = 0,
+
+        loot_symb = ':'
 };
 
 /* inv */

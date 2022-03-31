@@ -4,10 +4,6 @@
 
 #include "rogue.h"
 
-enum {
-        loot_symb = ':'
-};
-
 const struct loot weapon_list[] = {
         { "Debug weapon", type_weapon, 1 }
 };

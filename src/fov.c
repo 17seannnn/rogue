@@ -14,25 +14,34 @@ static void fov_points(struct level *l, const struct room *r)
         }
 }
 
-/*
-static void fov_loot(struct loot_list *l, )
+static void fov_loot(struct loot_list *l, struct coord tl, struct coord br)
 {
-
+        int x, y;
+        struct loot_list *t;
+        for (x = tl.x-1; x <= tl.x+1; x++) {
+                for (y = tl.y-1; y <= tl.y+1; y++) {
+                        for (t = l; t; t = t->next) {
+                                if (t->pos.x >= tl.x && t->pos.x <= br.x &&
+                                    t->pos.y >= tl.y && t->pos.y <= br.y)
+                                        mvwaddch(gamew, t->pos.y, t->pos.x,
+                                                 loot_symb);
+                        }
+                }
+        }
 }
-*/
 
 static void fov_room(struct level *l, const struct creature *h)
 {
         int x, y;
         struct room *r;
-        for (x = h->pos.x; x <= h->pos.x+1; x++) {
-                for (y = h->pos.y; y <= h->pos.y+1; y++) {
+        for (x = h->pos.x-1; x <= h->pos.x+1; x++) {
+                for (y = h->pos.y-1; y <= h->pos.y+1; y++) {
                         r = get_room_by_coord(l->r, x, y);
                         if (r && h->pos.x >= r->tl.x && h->pos.x <= r->br.x &&
                                  h->pos.y >= r->tl.y && h->pos.y <= r->br.y) {
                                 show_room(r, l->d);
                                 fov_points(l, r);
-                                /*fov_loot(l->l, r->tl, r->br);*/
+                                fov_loot(l->l, r->tl, r->br);
                         }
                 }
         }
