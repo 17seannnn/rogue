@@ -34,6 +34,8 @@ enum {
 
 /* common */
 enum {
+        key_escape = 27,
+
         side_northwest = 0,
         side_north,
         side_northeast,
@@ -43,7 +45,7 @@ enum {
         side_southwest,
         side_west,
 
-        key_escape = 27
+        seen_flag = 0x8000
 };
 
 /* loot */
@@ -71,7 +73,7 @@ enum {
 
 /* creature */
 enum {
-        saw_hunter = 0x0001,
+        saw_hunter_flag = 0x0001,
 
         cast_hunter = 0,
         cast_beast
@@ -79,8 +81,8 @@ enum {
 
 /* cmd */
 enum {
-        again      = 0x0001,
-        next_level = 0x0002
+        again_flag      = 0x0001,
+        next_level_flag = 0x0002
 };
 
 /* common */
@@ -94,21 +96,21 @@ struct room {
         struct coord tl, br;
         int depth;
         struct room *parent, *left, *right;
-        int seen;
+        unsigned flags;
 };
 
 /* path */
 struct path {
         struct coord pos;
         struct path *next;
-        int seen;
+        unsigned flags;
 };
 
 struct door {
         struct coord pos;
         struct room *owner;
         struct door *next;
-        int seen;
+        unsigned flags;
 };
 
 /* loot */
@@ -122,12 +124,11 @@ struct loot_list {
         struct coord pos;
         const struct loot *l;
         struct loot_list *next;
-        int seen;
+        unsigned flags;
 };
 
 /* creature */
 struct creature {
-        unsigned int flags;
         int cast, symb;
         struct coord pos;
         int fov, hp, dmg;
@@ -135,7 +136,7 @@ struct creature {
         int exp, level;
         const struct loot_list *weapon, *armor;
         struct loot_list *inv;
-        int seen;
+        unsigned flags;
 };
 
 /* beast */
@@ -203,7 +204,7 @@ void show_path(const struct path *p);
 
 /* loot */
 void add_loot(struct loot_list **ll, const struct loot *l,
-              int x, int y, int seen);
+              int x, int y, unsigned flags);
 void del_loot(struct loot_list **l, struct loot_list *del);
 void init_loot(struct level *l, const struct creature *h);
 void free_loot(struct loot_list *l);

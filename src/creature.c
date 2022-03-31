@@ -17,7 +17,7 @@ void show_creature(const struct creature *c)
 static int can_see(const struct level *l, const struct creature *c1,
                                           const struct creature *c2)
 {
-        if ((c1->cast == cast_beast && c1->flags & saw_hunter) ||
+        if ((c1->cast == cast_beast && c1->flags & saw_hunter_flag) ||
             ((is_one_room(l->r, c1->pos, c2->pos) ||
               is_door(l->d, c1->pos.x, c1->pos.y) ||
               is_door(l->d, c2->pos.x, c2->pos.y)) &&
@@ -38,7 +38,7 @@ int search_creature(const struct level *l, struct creature *c1,
 {
         if (can_see(l, c1, c2)) {
                 if (c1->cast == cast_beast)
-                        c1->flags |= saw_hunter;
+                        c1->flags |= saw_hunter_flag;
                 if (c2->pos.x < c1->pos.x && c2->pos.y < c1->pos.y)
                         return side_northwest;
                 if (c2->pos.x == c1->pos.x && c2->pos.y < c1->pos.y)

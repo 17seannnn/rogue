@@ -16,7 +16,7 @@ static void add_path(struct path **p, int x, int y)
         t->pos.x = x;
         t->pos.y = y;
         t->next  = *p;
-        t->seen  = 0;
+        t->flags = 0;
         *p = t;
 }
 
@@ -28,7 +28,7 @@ static void add_door(struct door **d, struct room *owner, int x, int y)
         t->pos.y = y;
         t->owner = owner;
         t->next  = *d;
-        t->seen  = 0;
+        t->flags = 0;
         *d = t;
 }
 

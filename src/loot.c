@@ -33,24 +33,24 @@ static int has_idx(struct loot_list *l, int idx)
 }
 
 void add_loot(struct loot_list **ll, const struct loot *l,
-              int x, int y, int seen)
+              int x, int y, unsigned flags)
 {
         int idx;
         struct loot_list *t;
         for (idx = 'a'; has_idx(*ll, idx); idx++)
                 {}
         t = malloc(sizeof(*t));
-        t->idx = idx;
+        t->idx   = idx;
         t->pos.x = x;
         t->pos.y = y;
-        t->l = l;
+        t->l     = l;
         for ( ; *ll && (*ll)->l->type < l->type; ll = &(*ll)->next)
                 {}
         for ( ; *ll && (*ll)->l->type == l->type && (*ll)->idx < t->idx;
              ll = &(*ll)->next)
                 {}
-        t->next = *ll;
-        t->seen = seen;
+        t->next  = *ll;
+        t->flags = flags;
         *ll = t;
 }
 

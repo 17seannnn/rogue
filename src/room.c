@@ -199,7 +199,7 @@ int init_room(struct room **r)
         t->parent = NULL;
         t->left   = NULL;
         t->right  = NULL;
-        t->seen   = 0;
+        t->flags  = 0;
         *r = t;
 
         depth = 1 + rand() % room_splits_range;

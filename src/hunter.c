@@ -57,10 +57,10 @@ void try_move(struct level *l, struct creature *h, int c, unsigned *flags)
                 try_attack_beast(h, l->b, side);
         if (c >= 'A' && c <= 'Z') {
                 if (!res || is_stop(l, x, y)) {
-                        if (*flags & again)
-                                *flags ^= again;
+                        if (*flags & again_flag)
+                                *flags ^= again_flag;
                 } else {
-                        *flags |= again;
+                        *flags |= again_flag;
                 }
         }
 }
@@ -103,7 +103,7 @@ void go_next(const struct level *l, struct creature *h, unsigned *flags)
                 return;
         case 'Y':
         case 'y':
-                *flags |= next_level;
+                *flags |= next_level_flag;
                 del_loot(&h->inv, t);
         }
 }

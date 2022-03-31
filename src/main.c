@@ -31,20 +31,20 @@ static unsigned play_game(struct level *l, struct creature *h)
         show_info(h);
         handle_msg();
         for (;;) {
-                if (!(flags & again)) {
+                if (!(flags & again_flag)) {
                         c = wgetch(gamew);
                         if (c == key_escape)
                                 break;
                 }
                 do_cmd(c, h, l, &flags);
                 handle_beast(l, h);
-                if (flags & next_level)
+                if (flags & next_level_flag)
                         break;
-                if (flags & again && !msg)
+                if (flags & again_flag && !msg)
                         continue;
                 else
-                if (flags & again && msg)
-                        flags ^= again;
+                if (flags & again_flag && msg)
+                        flags ^= again_flag;
                 handle_fov(l, h);
                 show_info(h);
                 handle_msg();
@@ -62,7 +62,7 @@ int main()
                 init_level(&l, &h);
                 flags = play_game(&l, &h);
                 end_level(&l);
-                if (!(flags & next_level))
+                if (!(flags & next_level_flag))
                         break;
         }
         end_game();
