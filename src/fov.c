@@ -4,11 +4,22 @@
 
 static void fov_points(struct level *l, const struct room *r)
 {
-        if (get_room_by_coord(l->r, l->start.pos.x, l->start.pos.y) == r)
+        if (get_room_by_coord(l->r, l->start.pos.x, l->start.pos.y) == r) {
                 show_point(l->start);
-        if (get_room_by_coord(l->r, l->end.pos.x, l->end.pos.y) == r)
+                l->start.flags |= seen_flag;
+        }
+        if (get_room_by_coord(l->r, l->end.pos.x, l->end.pos.y) == r) {
                 show_point(l->end);
+                l->end.flags |= seen_flag;
+        }
 }
+
+/*
+static void fov_loot(struct loot_list *l, )
+{
+
+}
+*/
 
 static void fov_room(struct level *l, const struct creature *h)
 {
@@ -21,6 +32,7 @@ static void fov_room(struct level *l, const struct creature *h)
                                  h->pos.y >= r->tl.y && h->pos.y <= r->br.y) {
                                 show_room(r, l->d);
                                 fov_points(l, r);
+                                /*fov_loot(l->l, r->tl, r->br);*/
                         }
                 }
         }
