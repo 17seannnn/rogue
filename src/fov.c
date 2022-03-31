@@ -16,36 +16,24 @@ static void fov_points(struct level *l, const struct room *r)
 
 static void fov_loot(struct loot_list *l, struct coord tl, struct coord br)
 {
-        int x, y;
-        struct loot_list *t;
-        for (x = tl.x-1; x <= tl.x+1; x++) {
-                for (y = tl.y-1; y <= tl.y+1; y++) {
-                        for (t = l; t; t = t->next) {
-                                if (t->pos.x >= tl.x && t->pos.x <= br.x &&
-                                    t->pos.y >= tl.y && t->pos.y <= br.y) {
-                                        mvwaddch(gamew, t->pos.y, t->pos.x,
-                                                 loot_symb);
-                                        t->flags |= seen_flag;
-                                }
-                        }
+        for ( ; l; l = l->next) {
+                if (l->pos.x >= tl.x && l->pos.x <= br.x &&
+                    l->pos.y >= tl.y && l->pos.y <= br.y) {
+                        mvwaddch(gamew, l->pos.y, l->pos.x,
+                                 loot_symb);
+                        l->flags |= seen_flag;
                 }
         }
 }
 
 static void fov_beasts(struct beast *b, struct coord tl, struct coord br)
 {
-        int x, y;
-        struct beast *t;
-        for (x = tl.x-1; x <= tl.x+1; x++) {
-                for (y = tl.y-1; y <= tl.y+1; y++) {
-                        for (t = b; t; t = t->next) {
-                                if (t->c.pos.x >= tl.x && t->c.pos.x <= br.x &&
-                                    t->c.pos.y >= tl.y && t->c.pos.y <= br.y) {
-                                        mvwaddch(gamew, t->c.pos.y, t->c.pos.x,
-                                                 t->c.symb);
-                                        t->c.flags |= seen_flag;
-                                }
-                        }
+        for ( ; b; b = b->next) {
+                if (b->c.pos.x >= tl.x && b->c.pos.x <= br.x &&
+                    b->c.pos.y >= tl.y && b->c.pos.y <= br.y) {
+                        mvwaddch(gamew, b->c.pos.y, b->c.pos.x,
+                                 b->c.symb);
+                        b->c.flags |= seen_flag;
                 }
         }
 }
@@ -63,7 +51,24 @@ static void fov_room(struct level *l, const struct creature *h)
 
 static void fov_path(struct level *l, const struct creature *h)
 {
-        show_creature(h);
+        int x, y;
+        struct coord tl = h->pos, br = h->pos;
+        tl.x -= 1;
+        tl.y -= 1;
+        br.x += 1;
+        br.y += 1;
+        fov_loot(l->l, tl, br);
+        fov_beasts(l->b, tl, br);
+        for (x = tl.x; x <= br.x; x++) {
+                for (y = tl.y; y <= br.y; y++) {
+                        if (is_room(l->r, x, y)) {
+                                if (is_door(l->d, x, y))
+                                        mvwaddch(gamew, x, y, door_symb);
+                                else
+                                        mvwaddch(gamew, x, y, wall_symb);
+                        }
+                }
+        }
 }
 
 void handle_fov(struct level *l, const struct creature *h)
@@ -71,8 +76,11 @@ void handle_fov(struct level *l, const struct creature *h)
 /*
         const struct beast *b;
 */
-        fov_room(l, h);
+        /*
         fov_path(l, h);
+        */
+        fov_room(l, h);
+        show_creature(h);
 /*
         show_rooms(l->r, l->d);
         show_path(l->p);

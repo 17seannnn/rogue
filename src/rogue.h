@@ -48,6 +48,13 @@ enum {
         seen_flag = 0x8000
 };
 
+/* room */
+enum {
+        wall_symb   = '#',
+        door_symb   = '+',
+        ground_symb = '.'
+};
+
 /* loot */
 enum {
         type_weapon = 0,

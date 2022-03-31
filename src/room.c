@@ -281,18 +281,18 @@ void show_room(const struct room *r, const struct door *d)
 {
         int x, y;
         for (y = r->tl.y; y <= r->br.y; y++) {
-                mvwaddch(gamew, y, r->tl.x, '#');
-                mvwaddch(gamew, y, r->br.x, '#');
+                mvwaddch(gamew, y, r->tl.x, wall_symb);
+                mvwaddch(gamew, y, r->br.x, wall_symb);
                 if (y == r->tl.y || y == r->br.y)
                         for (x = r->tl.x + 1; x < r->br.x; x++)
-                                mvwaddch(gamew, y, x, '#');
+                                mvwaddch(gamew, y, x, wall_symb);
                 else
                         for (x = r->tl.x + 1; x < r->br.x; x++)
-                                mvwaddch(gamew, y, x, '.');
+                                mvwaddch(gamew, y, x, ground_symb);
         }
         for ( ; d; d = d->next) {
                 if (d->owner == r)
-                        mvwaddch(gamew, d->pos.y, d->pos.x, '+');
+                        mvwaddch(gamew, d->pos.y, d->pos.x, door_symb);
         }
         wrefresh(gamew);
 }
