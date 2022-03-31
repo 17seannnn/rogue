@@ -52,7 +52,7 @@ static void fov_room(struct level *l, const struct creature *h)
 static void fov_path(struct level *l, const struct creature *h)
 {
         int x, y;
-        struct coord tl = h->pos, br = h->pos;
+        struct coord tl = h->pos, br = tl;
         tl.x -= 1;
         tl.y -= 1;
         br.x += 1;
@@ -63,12 +63,13 @@ static void fov_path(struct level *l, const struct creature *h)
                 for (y = tl.y; y <= br.y; y++) {
                         if (is_room(l->r, x, y)) {
                                 if (is_door(l->d, x, y))
-                                        mvwaddch(gamew, x, y, door_symb);
+                                        mvwaddch(gamew, y, x, door_symb);
                                 else
-                                        mvwaddch(gamew, x, y, wall_symb);
+                                        mvwaddch(gamew, y, x, wall_symb);
                         }
                 }
         }
+        wrefresh(gamew);
 }
 
 void handle_fov(struct level *l, const struct creature *h)
@@ -76,9 +77,7 @@ void handle_fov(struct level *l, const struct creature *h)
 /*
         const struct beast *b;
 */
-        /*
         fov_path(l, h);
-        */
         fov_room(l, h);
         show_creature(h);
 /*
