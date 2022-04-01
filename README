@@ -1,3 +1,23 @@
 rogue-like game
 ===============
 
+The game is under development and doesn't have a name yet.
+Already has a random room generation, now working on core mechanics.
+
+Movement:  hjkl, HJKL
+Inventory: i*
+Drop:      d
+Wield:     w
+Wear:      W
+Quaff:     q
+Go to next level: >
+
+Symbols:
+@ - playable character
+B - beast, unfriendly npc
+: - loot
+# - wall
++ - door
+" - path
+> - thing that move to next level
+< - thing you came from
