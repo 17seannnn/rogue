@@ -24,6 +24,7 @@ static void fov_loot(struct loot_list *l, struct coord tl, struct coord br)
                         l->flags |= seen_flag;
                 }
         }
+        wrefresh(gamew);
 }
 
 static void fov_beasts(struct beast *b, struct coord tl, struct coord br)
@@ -36,6 +37,7 @@ static void fov_beasts(struct beast *b, struct coord tl, struct coord br)
                         b->c.flags |= seen_flag;
                 }
         }
+        wrefresh(gamew);
 }
 
 static void fov_room(struct level *l, const struct creature *h)
