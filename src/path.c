@@ -195,5 +195,4 @@ void show_path(const struct path *p)
 {
         for ( ; p; p = p->next)
                 mvwaddch(gamew, p->pos.y, p->pos.x, path_symb);
-        wrefresh(gamew);
 }

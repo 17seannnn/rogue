@@ -296,7 +296,6 @@ void show_room(const struct room *r, const struct door *d, int ground)
                 if (d->owner == r)
                         mvwaddch(gamew, d->pos.y, d->pos.x, door_symb);
         }
-        wrefresh(gamew);
 }
 
 void show_rooms(const struct room *r, const struct door *d)
