@@ -104,12 +104,18 @@ struct coord {
         int x, y;
 };
 
+struct linked_coord {
+        struct coord pos;
+        struct linked_coord *next;
+};
+
 /* room */
 struct room {
         int ch_idx, no_idx;
         struct coord tl, br;
         int depth;
         struct room *parent, *left, *right;
+        struct linked_coord *seen_walls;
         unsigned flags;
 };
 
