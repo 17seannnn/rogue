@@ -220,6 +220,7 @@ int is_one_room(const struct room *r, struct coord pos1, struct coord pos2);
 int is_wall(const struct room *r, int x, int y);
 void show_room(const struct room *r, const struct door *d);
 void show_rooms(const struct room *r, const struct door *d);
+void add_seen_wall(struct room *r, int x, int y);
 
 /* path */
 struct path *get_path_by_coord(const struct path *p, int x, int y);

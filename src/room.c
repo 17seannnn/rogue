@@ -310,3 +310,12 @@ void show_rooms(const struct room *r, const struct door *d)
         if (r->right)
                 show_rooms(r->right, d);
 }
+
+void add_seen_wall(struct room *r, int x, int y)
+{
+        struct linked_coord *sw = malloc(sizeof(*sw));
+        sw->pos.x = x;
+        sw->pos.y = y;
+        sw->next = r->seen_walls;
+        r->seen_walls = sw->next;
+}

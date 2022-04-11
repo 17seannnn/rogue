@@ -52,6 +52,7 @@ static void fov_path(struct level *l, const struct creature *h)
         int x, y;
         struct coord tl = h->pos, br = tl;
         struct path *p;
+        struct room *r;
         tl.x -= 1;
         tl.y -= 1;
         br.x += 1;
@@ -59,14 +60,16 @@ static void fov_path(struct level *l, const struct creature *h)
         for (x = tl.x; x <= br.x; x++) {
                 for (y = tl.y; y <= br.y; y++) {
                         p = get_path_by_coord(l->p, x, y);
+                        r = get_room_by_coord(l->r, x, y);
                         if (p) {
                                 mvwaddch(gamew, y, x, path_symb);
                                 p->flags |= seen_flag;
-                        } else if (is_room(l->r, x, y)) {
+                        } else if (r) {
                                 if (is_door(l->d, x, y))
                                         mvwaddch(gamew, y, x, door_symb);
                                 else
                                         mvwaddch(gamew, y, x, wall_symb);
+                                add_seen_wall(r, x, y);
                         }
                 }
         }
