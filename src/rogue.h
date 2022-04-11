@@ -218,7 +218,7 @@ struct room *get_room_by_coord(const struct room *r, int x, int y);
 int is_room(const struct room *r, int x, int y);
 int is_one_room(const struct room *r, struct coord pos1, struct coord pos2);
 int is_wall(const struct room *r, int x, int y);
-void show_room(const struct room *r, const struct door *d);
+void show_room(const struct room *r, const struct door *d, int ground);
 void show_rooms(const struct room *r, const struct door *d);
 void add_seen_wall(struct room *r, int x, int y);
 
@@ -242,11 +242,11 @@ struct loot_list *get_loot_by_coord(const struct loot_list *l, int x, int y);
 void try_loot(struct level *l, struct creature *h, int side);
 
 /* inv */
-void show_inv(const struct creature *h);
-void drop(struct loot_list **ll, struct creature *h);
-void wield(struct creature *h);
-void wear(struct creature *h);
-void quaff(struct creature *h);
+void show_inv(struct level *l, const struct creature *h);
+void drop(struct level *l, struct creature *h);
+void wield(struct level *l, struct creature *h);
+void wear(struct level *l, struct creature *h);
+void quaff(struct level *l, struct creature *h);
 
 /* creature */
 void show_creature(const struct creature *c);
@@ -288,6 +288,7 @@ void handle_msg();
 
 /* fov */
 void handle_fov(struct level *l, const struct creature *h, int refresh);
+void redraw_screen(struct level *l, const struct creature *h);
 
 /* fight */
 int attack(const struct creature *a, struct creature *d);

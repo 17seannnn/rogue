@@ -20,7 +20,7 @@ static const char msg_toquaff[] = "What do you want to quaff? [";
 static const char msg_quaffed[] = "You quaffed  ";
 static const char msg_not_quaffed[] = " can't be quaffed.";
 
-void show_inv(const struct creature *h)
+void show_inv(struct level *l, const struct creature *h)
 {
         int y = 0, x = 0;
         struct loot_list *t;
@@ -71,10 +71,10 @@ void show_inv(const struct creature *h)
         wattrset(invw, A_NORMAL);
         wrefresh(invw);
         wait_ch(' ');
-        /* TODO redraw screen */
+        redraw_screen(l, h);
 }
 
-void drop(struct loot_list **ll, struct creature *h)
+void drop(struct level *l, struct creature *h)
 {
         int idx, got;
         char buf[] = " ";
@@ -95,7 +95,7 @@ void drop(struct loot_list **ll, struct creature *h)
                 case '*':
                         add_msg(msg_checking_inv);
                         handle_msg();
-                        show_inv(h);
+                        show_inv(l, h);
                         break;
                 default:
                         got = 1;
@@ -119,11 +119,11 @@ void drop(struct loot_list **ll, struct creature *h)
         else
         if (h->armor == t)
                 h->armor = NULL;
-        add_loot(ll, t->l, h->pos.x, h->pos.y, seen_flag);
+        add_loot(&l->l, t->l, h->pos.x, h->pos.y, seen_flag);
         del_loot(&h->inv, t);
 }
 
-void wield(struct creature *h)
+void wield(struct level *l, struct creature *h)
 {
         int idx, got;
         char buf[] = " ";
@@ -146,7 +146,7 @@ void wield(struct creature *h)
                 case '*':
                         add_msg(msg_checking_inv);
                         handle_msg();
-                        show_inv(h);
+                        show_inv(l, h);
                         break;
                 default:
                         got = 1;
@@ -168,7 +168,7 @@ void wield(struct creature *h)
         h->weapon = t;
 }
 
-void wear(struct creature *h)
+void wear(struct level *l, struct creature *h)
 {
         int idx, got;
         char buf[] = " ";
@@ -191,7 +191,7 @@ void wear(struct creature *h)
                 case '*':
                         add_msg(msg_checking_inv);
                         handle_msg();
-                        show_inv(h);
+                        show_inv(l, h);
                         break;
                 default:
                         got = 1;
@@ -213,7 +213,7 @@ void wear(struct creature *h)
         h->armor = t;
 }
 
-void quaff(struct creature *h)
+void quaff(struct level *l, struct creature *h)
 {
         int idx, got;
         char buf[] = " ";
@@ -236,7 +236,7 @@ void quaff(struct creature *h)
                 case '*':
                         add_msg(msg_checking_inv);
                         handle_msg();
-                        show_inv(h);
+                        show_inv(l, h);
                         break;
                 default:
                         got = 1;

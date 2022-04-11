@@ -41,7 +41,8 @@ static void fov_room(struct level *l, const struct creature *h)
         struct room *r = get_room_by_coord(l->r, h->pos.x, h->pos.y);
         if (!r)
                 return;
-        show_room(r, l->d);
+        r->flags |= seen_flag;
+        show_room(r, l->d, 1);
         fov_points(l, r);
         fov_loot(l->l, r->tl, r->br);
         fov_beasts(l->b, r->tl, r->br);
@@ -98,4 +99,26 @@ void handle_fov(struct level *l, const struct creature *h, int refresh)
         for (b = l->b; b; b = b->next)
                 show_creature(&b->c);
 */
+}
+
+void redraw_screen(struct level *l, const struct creature *h)
+{
+        int ch_idx, no_idx;
+        struct room *r;
+        for (ch_idx = 'A'; ch_idx <= 'D'; ch_idx++) {
+                for (no_idx = 1; no_idx <= 4; no_idx++) {
+                        r = get_room_by_idx(l->r, ch_idx, no_idx);
+                        if (!r)
+                                continue;
+                        if (r->flags & seen_flag)
+                                show_room(r, l->d, 0);
+                        /*
+                        if (r->seen_walls)
+                                show_seen_walls(r->seen_walls);
+                        */
+                }
+        }
+        handle_fov(l, h, 1);
+        wrefresh(msgw);
+        wrefresh(infow);
 }

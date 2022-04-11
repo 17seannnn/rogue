@@ -13,19 +13,19 @@ void do_cmd(int c, struct creature *h, struct level *l, unsigned *flags)
                 break;
         case 'i':
         case '*':
-                show_inv(h);
+                show_inv(l, h);
                 break;
         case 'd':
-                drop(&l->l, h);
+                drop(l, h);
                 break;
         case 'w':
-                wield(h);
+                wield(l, h);
                 break;
         case 'W':
-                wear(h);
+                wear(l, h);
                 break;
         case 'q':
-                quaff(h);
+                quaff(l, h);
                 break;
         case '>':
                 go_next(l, h, flags);
