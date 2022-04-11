@@ -273,7 +273,6 @@ int get_char_side(int c);
 void get_side_diff(int side, int *dx, int *dy);
 void init_level(struct level *l, struct creature *h);
 void end_level(struct level *l);
-void show_point(struct point p);
 
 /* msg */
 void add_msg(const char *text);
@@ -281,7 +280,7 @@ void append_msg(const char *text);
 void handle_msg();
 
 /* fov */
-void handle_fov(struct level *l, const struct creature *h);
+void handle_fov(struct level *l, const struct creature *h, int refresh);
 
 /* fight */
 int attack(const struct creature *a, struct creature *d);

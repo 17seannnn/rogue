@@ -183,8 +183,3 @@ void end_level(struct level *l)
         wrefresh(gamew);
         wrefresh(infow);
 }
-
-void show_point(struct point p)
-{
-        mvwaddch(gamew, p.pos.y, p.pos.x, p.symb);
-}

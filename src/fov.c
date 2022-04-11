@@ -5,11 +5,11 @@
 static void fov_points(struct level *l, const struct room *r)
 {
         if (get_room_by_coord(l->r, l->start.pos.x, l->start.pos.y) == r) {
-                show_point(l->start);
+                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, l->start.symb);
                 l->start.flags |= seen_flag;
         }
         if (get_room_by_coord(l->r, l->end.pos.x, l->end.pos.y) == r) {
-                show_point(l->end);
+                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, l->end.symb);
                 l->end.flags |= seen_flag;
         }
 }
@@ -19,12 +19,10 @@ static void fov_loot(struct loot_list *l, struct coord tl, struct coord br)
         for ( ; l; l = l->next) {
                 if (l->pos.x >= tl.x && l->pos.x <= br.x &&
                     l->pos.y >= tl.y && l->pos.y <= br.y) {
-                        mvwaddch(gamew, l->pos.y, l->pos.x,
-                                 loot_symb);
+                        mvwaddch(gamew, l->pos.y, l->pos.x, loot_symb);
                         l->flags |= seen_flag;
                 }
         }
-        wrefresh(gamew);
 }
 
 static void fov_beasts(struct beast *b, struct coord tl, struct coord br)
@@ -32,12 +30,10 @@ static void fov_beasts(struct beast *b, struct coord tl, struct coord br)
         for ( ; b; b = b->next) {
                 if (b->c.pos.x >= tl.x && b->c.pos.x <= br.x &&
                     b->c.pos.y >= tl.y && b->c.pos.y <= br.y) {
-                        mvwaddch(gamew, b->c.pos.y, b->c.pos.x,
-                                 b->c.symb);
+                        mvwaddch(gamew, b->c.pos.y, b->c.pos.x, b->c.symb);
                         b->c.flags |= seen_flag;
                 }
         }
-        wrefresh(gamew);
 }
 
 static void fov_room(struct level *l, const struct creature *h)
@@ -76,17 +72,19 @@ static void fov_path(struct level *l, const struct creature *h)
         }
         fov_loot(l->l, tl, br);
         fov_beasts(l->b, tl, br);
-        wrefresh(gamew);
 }
 
-void handle_fov(struct level *l, const struct creature *h)
+void handle_fov(struct level *l, const struct creature *h, int refresh)
 {
 /*
         const struct beast *b;
 */
         fov_path(l, h);
         fov_room(l, h);
-        show_creature(h);
+        if (refresh) {
+                show_creature(h);
+                wrefresh(gamew);
+        }
 /*
         show_rooms(l->r, l->d);
         show_path(l->p);

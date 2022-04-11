@@ -27,7 +27,7 @@ static unsigned play_game(struct level *l, struct creature *h)
 {
         int c;
         unsigned flags = 0;
-        handle_fov(l, h);
+        handle_fov(l, h, 1);
         show_info(h);
         handle_msg();
         for (;;) {
@@ -40,12 +40,14 @@ static unsigned play_game(struct level *l, struct creature *h)
                 handle_beast(l, h);
                 if (flags & next_level_flag)
                         break;
-                if (flags & again_flag && !msg)
+                if (flags & again_flag && !msg) {
+                        handle_fov(l, h, 0);
                         continue;
-                else
-                if (flags & again_flag && msg)
+                } else
+                if (flags & again_flag && msg) {
                         flags ^= again_flag;
-                handle_fov(l, h);
+                }
+                handle_fov(l, h, 1);
                 show_info(h);
                 handle_msg();
         }
