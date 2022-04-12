@@ -52,6 +52,7 @@ void free_beast(struct beast *b)
 {
         struct beast *t;
         while (b) {
+                free_loot(b->c.inv);
                 t = b;
                 b = b->next;
                 free(t);
