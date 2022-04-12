@@ -28,6 +28,20 @@ static int has_idx(struct loot_list *l, int idx)
         return 0;
 }
 
+struct loot_list *get_loot_by_coord(const struct loot_list *l, int x, int y)
+{
+        for ( ; l; l = l->next)
+                if (l->pos.x == x && l->pos.y == y)
+                        return (struct loot_list *)l;
+        return NULL;
+}
+
+int is_loot(struct loot_list *l, int x, int y)
+{
+        struct loot_list *t = get_loot_by_coord(l, x, y);
+        return t != NULL ? 1 : 0;
+}
+
 void add_loot(struct loot_list **ll, const struct loot *l,
               int x, int y, unsigned flags)
 {
@@ -93,14 +107,6 @@ void show_loot(const struct loot_list *l)
 {
         for ( ; l; l = l->next)
                 mvwaddch(gamew, l->pos.y, l->pos.x, loot_symb);
-}
-
-struct loot_list *get_loot_by_coord(const struct loot_list *l, int x, int y)
-{
-        for ( ; l; l = l->next)
-                if (l->pos.x == x && l->pos.y == y)
-                        return (struct loot_list *)l;
-        return NULL;
 }
 
 void try_loot(struct level *l, struct creature *h, int side)
