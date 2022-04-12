@@ -70,7 +70,7 @@ static void fov_path(struct level *l, const struct creature *h)
                                         mvwaddch(gamew, y, x, door_symb);
                                 else
                                         mvwaddch(gamew, y, x, wall_symb);
-                                add_seen_wall(r, x, y);
+                                add_linked_coord(&r->seen_walls, x, y);
                         }
                 }
         }

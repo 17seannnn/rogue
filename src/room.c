@@ -115,6 +115,7 @@ void free_room(struct room *r)
                 free_room(r->left);
         if (r->right)
                 free_room(r->right);
+        free_linked_coord(r->seen_walls);
         free(r);
 }
 
@@ -310,15 +311,6 @@ void show_rooms(const struct room *r, const struct door *d)
         }
         if (r->right)
                 show_rooms(r->right, d);
-}
-
-void add_seen_wall(struct room *r, int x, int y)
-{
-        struct linked_coord *sw = malloc(sizeof(*sw));
-        sw->pos.x = x;
-        sw->pos.y = y;
-        sw->next = r->seen_walls;
-        r->seen_walls = sw;
 }
 
 void show_seen_walls(struct linked_coord *sw, const struct door *d)

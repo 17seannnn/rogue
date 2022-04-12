@@ -9,6 +9,25 @@ enum {
         end_point_symb   = '>'
 };
 
+void add_linked_coord(struct linked_coord **lc, int x, int y)
+{
+        struct linked_coord *t = malloc(sizeof(*t));
+        t->pos.x = x;
+        t->pos.y = y;
+        t->next = *lc;
+        *lc = t;
+}
+
+void free_linked_coord(struct linked_coord *lc)
+{
+        struct linked_coord *t;
+        while (lc) {
+                t = lc;
+                lc = lc->next;
+                free(t);
+        }
+}
+
 int is_ok(int x, int y)
 {
         return x >= 0 && x < gamew_col && y >= 0 && y < gamew_row;

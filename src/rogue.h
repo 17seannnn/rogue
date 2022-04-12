@@ -200,6 +200,10 @@ extern const struct loot armor_list[];
 extern const struct loot poition_list[];
 extern const struct loot key_list[];
 
+/* common */
+void add_linked_coord(struct linked_coord **lc, int x, int y);
+void free_linked_coord(struct linked_coord *lc);
+
 /* math */
 int abs_int(int i);
 double power(int x, int y);
@@ -220,7 +224,6 @@ int is_one_room(const struct room *r, struct coord pos1, struct coord pos2);
 int is_wall(const struct room *r, int x, int y);
 void show_room(const struct room *r, const struct door *d, int ground);
 void show_rooms(const struct room *r, const struct door *d);
-void add_seen_wall(struct room *r, int x, int y);
 void show_seen_walls(struct linked_coord *sw, const struct door *d);
 
 /* path */
