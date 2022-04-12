@@ -318,5 +318,14 @@ void add_seen_wall(struct room *r, int x, int y)
         sw->pos.x = x;
         sw->pos.y = y;
         sw->next = r->seen_walls;
-        r->seen_walls = sw->next;
+        r->seen_walls = sw;
+}
+
+void show_seen_walls(struct linked_coord *sw, const struct door *d)
+{
+        for ( ; sw; sw = sw->next)
+                if (is_door(d, sw->pos.x, sw->pos.y))
+                        mvwaddch(gamew, sw->pos.y, sw->pos.x, door_symb);
+                else
+                        mvwaddch(gamew, sw->pos.y, sw->pos.x, wall_symb);
 }

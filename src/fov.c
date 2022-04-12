@@ -112,10 +112,8 @@ void redraw_screen(struct level *l, const struct creature *h)
                                 continue;
                         if (r->flags & seen_flag)
                                 show_room(r, l->d, 0);
-                        /*
-                        if (r->seen_walls)
-                                show_seen_walls(r->seen_walls);
-                        */
+                        else
+                                show_seen_walls(r->seen_walls, l->d);
                 }
         }
         handle_fov(l, h, 1);

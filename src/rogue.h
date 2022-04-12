@@ -221,6 +221,7 @@ int is_wall(const struct room *r, int x, int y);
 void show_room(const struct room *r, const struct door *d, int ground);
 void show_rooms(const struct room *r, const struct door *d);
 void add_seen_wall(struct room *r, int x, int y);
+void show_seen_walls(struct linked_coord *sw, const struct door *d);
 
 /* path */
 struct path *get_path_by_coord(const struct path *p, int x, int y);
