@@ -105,6 +105,7 @@ void redraw_screen(struct level *l, const struct creature *h)
 {
         int ch_idx, no_idx;
         struct room *r;
+        wclear(gamew);
         for (ch_idx = 'A'; ch_idx <= 'D'; ch_idx++) {
                 for (no_idx = 1; no_idx <= 4; no_idx++) {
                         r = get_room_by_idx(l->r, ch_idx, no_idx);
