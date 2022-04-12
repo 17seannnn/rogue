@@ -18,9 +18,8 @@ static void init_game()
         init_curses();
 }
 
-static void end_game(struct creature *h)
+static void end_game()
 {
-        free_loot(h->inv);
         end_curses();
 }
 
@@ -64,10 +63,10 @@ int main()
         for (;;) {
                 init_level(&l, &h);
                 flags = play_game(&l, &h);
-                end_level(&l);
+                end_level(&l, &h);
                 if (!(flags & next_level_flag))
                         break;
         }
-        end_game(&h);
+        end_game();
         return 0;
 }

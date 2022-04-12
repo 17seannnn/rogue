@@ -285,7 +285,7 @@ int try_side(const struct level *l, int side, int x, int y);
 int get_char_side(int c);
 void get_side_diff(int side, int *dx, int *dy);
 void init_level(struct level *l, struct creature *h);
-void end_level(struct level *l);
+void end_level(struct level *l, struct creature *h);
 
 /* msg */
 void add_msg(const char *text);

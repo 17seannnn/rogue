@@ -199,8 +199,9 @@ void init_level(struct level *l, struct creature *h)
         init_beast(l, h);
 }
 
-void end_level(struct level *l)
+void end_level(struct level *l, struct creature *h)
 {
+        free_loot(h->inv);
         free_room(l->r);
         free_path(l->p);
         free_door(l->d);
