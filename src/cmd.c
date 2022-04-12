@@ -5,6 +5,10 @@
 void do_cmd(int c, struct creature *h, struct level *l, unsigned *flags)
 {
         switch (c) {
+        case 'R':
+        case KEY_RESIZE:
+                redraw_screen(l, h);
+                break;
         case 'h': case 'j': case 'k': case 'l':
         case 'y': case 'u': case 'b': case 'n':
         case 'H': case 'J': case 'K': case 'L':
