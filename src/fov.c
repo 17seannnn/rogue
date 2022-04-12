@@ -54,10 +54,10 @@ static void fov_path(struct level *l, const struct creature *h)
         struct coord tl = h->pos, br = tl;
         struct path *p;
         struct room *r;
-        tl.x -= 1;
-        tl.y -= 1;
-        br.x += 1;
-        br.y += 1;
+        tl.x--;
+        tl.y--;
+        br.x++;
+        br.y++;
         for (x = tl.x; x <= br.x; x++) {
                 for (y = tl.y; y <= br.y; y++) {
                         p = get_path_by_coord(l->p, x, y);
@@ -78,11 +78,23 @@ static void fov_path(struct level *l, const struct creature *h)
         fov_beasts(l->b, tl, br);
 }
 
+static void fov_static_area(const struct level *l, struct coord tl,
+                                                   struct coord br)
+{
+
+}
+
 void handle_fov(struct level *l, const struct creature *h, int refresh)
 {
 /*
         const struct beast *b;
 */
+        struct coord tl = h->pos, br = tl;
+        tl.x -= 2;
+        tl.y -= 2;
+        br.x += 2;
+        br.y += 2;
+        fov_static_area(l, tl, br);
         fov_path(l, h);
         fov_room(l, h);
         if (refresh) {
