@@ -9,9 +9,20 @@ enum {
         end_point_symb   = '>'
 };
 
+int is_linked_coord(struct linked_coord *lc, int x, int y)
+{
+        for ( ; lc; lc = lc->next)
+                if (lc->pos.x == x && lc->pos.y == y)
+                        return 1;
+        return 0;
+}
+
 void add_linked_coord(struct linked_coord **lc, int x, int y)
 {
-        struct linked_coord *t = malloc(sizeof(*t));
+        struct linked_coord *t;
+        if (is_linked_coord(*lc, x, y))
+                return;
+        t = malloc(sizeof(*t));
         t->pos.x = x;
         t->pos.y = y;
         t->next = *lc;

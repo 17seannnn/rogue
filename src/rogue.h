@@ -201,6 +201,7 @@ extern const struct loot poition_list[];
 extern const struct loot key_list[];
 
 /* common */
+int is_linked_coord(struct linked_coord *lc, int x, int y);
 void add_linked_coord(struct linked_coord **lc, int x, int y);
 void free_linked_coord(struct linked_coord *lc);
 
