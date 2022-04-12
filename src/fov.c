@@ -105,6 +105,8 @@ void redraw_screen(struct level *l, const struct creature *h)
 {
         int ch_idx, no_idx;
         struct room *r;
+        struct path *p;
+        struct loot_list *ll;
         wclear(gamew);
         for (ch_idx = 'A'; ch_idx <= 'D'; ch_idx++) {
                 for (no_idx = 1; no_idx <= 4; no_idx++) {
@@ -117,6 +119,15 @@ void redraw_screen(struct level *l, const struct creature *h)
                                 show_seen_walls(r->seen_walls, l->d);
                 }
         }
+        for (p = l->p; p; p = p->next)
+                if (p->flags & seen_flag)
+                        mvwaddch(gamew, p->pos.y, p->pos.x, path_symb);
+        if (l->start.flags & seen_flag)
+                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, l->start.symb);
+        if (l->end.flags & seen_flag)
+                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, l->end.symb);
+        for (ll = l->l; ll; ll = ll->next)
+                mvwaddch(gamew, ll->pos.y, ll->pos.x, loot_symb);
         handle_fov(l, h, 1);
         wrefresh(msgw);
         wrefresh(infow);
