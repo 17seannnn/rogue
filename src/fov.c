@@ -127,7 +127,8 @@ void redraw_screen(struct level *l, const struct creature *h)
         if (l->end.flags & seen_flag)
                 mvwaddch(gamew, l->end.pos.y, l->end.pos.x, l->end.symb);
         for (ll = l->l; ll; ll = ll->next)
-                mvwaddch(gamew, ll->pos.y, ll->pos.x, loot_symb);
+                if (ll->flags & seen_flag)
+                        mvwaddch(gamew, ll->pos.y, ll->pos.x, loot_symb);
         handle_fov(l, h, 1);
         wrefresh(msgw);
         wrefresh(infow);
