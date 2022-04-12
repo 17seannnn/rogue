@@ -122,9 +122,9 @@ void handle_fov(struct level *l, const struct creature *h, int refresh)
         br.x += 2;
         br.y += 2;
         fov_static_area(l, tl, br);
+        fov_seen_objects(l);
         fov_path(l, h);
         fov_room(l, h);
-        fov_seen_objects(l);
         if (refresh) {
                 show_creature(h);
                 wrefresh(gamew);
