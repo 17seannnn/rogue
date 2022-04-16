@@ -9,6 +9,10 @@ enum {
         end_point_symb   = '>'
 };
 
+const struct level_type level_list[] = {
+        { 10, 65 }
+};
+
 int is_linked_coord(struct linked_coord *lc, int x, int y)
 {
         for ( ; lc; lc = lc->next)
@@ -192,11 +196,12 @@ static void init_points(struct level *l)
 void init_level(struct level *l, struct creature *h)
 {
         l->depth = init_room(&l->r);
+        l->lt = &level_list[0];
         init_path(l);
         init_points(l);
+        init_beast(l, h);
         init_loot(l, h);
         init_hunter(h, l);
-        init_beast(l, h);
 }
 
 void end_level(struct level *l, struct creature *h)

@@ -34,16 +34,32 @@ int is_beast(const struct beast *b, int x, int y)
         return 0;
 }
 
+static int can_place(const struct level *l, const struct creature *h,
+                     int x, int y)
+{
+        return !is_beast(l->b, x, y) && !is_hunter(h, x, y);
+}
+
 void init_beast(struct level *l, const struct creature *h)
 {
-        int ch, no;
+        int ch, no, x, y;
         struct room *r;
         l->b = NULL;
         for (ch = 'A'; ch <= 'D'; ch++) {
                 for (no = 1; no <= 4; no++) {
                         r = get_room_by_idx(l->r, ch, no);
-                        if (r)
-                                add_beast(&l->b, r->tl.x+1, r->tl.y+1);
+                        if (r) {
+                                while (rand() % 100 < l->lt->beast_chance) {
+                                        x = r->tl.x + 1 + rand() %
+                                            (room_len(r, 'h') - 2);
+                                        y = r->tl.y + 1 + rand() %
+                                            (room_len(r, 'v') - 2);
+                                        if (can_place(l, h, x, y))
+                                                add_beast(&l->b, x, y);
+                                        else
+                                                break;
+                                }
+                        }
                 }
         }
 }

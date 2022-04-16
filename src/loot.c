@@ -84,7 +84,7 @@ void init_loot(struct level *l, const struct creature *h)
                 for (no = 1; no <= 4; no++) {
                         r = get_room_by_idx(l->r, ch, no);
                         if (r && no == 1)
-                                add_loot(&l->l, &key_list[poition_debug],
+                                add_loot(&l->l, &key_list[key_debug],
                                          r->tl.x+1, r->tl.y+2, 0);
                         else if (r)
                                 add_loot(&l->l, &poition_list[poition_debug],

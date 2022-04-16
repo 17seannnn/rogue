@@ -172,8 +172,14 @@ struct point {
         unsigned flags;
 };
 
+struct level_type {
+        int loot_chance;
+        int beast_chance;
+};
+
 struct level {
         int depth;
+        const struct level_type *lt;
         struct point start, end;
         struct room *r;
         struct path *p;
@@ -199,6 +205,9 @@ extern const struct loot weapon_list[];
 extern const struct loot armor_list[];
 extern const struct loot poition_list[];
 extern const struct loot key_list[];
+
+/* level */
+extern const struct level_type level_list[];
 
 /* common */
 int is_linked_coord(struct linked_coord *lc, int x, int y);
