@@ -253,6 +253,13 @@ struct room *get_room_by_coord(const struct room *r, int x, int y)
         return t;
 }
 
+struct room *get_random_room(const struct room *r)
+{
+        if (!r->left)
+                return (struct room *)r;
+        return get_random_room(rand() % 2 ? r->left : r->right);
+}
+
 int is_room(const struct room *r, int x, int y)
 {
         return get_room_by_coord(r, x, y) ? 1 : 0;

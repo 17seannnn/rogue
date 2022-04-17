@@ -97,6 +97,22 @@ static void spawn_loot(struct level *l, struct room *r)
         }
 }
 
+static void spawn_key(struct level *l)
+{
+        int x, y;
+        struct room *r;
+        r = get_random_room(l->r);
+        x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+        y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+        add_loot(&l->l, &key_list[key_debug], x, y, 0);
+        /* Spawn in room or in beast
+        if (rand() % 2) {
+        } else {
+                ;
+        }
+        */
+}
+
 void init_loot(struct level *l)
 {
         int ch, no;
@@ -109,7 +125,7 @@ void init_loot(struct level *l)
                                 spawn_loot(l, r);
                 }
         }
-        /* spawn key */
+        spawn_key(l);
 }
 
 void free_loot(struct loot_list *l)
