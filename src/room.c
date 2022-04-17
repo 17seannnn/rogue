@@ -285,7 +285,7 @@ int is_wall(const struct room *r, int x, int y)
         return 0;
 }
 
-void show_room(const struct room *r, const struct door *d, int ground)
+void show_room(struct room *r, const struct door *d, int ground)
 {
         int x, y, symb;
         for (y = r->tl.y; y <= r->br.y; y++) {
@@ -300,13 +300,16 @@ void show_room(const struct room *r, const struct door *d, int ground)
                 for (x = r->tl.x + 1; x < r->br.x; x++)
                         mvwaddch(gamew, y, x, symb);
         }
-        for ( ; d; d = d->next) {
+        for ( ; d; d = d->next)
                 if (d->owner == r)
                         mvwaddch(gamew, d->pos.y, d->pos.x, door_symb);
-        }
+        if (r->flags & see_flag && !ground)
+                r->flags ^= see_flag;
+        else if (!(r->flags & see_flag) && ground)
+                r->flags |= see_flag;
 }
 
-void show_rooms(const struct room *r, const struct door *d)
+void show_rooms(struct room *r, const struct door *d)
 {
         if (!r)
                 return;

@@ -89,7 +89,8 @@ static void fov_static_area(const struct level *l, struct coord tl,
                 for (x = tl.x; x <= br.x; x++) {
                         r = get_room_by_coord(l->r, x, y);
                         if (r && r->flags & seen_flag) {
-                                show_room(r, l->d, 0);
+                                if (r->flags & see_flag)
+                                        show_room(r, l->d, 0);
                                 continue;
                         }
                         p = get_path_by_coord(l->p, x, y);

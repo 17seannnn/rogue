@@ -52,7 +52,9 @@ enum {
 enum {
         wall_symb   = '#',
         door_symb   = '+',
-        ground_symb = '.'
+        ground_symb = '.',
+
+        see_flag = 0x0001
 };
 
 /* path */
@@ -235,8 +237,8 @@ struct room *get_random_room(const struct room *r);
 int is_room(const struct room *r, int x, int y);
 int is_one_room(const struct room *r, struct coord pos1, struct coord pos2);
 int is_wall(const struct room *r, int x, int y);
-void show_room(const struct room *r, const struct door *d, int ground);
-void show_rooms(const struct room *r, const struct door *d);
+void show_room(struct room *r, const struct door *d, int ground);
+void show_rooms(struct room *r, const struct door *d);
 void show_seen_walls(struct linked_coord *sw, const struct door *d);
 
 /* path */
