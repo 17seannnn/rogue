@@ -83,6 +83,22 @@ void free_beast(struct beast *b)
         }
 }
 
+int count_beast(const struct beast *b)
+{
+        int i;
+        for (i = 0; b; b = b->next, i++)
+                {}
+        return i;
+}
+
+struct beast *get_random_beast(const struct beast *b)
+{
+        int i;
+        for (i = rand() % count_beast(b); i && b; b = b->next, i--)
+                {}
+        return (struct beast *)b;
+}
+
 static void del_beast(struct beast **b, struct beast *del)
 {
         for ( ; *b && *b != del; b = &(*b)->next)

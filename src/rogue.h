@@ -285,6 +285,8 @@ void go_next(const struct level *l, struct creature *h, unsigned *flags);
 int is_beast(const struct beast *b, int x, int y);
 void init_beast(struct level *l, const struct creature *h);
 void free_beast(struct beast *b);
+int count_beast(const struct beast *b);
+struct beast *get_random_beast(const struct beast *b);
 void handle_beast(struct level *l, struct creature *h);
 
 /* level */
