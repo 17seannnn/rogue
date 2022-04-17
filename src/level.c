@@ -10,7 +10,7 @@ enum {
 };
 
 const struct level_type level_list[] = {
-        { 10, 65, 3 }
+        { 50, 1, 50, 3 }
 };
 
 int is_linked_coord(struct linked_coord *lc, int x, int y)
@@ -200,7 +200,7 @@ void init_level(struct level *l, struct creature *h)
         init_path(l);
         init_points(l);
         init_beast(l, h);
-        init_loot(l, h);
+        init_loot(l);
         init_hunter(h, l);
 }
 

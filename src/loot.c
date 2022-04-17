@@ -75,7 +75,29 @@ void del_loot(struct loot_list **l, struct loot_list *del)
         }
 }
 
-void init_loot(struct level *l, const struct creature *h)
+static void spawn_loot(struct level *l, struct room *r)
+{
+        int i, x, y, chance, count;
+        const struct loot *lp;
+        chance = l->lt->loot_chance;
+        for (count = 0; rand() % 100 < chance; count++) {
+                x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+                y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+                if (count < l->lt->max_loot_count) {
+                        i = rand() % 3;
+                        switch (i) {
+                        case 0: lp = &weapon_list[weapon_debug];   break;
+                        case 1: lp = &armor_list[armor_debug];     break;
+                        case 2: lp = &poition_list[poition_debug]; break;
+                        }
+                        add_loot(&l->l, lp, x, y, 0);
+                } else {
+                        break;
+                }
+        }
+}
+
+void init_loot(struct level *l)
 {
         int ch, no;
         struct room *r;
@@ -83,14 +105,11 @@ void init_loot(struct level *l, const struct creature *h)
         for (ch = 'A'; ch <= 'D'; ch++) {
                 for (no = 1; no <= 4; no++) {
                         r = get_room_by_idx(l->r, ch, no);
-                        if (r && no == 1)
-                                add_loot(&l->l, &key_list[key_debug],
-                                         r->tl.x+1, r->tl.y+2, 0);
-                        else if (r)
-                                add_loot(&l->l, &poition_list[poition_debug],
-                                         r->tl.x+1, r->tl.y+2, 0);
+                        if (r)
+                                spawn_loot(l, r);
                 }
         }
+        /* spawn loot */
 }
 
 void free_loot(struct loot_list *l)
