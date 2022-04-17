@@ -48,12 +48,13 @@ static void spawn_beast(struct level *l, const struct creature *h,
         if (first)
                 chance /= 3;
         for (count = 0; rand() % 100 < chance; count++) {
-                x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
-                y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
-                if (count < l->lt->max_beast_count && can_place(l, h, x, y))
+                if (count < l->lt->max_beast_count && can_place(l, h, x, y)) {
+                        x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+                        y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
                         add_beast(&l->b, x, y);
-                else
+                } else {
                         break;
+                }
         }
 }
 

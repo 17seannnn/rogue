@@ -81,8 +81,6 @@ static void spawn_loot(struct level *l, struct room *r)
         const struct loot *lp;
         chance = l->lt->loot_chance;
         for (count = 0; rand() % 100 < chance; count++) {
-                x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
-                y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
                 if (count < l->lt->max_loot_count) {
                         i = rand() % 3;
                         switch (i) {
@@ -90,6 +88,8 @@ static void spawn_loot(struct level *l, struct room *r)
                         case 1: lp = &armor_list[armor_debug];     break;
                         case 2: lp = &poition_list[poition_debug]; break;
                         }
+                        x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+                        y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
                         add_loot(&l->l, lp, x, y, 0);
                 } else {
                         break;
@@ -109,7 +109,7 @@ void init_loot(struct level *l)
                                 spawn_loot(l, r);
                 }
         }
-        /* spawn loot */
+        /* spawn key */
 }
 
 void free_loot(struct loot_list *l)
