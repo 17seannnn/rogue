@@ -175,6 +175,7 @@ struct point {
 struct level_type {
         int loot_chance;
         int beast_chance;
+        int max_beast_count;
 };
 
 struct level {

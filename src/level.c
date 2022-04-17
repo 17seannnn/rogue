@@ -10,7 +10,7 @@ enum {
 };
 
 const struct level_type level_list[] = {
-        { 10, 65 }
+        { 10, 65, 3 }
 };
 
 int is_linked_coord(struct linked_coord *lc, int x, int y)

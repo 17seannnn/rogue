@@ -40,26 +40,33 @@ static int can_place(const struct level *l, const struct creature *h,
         return !is_beast(l->b, x, y) && !is_hunter(h, x, y);
 }
 
+static void spawn_beast(struct level *l, const struct creature *h,
+                        const struct room *r, int first)
+{
+        int x, y, chance, count;
+        chance = l->lt->beast_chance;
+        if (first)
+                chance /= 3;
+        for (count = 0; rand() % 100 < chance; count++) {
+                x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+                y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+                if (count < l->lt->max_beast_count && can_place(l, h, x, y))
+                        add_beast(&l->b, x, y);
+                else
+                        break;
+        }
+}
+
 void init_beast(struct level *l, const struct creature *h)
 {
-        int ch, no, x, y;
+        int ch, no;
         struct room *r;
         l->b = NULL;
         for (ch = 'A'; ch <= 'D'; ch++) {
                 for (no = 1; no <= 4; no++) {
                         r = get_room_by_idx(l->r, ch, no);
-                        if (r) {
-                                while (rand() % 100 < l->lt->beast_chance) {
-                                        x = r->tl.x + 1 + rand() %
-                                            (room_len(r, 'h') - 2);
-                                        y = r->tl.y + 1 + rand() %
-                                            (room_len(r, 'v') - 2);
-                                        if (can_place(l, h, x, y))
-                                                add_beast(&l->b, x, y);
-                                        else
-                                                break;
-                                }
-                        }
+                        if (r)
+                                spawn_beast(l, h, r, ch == 'A' && no == 1);
                 }
         }
 }
