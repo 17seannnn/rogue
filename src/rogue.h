@@ -279,6 +279,7 @@ void init_hunter(struct creature *h, const struct level *l);
 void show_info(const struct creature *h);
 void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(struct creature *h, struct beast *b, int side);
+void handle_hunter(struct creature *h);
 void go_next(const struct level *l, struct creature *h, unsigned *flags);
 
 /* beast */

@@ -77,6 +77,15 @@ int try_attack_beast(struct creature *h, struct beast *b, int side)
         return 0;
 }
 
+void handle_hunter(struct creature *h)
+{
+        int level_exp = (int)power(2, h->level);
+        if (h->exp >= level_exp) {
+                h->exp -= level_exp;
+                h->level++;
+        }
+}
+
 void go_next(const struct level *l, struct creature *h, unsigned *flags)
 {
         int c;
