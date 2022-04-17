@@ -79,16 +79,17 @@ static void fov_path(struct level *l, const struct creature *h)
 }
 
 /* Remove non-static objects like beasts near player. */
-static void fov_static_area(const struct level *l, struct coord tl,
-                                                   struct coord br)
+static void fov_static_area(const struct level *l, const struct creature *h,
+                            struct coord tl, struct coord br)
 {
         int x, y;
-        struct room *r;
+        struct room *r, *hr;
         struct path *p;
+        hr = get_room_by_coord(l->r, h->pos.x, h->pos.y);
         for (y = tl.y; y <= br.y; y++) {
                 for (x = tl.x; x <= br.x; x++) {
                         r = get_room_by_coord(l->r, x, y);
-                        if (r && r->flags & seen_flag) {
+                        if (r && r != hr && r->flags & seen_flag) {
                                 if (r->flags & see_flag)
                                         show_room(r, l->d, 0);
                                 continue;
@@ -122,7 +123,7 @@ void handle_fov(struct level *l, const struct creature *h, int refresh)
         tl.y -= 2;
         br.x += 2;
         br.y += 2;
-        fov_static_area(l, tl, br);
+        fov_static_area(l, h, tl, br);
         fov_seen_objects(l);
         fov_path(l, h);
         fov_room(l, h);
