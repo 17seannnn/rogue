@@ -39,7 +39,7 @@ void show_info(const struct creature *h)
 {
         wclear(infow);
         mvwprintw(infow, 0, 0,
-                  "HP:%d Dmg:%d Bld:%d Exp %d/%d ",
+                  "HP:%d Dmg:%d Bld:%d Exp %d/%d        ",
                   h->hp, h->dmg, h->blood, h->exp, (int)power(2, h->level));
         wrefresh(infow);
 }
@@ -65,7 +65,7 @@ void try_move(struct level *l, struct creature *h, int c, unsigned *flags)
         }
 }
 
-int try_attack_beast(const struct creature *h, struct beast *b, int side)
+int try_attack_beast(struct creature *h, struct beast *b, int side)
 {
         int x, y;
         get_side_diff(side, &x, &y);

@@ -16,7 +16,7 @@ static void add_beast(struct beast **b, int x, int y)
         t->c.hp     = 10;
         t->c.dmg    = 1;
         t->c.fov    = 5;
-        t->c.blood  = 0;
+        t->c.blood  = 10;
         t->c.exp    = 1;
         t->c.level  = 1;
         t->c.weapon = NULL;
@@ -109,8 +109,7 @@ static void del_beast(struct beast **b, struct beast *del)
         free(del);
 }
 
-static void try_attack_hunter(const struct creature *b, struct creature *h,
-                                                        int side)
+static void try_attack_hunter(struct creature *b, struct creature *h, int side)
 {
         int x, y;
         get_side_diff(side, &x, &y);
