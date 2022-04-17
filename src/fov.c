@@ -88,6 +88,12 @@ static void fov_static_area(const struct level *l, const struct creature *h,
         hr = get_room_by_coord(l->r, h->pos.x, h->pos.y);
         for (y = tl.y; y <= br.y; y++) {
                 for (x = tl.x; x <= br.x; x++) {
+                        /*
+                         * Draw door because it may be
+                         * previous place for beast
+                         */
+                        if (is_door(l->d, x, y))
+                                mvwaddch(gamew, y, x, door_symb);
                         r = get_room_by_coord(l->r, x, y);
                         if (r && r != hr && r->flags & seen_flag) {
                                 if (r->flags & see_flag)
