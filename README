@@ -1,8 +1,16 @@
 rogue-like game
 ===============
 
+*Working only on Unix-like systems
+
 The game is under development and doesn't have a name yet.
 Already has a random room generation, now working on core mechanics.
+
+Build:
+```
+	cd src
+	make
+```
 
 Movement:  hjkl, HJKL
 Inventory: i*
