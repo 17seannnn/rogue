@@ -289,10 +289,15 @@ void show_room(struct room *r, const struct door *d, int ground)
 {
         int x, y, symb;
         for (y = r->tl.y; y <= r->br.y; y++) {
-                mvwaddch(gamew, y, r->tl.x, wall_symb);
-                mvwaddch(gamew, y, r->br.x, wall_symb);
+                if (y == r->tl.y || y == r->br.y) {
+			mvwaddch(gamew, y, r->tl.x, hor_wall_symb);
+			mvwaddch(gamew, y, r->br.x, hor_wall_symb);
+		} else {
+			mvwaddch(gamew, y, r->tl.x, ver_wall_symb);
+			mvwaddch(gamew, y, r->br.x, ver_wall_symb);
+		}
                 if (y == r->tl.y || y == r->br.y)
-                        symb = wall_symb;
+                        symb = hor_wall_symb;
                 else if (ground)
                         symb = ground_symb;
                 else
@@ -323,11 +328,14 @@ void show_rooms(struct room *r, const struct door *d)
                 show_rooms(r->right, d);
 }
 
-void show_seen_walls(struct linked_coord *sw, const struct door *d)
+void show_seen_walls(const struct room *r, const struct door *d)
 {
-        for ( ; sw; sw = sw->next)
+	struct linked_coord *sw;
+        for (sw = r->seen_walls; sw; sw = sw->next)
                 if (is_door(d, sw->pos.x, sw->pos.y))
                         mvwaddch(gamew, sw->pos.y, sw->pos.x, door_symb);
-                else
-                        mvwaddch(gamew, sw->pos.y, sw->pos.x, wall_symb);
+                else if (sw->pos.y == r->tl.y || sw->pos.y == r->br.y)
+                        mvwaddch(gamew, sw->pos.y, sw->pos.x, hor_wall_symb);
+		else
+                        mvwaddch(gamew, sw->pos.y, sw->pos.x, ver_wall_symb);
 }

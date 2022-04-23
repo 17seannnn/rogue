@@ -68,8 +68,10 @@ static void fov_path(struct level *l, const struct creature *h)
                         } else if (r) {
                                 if (is_door(l->d, x, y))
                                         mvwaddch(gamew, y, x, door_symb);
-                                else
-                                        mvwaddch(gamew, y, x, wall_symb);
+				else if (y == r->tl.y || y == r->br.y)
+					mvwaddch(gamew, y, x, hor_wall_symb);
+				else
+					mvwaddch(gamew, y, x, ver_wall_symb);
                                 add_linked_coord(&r->seen_walls, x, y);
                         }
                 }
@@ -166,7 +168,7 @@ void redraw_screen(struct level *l, const struct creature *h)
                         if (r->flags & seen_flag)
                                 show_room(r, l->d, 0);
                         else
-                                show_seen_walls(r->seen_walls, l->d);
+                                show_seen_walls(r, l->d);
                 }
         }
         for (p = l->p; p; p = p->next)

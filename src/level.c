@@ -5,11 +5,12 @@
 #include "rogue.h"
 
 const struct level_type level_list[] = {
-        { 50, 1, 50, 3, '<', '>', '#', '+', '.', '"', ':' },
+        { 50, 1, 50, 3, '<', '>', '#', '#', '+', '.', '"', ':' },
+        { 50, 1, 50, 3, '<', '>', '-', '|', '+', '.', '#', ':' }
 };
 
-int start_symb, end_symb, wall_symb, door_symb,
-    ground_symb, path_symb, loot_symb;
+int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
+    door_symb, ground_symb, path_symb, loot_symb;
 
 int is_linked_coord(struct linked_coord *lc, int x, int y)
 {
@@ -191,20 +192,20 @@ static void init_points(struct level *l)
 
 static void init_leveltype(struct level *l)
 {
-	l->lt = &level_list[level_debug];
-	start_symb  = l->lt->start_symb;
-	end_symb    = l->lt->end_symb;
-	wall_symb   = l->lt->wall_symb;
-	door_symb   = l->lt->door_symb;
-	ground_symb = l->lt->ground_symb;
-	path_symb   = l->lt->path_symb;
-	loot_symb   = l->lt->loot_symb;
+	l->lt = &level_list[1];
+	start_symb    = l->lt->start_symb;
+	end_symb      = l->lt->end_symb;
+	hor_wall_symb = l->lt->hor_wall_symb;
+	ver_wall_symb = l->lt->ver_wall_symb;
+	door_symb     = l->lt->door_symb;
+	ground_symb   = l->lt->ground_symb;
+	path_symb     = l->lt->path_symb;
+	loot_symb     = l->lt->loot_symb;
 }
 
 void init_level(struct level *l, struct creature *h)
 {
         l->depth = init_room(&l->r);
-        l->lt = &level_list[0];
 	init_leveltype(l);
         init_path(l);
         init_points(l);

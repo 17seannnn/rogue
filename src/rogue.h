@@ -172,8 +172,8 @@ struct point {
 struct level_type {
         int loot_chance,  max_loot_count;
         int beast_chance, max_beast_count;
-	int start_symb, end_symb, wall_symb, door_symb,
-            ground_symb, path_symb, loot_symb;
+	int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
+            door_symb, ground_symb, path_symb, loot_symb;
 };
 
 struct level {
@@ -208,9 +208,8 @@ extern const struct loot key_list[];
 
 /* level */
 extern const struct level_type level_list[];
-extern int start_symb, end_symb, wall_symb, door_symb,
-	   ground_symb, path_symb, loot_symb;
-
+extern int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
+           door_symb, ground_symb, path_symb, loot_symb;
 
 /* common */
 int is_linked_coord(struct linked_coord *lc, int x, int y);
@@ -238,7 +237,7 @@ int is_one_room(const struct room *r, struct coord pos1, struct coord pos2);
 int is_wall(const struct room *r, int x, int y);
 void show_room(struct room *r, const struct door *d, int ground);
 void show_rooms(struct room *r, const struct door *d);
-void show_seen_walls(struct linked_coord *sw, const struct door *d);
+void show_seen_walls(const struct room *r, const struct door *d);
 
 /* path */
 struct path *get_path_by_coord(const struct path *p, int x, int y);
