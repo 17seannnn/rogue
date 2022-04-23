@@ -21,6 +21,10 @@ static void init_game()
 static void end_game()
 {
         end_curses();
+#ifdef DEBUG
+
+	fclose(logfile);
+#endif
 }
 
 static unsigned play_game(struct level *l, struct creature *h)
