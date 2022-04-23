@@ -50,17 +50,10 @@ enum {
 
 /* room */
 enum {
-        wall_symb   = '#',
-        door_symb   = '+',
-        ground_symb = '.',
-
         see_flag = 0x0001
 };
 
 /* path */
-enum {
-        path_symb = '"'
-};
 
 /* loot */
 enum {
@@ -77,9 +70,7 @@ enum {
 
         poition_debug = 0,
 
-        key_debug = 0,
-
-        loot_symb = ':'
+        key_debug = 0
 };
 
 /* inv */
@@ -93,6 +84,11 @@ enum {
 
         cast_hunter = 0,
         cast_beast
+};
+
+/* level */
+enum {
+	level_debug = 0
 };
 
 /* cmd */
@@ -169,16 +165,15 @@ struct beast {
 
 /* level */
 struct point {
-        int symb;
         struct coord pos;
         unsigned flags;
 };
 
 struct level_type {
-        int loot_chance;
-        int max_loot_count;
-        int beast_chance;
-        int max_beast_count;
+        int loot_chance,  max_loot_count;
+        int beast_chance, max_beast_count;
+	int start_symb, end_symb, wall_symb, door_symb,
+            ground_symb, path_symb, loot_symb;
 };
 
 struct level {
@@ -198,6 +193,7 @@ struct message {
         struct message *next;
 };
 
+/* msg */
 extern struct message *msg;
 extern const char msg_nevermind[];
 
@@ -212,6 +208,9 @@ extern const struct loot key_list[];
 
 /* level */
 extern const struct level_type level_list[];
+extern int start_symb, end_symb, wall_symb, door_symb,
+	   ground_symb, path_symb, loot_symb;
+
 
 /* common */
 int is_linked_coord(struct linked_coord *lc, int x, int y);

@@ -5,11 +5,11 @@
 static void fov_points(struct level *l, const struct room *r)
 {
         if (get_room_by_coord(l->r, l->start.pos.x, l->start.pos.y) == r) {
-                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, l->start.symb);
+                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, start_symb);
                 l->start.flags |= seen_flag;
         }
         if (get_room_by_coord(l->r, l->end.pos.x, l->end.pos.y) == r) {
-                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, l->end.symb);
+                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, end_symb);
                 l->end.flags |= seen_flag;
         }
 }
@@ -111,9 +111,9 @@ static void fov_seen_objects(const struct level *l)
 {
         struct loot_list *ll;
         if (l->start.flags & seen_flag)
-                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, l->start.symb);
+                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, start_symb);
         if (l->end.flags & seen_flag)
-                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, l->end.symb);
+                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, end_symb);
         for (ll = l->l; ll; ll = ll->next)
                 if (ll->flags & seen_flag)
                         mvwaddch(gamew, ll->pos.y, ll->pos.x, loot_symb);
@@ -173,9 +173,9 @@ void redraw_screen(struct level *l, const struct creature *h)
                 if (p->flags & seen_flag)
                         mvwaddch(gamew, p->pos.y, p->pos.x, path_symb);
         if (l->start.flags & seen_flag)
-                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, l->start.symb);
+                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, start_symb);
         if (l->end.flags & seen_flag)
-                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, l->end.symb);
+                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, end_symb);
         for (ll = l->l; ll; ll = ll->next)
                 if (ll->flags & seen_flag)
                         mvwaddch(gamew, ll->pos.y, ll->pos.x, loot_symb);
