@@ -9,6 +9,8 @@ WINDOW *msgw, *gamew, *infow, *invw;
 void init_curses()
 {
         initscr();
+	if (has_colors())
+		start_color();
         noecho();
         cbreak();
         curs_set(0);
@@ -28,6 +30,13 @@ void init_curses()
 void end_curses()
 {
         endwin();
+}
+
+int create_pair(int fg, int bg)
+{
+	int n = bg * 8 + fg;
+	init_pair(n, fg, bg);
+	return n;
 }
 
 void wait_ch(int c)

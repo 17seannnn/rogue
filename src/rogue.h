@@ -223,6 +223,7 @@ double power(int x, int y);
 /* curses */
 void init_curses();
 void end_curses();
+int create_pair(int fg, int bg);
 void wait_ch();
 
 /* room */
