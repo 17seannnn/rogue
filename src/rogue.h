@@ -97,6 +97,11 @@ enum {
         next_level_flag = 0x0002
 };
 
+/* curses */
+struct color {
+	int fg, bg;
+};
+
 /* common */
 struct coord {
         int x, y;
@@ -174,6 +179,8 @@ struct level_type {
         int beast_chance, max_beast_count;
 	int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
             door_symb, ground_symb, path_symb, loot_symb;
+	struct color start_color, end_color, hor_wall_color, ver_wall_color,
+                     door_color, ground_color, path_color, loot_color;
 };
 
 struct level {
@@ -223,7 +230,7 @@ double power(int x, int y);
 /* curses */
 void init_curses();
 void end_curses();
-int create_pair(int fg, int bg);
+int set_pair(const struct color *c);
 void wait_ch();
 
 /* room */

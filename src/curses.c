@@ -9,8 +9,10 @@ WINDOW *msgw, *gamew, *infow, *invw;
 void init_curses()
 {
         initscr();
-	if (has_colors())
-		start_color();
+        if (has_colors()) {
+                use_default_colors();
+                start_color();
+        }
         noecho();
         cbreak();
         curs_set(0);
@@ -19,10 +21,6 @@ void init_curses()
         infow = newwin(infow_row, infow_col, infow_srow, infow_scol);
         gamew = newwin(gamew_row, gamew_col, gamew_srow, gamew_scol);
         invw  = newwin(invw_row,  invw_col,  invw_srow,  invw_scol);
-        if (has_colors()) {
-                start_color();
-                use_default_colors();
-        }
         keypad(gamew, 1);
         timeout(-1);
 }
@@ -32,10 +30,16 @@ void end_curses()
         endwin();
 }
 
-int create_pair(int fg, int bg)
+int set_pair(const struct color *c)
 {
-	int n = bg * 8 + fg;
-	init_pair(n, fg, bg);
+	int n;
+	if (c->fg == -1 && c->bg == -1)
+		return 0;
+	n = abs_int(c->bg)*8 + abs_int(c->fg) + 1;
+	/* Make sure that we don`t rewrite pair without default colors */
+	if (c->fg == -1 || c->bg == -1)
+		n += 64;
+	init_pair(n, c->fg, c->bg);
 	return n;
 }
 

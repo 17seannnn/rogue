@@ -5,8 +5,12 @@
 #include "rogue.h"
 
 const struct level_type level_list[] = {
-        { 50, 1, 50, 3, '<', '>', '#', '#', '+', '.', '"', ':' },
-        { 50, 1, 50, 3, '<', '>', '-', '|', '+', '.', '#', ':' }
+        {
+	  50, 1, 50, 3,
+	  '<', '>', '-', '|', '+', '.', '#', ':',
+	  { COLOR_BLACK, COLOR_MAGENTA }, { -1, -1 }, { -1, -1 }, { -1, -1 },
+	  { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }
+	}
 };
 
 int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
@@ -192,15 +196,23 @@ static void init_points(struct level *l)
 
 static void init_leveltype(struct level *l)
 {
-	l->lt = &level_list[1];
-	start_symb    = l->lt->start_symb;
-	end_symb      = l->lt->end_symb;
-	hor_wall_symb = l->lt->hor_wall_symb;
-	ver_wall_symb = l->lt->ver_wall_symb;
-	door_symb     = l->lt->door_symb;
-	ground_symb   = l->lt->ground_symb;
-	path_symb     = l->lt->path_symb;
-	loot_symb     = l->lt->loot_symb;
+	l->lt = &level_list[0];
+	start_symb    = l->lt->start_symb    |
+	                COLOR_PAIR(set_pair(&l->lt->start_color));
+	end_symb      = l->lt->end_symb      |
+	                COLOR_PAIR(set_pair(&l->lt->end_color));
+	hor_wall_symb = l->lt->hor_wall_symb |
+	                COLOR_PAIR(set_pair(&l->lt->hor_wall_color));
+	ver_wall_symb = l->lt->ver_wall_symb |
+	                COLOR_PAIR(set_pair(&l->lt->ver_wall_color));
+	door_symb     = l->lt->door_symb     |
+	                COLOR_PAIR(set_pair(&l->lt->door_color));
+	ground_symb   = l->lt->ground_symb   |
+	                COLOR_PAIR(set_pair(&l->lt->ground_color));
+	path_symb     = l->lt->path_symb     |
+	                COLOR_PAIR(set_pair(&l->lt->path_color));
+	loot_symb     = l->lt->loot_symb     |
+	                COLOR_PAIR(set_pair(&l->lt->loot_color));
 }
 
 void init_level(struct level *l, struct creature *h)
