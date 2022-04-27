@@ -10,11 +10,15 @@ const struct level_type level_list[] = {
 	  '<', '>', '-', '|', '+', '.', '#', ':',
 	  { COLOR_BLACK, COLOR_MAGENTA }, { -1, -1 }, { -1, -1 }, { -1, -1 },
 	  { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }
+
+
 	}
 };
 
 int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
     door_symb, ground_symb, path_symb, loot_symb;
+
+int fov_start_symb, fov_end_symb, fov_path_symb, fov_loot_symb;
 
 int is_linked_coord(struct linked_coord *lc, int x, int y)
 {
@@ -197,22 +201,34 @@ static void init_points(struct level *l)
 static void init_leveltype(struct level *l)
 {
 	l->lt = &level_list[0];
-	start_symb    = l->lt->start_symb    |
-	                COLOR_PAIR(set_pair(&l->lt->start_color));
-	end_symb      = l->lt->end_symb      |
-	                COLOR_PAIR(set_pair(&l->lt->end_color));
-	hor_wall_symb = l->lt->hor_wall_symb |
-	                COLOR_PAIR(set_pair(&l->lt->hor_wall_color));
-	ver_wall_symb = l->lt->ver_wall_symb |
-	                COLOR_PAIR(set_pair(&l->lt->ver_wall_color));
-	door_symb     = l->lt->door_symb     |
-	                COLOR_PAIR(set_pair(&l->lt->door_color));
-	ground_symb   = l->lt->ground_symb   |
-	                COLOR_PAIR(set_pair(&l->lt->ground_color));
-	path_symb     = l->lt->path_symb     |
-	                COLOR_PAIR(set_pair(&l->lt->path_color));
-	loot_symb     = l->lt->loot_symb     |
-	                COLOR_PAIR(set_pair(&l->lt->loot_color));
+
+	set_pair(start_pair,    &l->lt->start_color);
+	set_pair(end_pair,      &l->lt->end_color);
+	set_pair(hor_wall_pair, &l->lt->hor_wall_color);
+	set_pair(ver_wall_pair, &l->lt->ver_wall_color);
+	set_pair(door_pair,     &l->lt->door_color);
+	set_pair(ground_pair,   &l->lt->ground_color);
+	set_pair(path_pair,     &l->lt->path_color);
+	set_pair(loot_pair,     &l->lt->loot_color);
+
+	set_pair(fov_start_pair, &l->lt->fov_start_color);
+	set_pair(fov_end_pair,   &l->lt->fov_end_color);
+	set_pair(fov_path_pair,  &l->lt->fov_path_color);
+	set_pair(fov_loot_pair,  &l->lt->fov_loot_color);
+
+	start_symb    = l->lt->start_symb    | COLOR_PAIR(start_pair);
+	end_symb      = l->lt->end_symb      | COLOR_PAIR(end_pair);
+	hor_wall_symb = l->lt->hor_wall_symb | COLOR_PAIR(hor_wall_pair);
+	ver_wall_symb = l->lt->ver_wall_symb | COLOR_PAIR(ver_wall_pair);
+	door_symb     = l->lt->door_symb     | COLOR_PAIR(door_pair);
+	ground_symb   = l->lt->ground_symb   | COLOR_PAIR(ground_pair);
+	path_symb     = l->lt->path_symb     | COLOR_PAIR(path_pair);
+	loot_symb     = l->lt->loot_symb     | COLOR_PAIR(loot_pair);
+
+	fov_start_symb = l->lt->start_symb | COLOR_PAIR(fov_start_pair);
+	fov_end_symb   = l->lt->start_symb | COLOR_PAIR(fov_end_pair);
+	fov_path_symb  = l->lt->start_symb | COLOR_PAIR(fov_path_pair);
+	fov_loot_symb  = l->lt->start_symb | COLOR_PAIR(fov_loot_pair);
 }
 
 void init_level(struct level *l, struct creature *h)

@@ -29,7 +29,21 @@ enum {
         invw_col    = program_col / 2,
         invw_row    = gamew_row,
         invw_scol   = program_col - invw_col,
-        invw_srow   = gamew_srow
+        invw_srow   = gamew_srow,
+
+	start_pair = 1,
+	end_pair,
+	hor_wall_pair,
+	ver_wall_pair,
+	door_pair,
+	ground_pair,
+	path_pair,
+	loot_pair,
+
+	fov_start_pair,
+	fov_end_pair,
+	fov_path_pair,
+	fov_loot_pair
 };
 
 /* common */
@@ -181,6 +195,8 @@ struct level_type {
             door_symb, ground_symb, path_symb, loot_symb;
 	struct color start_color, end_color, hor_wall_color, ver_wall_color,
                      door_color, ground_color, path_color, loot_color;
+	struct color fov_start_color, fov_end_color, fov_path_color,
+	             fov_loot_color;
 };
 
 struct level {
@@ -217,6 +233,7 @@ extern const struct loot key_list[];
 extern const struct level_type level_list[];
 extern int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
            door_symb, ground_symb, path_symb, loot_symb;
+extern int fov_start_symb, fov_end_symb, fov_path_symb, fov_loot_symb;
 
 /* common */
 int is_linked_coord(struct linked_coord *lc, int x, int y);
@@ -230,7 +247,7 @@ double power(int x, int y);
 /* curses */
 void init_curses();
 void end_curses();
-int set_pair(const struct color *c);
+void set_pair(int n, const struct color *c);
 void wait_ch();
 
 /* room */
