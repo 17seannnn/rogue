@@ -262,6 +262,7 @@ int is_one_room(const struct room *r, struct coord pos1, struct coord pos2);
 int is_wall(const struct room *r, int x, int y);
 void show_room(struct room *r, const struct door *d, int ground);
 void show_rooms(struct room *r, const struct door *d);
+int is_seen_wall(const struct linked_coord *sw, int x, int y);
 void show_seen_walls(const struct room *r, const struct door *d);
 
 /* path */

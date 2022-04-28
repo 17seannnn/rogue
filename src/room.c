@@ -328,6 +328,14 @@ void show_rooms(struct room *r, const struct door *d)
                 show_rooms(r->right, d);
 }
 
+int is_seen_wall(const struct linked_coord *sw, int x, int y)
+{
+	for ( ; sw; sw = sw->next)
+		if (sw->pos.x == x && sw->pos.y == y)
+			return 1;
+	return 0;
+}
+
 void show_seen_walls(const struct room *r, const struct door *d)
 {
 	struct linked_coord *sw;
