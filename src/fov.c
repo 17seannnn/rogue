@@ -106,7 +106,7 @@ static void fov_static_area(const struct level *l, const struct creature *h,
                         }
                         p = get_path_by_coord(l->p, x, y);
                         if (p && p->flags & seen_flag)
-                                mvwaddch(gamew, y, x, path_symb);
+                                mvwaddch(gamew, y, x, fov_path_symb);
                 }
         }
 }
@@ -115,12 +115,12 @@ static void fov_seen_objects(const struct level *l)
 {
         struct loot_list *ll;
         if (l->start.flags & seen_flag)
-                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, start_symb);
+                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, fov_start_symb);
         if (l->end.flags & seen_flag)
-                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, end_symb);
+                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, fov_end_symb);
         for (ll = l->l; ll; ll = ll->next)
                 if (ll->flags & seen_flag)
-                        mvwaddch(gamew, ll->pos.y, ll->pos.x, loot_symb);
+                        mvwaddch(gamew, ll->pos.y, ll->pos.x, fov_loot_symb);
 }
 
 void handle_fov(struct level *l, const struct creature *h, int refresh)
@@ -175,14 +175,14 @@ void redraw_screen(struct level *l, const struct creature *h)
         }
         for (p = l->p; p; p = p->next)
                 if (p->flags & seen_flag)
-                        mvwaddch(gamew, p->pos.y, p->pos.x, path_symb);
+                        mvwaddch(gamew, p->pos.y, p->pos.x, fov_path_symb);
         if (l->start.flags & seen_flag)
-                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, start_symb);
+                mvwaddch(gamew, l->start.pos.y, l->start.pos.x, fov_start_symb);
         if (l->end.flags & seen_flag)
-                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, end_symb);
+                mvwaddch(gamew, l->end.pos.y, l->end.pos.x, fov_end_symb);
         for (ll = l->l; ll; ll = ll->next)
                 if (ll->flags & seen_flag)
-                        mvwaddch(gamew, ll->pos.y, ll->pos.x, loot_symb);
+                        mvwaddch(gamew, ll->pos.y, ll->pos.x, fov_loot_symb);
         handle_fov(l, h, 1);
         wrefresh(msgw);
         wrefresh(infow);
