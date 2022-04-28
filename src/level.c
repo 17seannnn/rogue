@@ -10,8 +10,6 @@ const struct level_type level_list[] = {
 	  '<', '>', '-', '|', '+', '.', '#', ':',
 	  { COLOR_BLACK, COLOR_MAGENTA }, { -1, -1 }, { -1, -1 }, { -1, -1 },
 	  { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, -1 }
-
-
 	}
 };
 
@@ -226,9 +224,9 @@ static void init_leveltype(struct level *l)
 	loot_symb     = l->lt->loot_symb     | COLOR_PAIR(loot_pair);
 
 	fov_start_symb = l->lt->start_symb | COLOR_PAIR(fov_start_pair);
-	fov_end_symb   = l->lt->start_symb | COLOR_PAIR(fov_end_pair);
-	fov_path_symb  = l->lt->start_symb | COLOR_PAIR(fov_path_pair);
-	fov_loot_symb  = l->lt->start_symb | COLOR_PAIR(fov_loot_pair);
+	fov_end_symb   = l->lt->end_symb   | COLOR_PAIR(fov_end_pair);
+	fov_path_symb  = l->lt->path_symb  | COLOR_PAIR(fov_path_pair);
+	fov_loot_symb  = l->lt->loot_symb  | COLOR_PAIR(fov_loot_pair);
 }
 
 void init_level(struct level *l, struct creature *h)
