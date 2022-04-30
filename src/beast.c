@@ -99,14 +99,18 @@ struct beast *get_random_beast(const struct beast *b)
         return (struct beast *)b;
 }
 
-static void del_beast(struct beast **b, struct beast *del)
+static void del_beast(struct level *l, struct beast *del)
 {
+	struct beast **b = &l->b;
+	struct loot_list *inv;
         for ( ; *b && *b != del; b = &(*b)->next)
                 {}
         if (!*b)
                 return;
-        *b = (*b)->next;
+	for (inv = del->c.inv; inv; inv = inv->next)
+		add_loot(&l->l, inv->l, del->c.pos.x, del->c.pos.y, 0);
 	free_loot(del->c.inv);
+        *b = (*b)->next;
         free(del);
 }
 
@@ -128,7 +132,7 @@ void handle_beast(struct level *l, struct creature *h)
         for (b = l->b; b; b = b->next) {
                 c = &b->c;
                 if (c->hp <= 0) {
-                        del_beast(&l->b, b);
+                        del_beast(l, b);
                         continue;
                 }
                 side = search_creature(l, c, h);
