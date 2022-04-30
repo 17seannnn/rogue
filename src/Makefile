@@ -2,7 +2,7 @@ BINNAME = rogue
 SRCMODULES = math.c curses.c room.c path.c loot.c inv.c creature.c\
              hunter.c beast.c level.c msg.c fov.c fight.c cmd.c
 OBJMODULES = $(SRCMODULES:.c=.o)
-CFLAGS = -g -Wall -ansi -pedantic
+CFLAGS = -g -Wall
 LDFLAGS = -lncurses
 RM = rm
 
