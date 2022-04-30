@@ -49,6 +49,7 @@ enum {
 /* common */
 enum {
         key_escape = 27,
+	bufsize = 256,
 
         side_northwest = 0,
         side_north,

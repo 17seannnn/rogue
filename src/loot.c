@@ -1,5 +1,6 @@
 /* loot.c - control loot */
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "rogue.h"
@@ -149,6 +150,7 @@ void show_loot(const struct loot_list *l)
 void try_loot(struct level *l, struct creature *h, int side)
 {
         int count, x, y;
+	char buf[bufsize];
         struct loot_list *ll;
         for (count = 0, ll = h->inv; ll; ll = ll->next, count++)
                 {}
@@ -166,7 +168,10 @@ void try_loot(struct level *l, struct creature *h, int side)
         }
         add_msg(msg_picked_up);
         append_msg(ll->l->name);
-        append_msg(".");
+	append_msg(" (");
+	snprintf(buf, bufsize, "%d", ll->l->val);
+	append_msg(buf);
+        append_msg(").");
 	if (ll->l->type == type_blood)
 		h->blood += ll->l->val;
 	else
