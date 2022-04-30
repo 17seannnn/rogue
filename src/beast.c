@@ -106,6 +106,7 @@ static void del_beast(struct beast **b, struct beast *del)
         if (!*b)
                 return;
         *b = (*b)->next;
+	free_loot(del->c.inv);
         free(del);
 }
 
