@@ -13,7 +13,7 @@ const struct level_type level_list[] = {
 	  { -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 }, { COLOR_BLUE, -1 }, { COLOR_BLUE, -1 },
 	  { -1, -1 }, { -1, -1 }, { -1, -1 }, { -1, COLOR_BLUE },
 
-	  { COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 }, { COLOR_WHITE+24, -1 }, { COLOR_BLUE, -1 }
+	  { COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 }, { COLOR_CYAN+8, -1 }, { COLOR_BLUE, -1 }
 	}
 };
 
