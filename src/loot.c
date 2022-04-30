@@ -81,24 +81,21 @@ void del_loot(struct loot_list **l, struct loot_list *del)
 
 static void spawn_loot(struct level *l, struct room *r)
 {
-        int i, x, y, chance, count;
+        int count;
+	int x, y;
         const struct loot *lp;
-        chance = l->lt->loot_chance;
-        for (count = 0; rand() % 100 < chance; count++) {
-                if (count < l->lt->max_loot_count) {
-                        i = rand() % 3;
-                        switch (i) {
-                        case 0: lp = &blood_list[blood_debug];     break;
-                        case 1: lp = &weapon_list[weapon_debug];   break;
-                        case 2: lp = &armor_list[armor_debug];     break;
-                        case 3: lp = &poition_list[poition_debug]; break;
-                        }
-                        x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
-                        y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
-                        add_loot(&l->l, lp, x, y, 0);
-                } else {
-                        break;
-                }
+        for (count = 0; rand() % 100 < l->lt->loot_chance; count++) {
+                if (count > l->lt->max_loot_count)
+			break;
+		switch (rand() % 4) {
+		case 0: lp = &blood_list[blood_debug];     break;
+		case 1: lp = &weapon_list[weapon_debug];   break;
+		case 2: lp = &armor_list[armor_debug];     break;
+		case 3: lp = &poition_list[poition_debug]; break;
+		}
+		x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+		y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+		add_loot(&l->l, lp, x, y, 0);
         }
 }
 
