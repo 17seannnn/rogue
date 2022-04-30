@@ -6,6 +6,8 @@
 
 const struct level_type level_list[] = {
         {
+	  4,
+
 	  50, 1, 50, 3,
 
 	  '<', '>', '-', '|', '+', '.', '#', ':',
@@ -235,8 +237,8 @@ static void init_leveltype(struct level *l)
 
 void init_level(struct level *l, struct creature *h)
 {
-        l->depth = init_room(&l->r);
 	init_leveltype(l);
+        l->depth = init_room(l);
         init_path(l);
         init_points(l);
         init_beast(l, h);

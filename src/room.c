@@ -185,7 +185,7 @@ static void give_idx(struct room *r, int depth)
         give_ch_idx(r, depth, 'A');
 }
 
-int init_room(struct room **r)
+int init_room(struct level *l)
 {
         int i, res, depth;
         struct room *t;
@@ -202,20 +202,19 @@ int init_room(struct room **r)
         t->right      = NULL;
         t->seen_walls = NULL;
         t->flags      = 0;
-        *r = t;
+        l->r = t;
 
-        depth = 1 + rand() % room_splits_range;
-        for (i = 1; i <= depth; i++) {
-                res = split_room(*r);
+        for (i = 1; i <= l->lt->depth; i++) {
+                res = split_room(l->r);
                 if (!res) {
-                        free_depth(r, i);
+                        free_depth(&l->r, i);
                         break;
                 }
         }
-        depth = i - 1;
-        polish_room(*r);
-        give_idx(*r, depth);
-        return depth;
+	depth = i - 1;
+        polish_room(l->r);
+        give_idx(l->r, depth);
+	return depth;
 }
 
 struct room *get_room_by_idx(const struct room *r, int ch_idx, int no_idx)

@@ -188,7 +188,9 @@ struct point {
         unsigned flags;
 };
 
+/* Depth in level_type is recommend depth */
 struct level_type {
+	int depth;
         int loot_chance,  max_loot_count;
         int beast_chance, max_beast_count;
 	int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
@@ -199,8 +201,9 @@ struct level_type {
 	             fov_loot_color;
 };
 
+/* Depth in level is actual depth */
 struct level {
-        int depth;
+	int depth;
         const struct level_type *lt;
         struct point start, end;
         struct room *r;
@@ -253,7 +256,7 @@ void wait_ch();
 /* room */
 int room_len(const struct room *r, char dir);
 void free_room(struct room *r);
-int init_room(struct room **r);
+int init_room(struct level *l);
 struct room *get_room_by_idx(const struct room *r, int ch_idx, int no_idx);
 struct room *get_room_by_coord(const struct room *r, int x, int y);
 struct room *get_random_room(const struct room *r);
