@@ -30,8 +30,8 @@ void show_inv(struct level *l, const struct creature *h)
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
                 if (t->l->type == type_weapon) {
-                        mvwprintw(invw, y, x, "%c - %s %s",
-                                  t->idx, t->l->name,
+                        mvwprintw(invw, y, x, "%c - %s (%d) %s",
+                                  t->idx, t->l->name, t->l->val,
                                   h->weapon == t ? "(being worn)" : "");
                         y++;
                 }
@@ -41,8 +41,8 @@ void show_inv(struct level *l, const struct creature *h)
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
                 if (t->l->type == type_armor) {
-                        mvwprintw(invw, y, x, "%c - %s %s",
-                                  t->idx, t->l->name,
+                        mvwprintw(invw, y, x, "%c - %s (%d) %s",
+                                  t->idx, t->l->name, t->l->val,
                                   h->armor == t ? "(being worn)" : "");
                         y++;
                 }
@@ -52,7 +52,8 @@ void show_inv(struct level *l, const struct creature *h)
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
                 if (t->l->type == type_poition) {
-                        mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
+                        mvwprintw(invw, y, x, "%c - %s (%d)",
+			          t->idx, t->l->name, t->l->val);
                         y++;
                 }
         }
@@ -61,7 +62,8 @@ void show_inv(struct level *l, const struct creature *h)
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
                 if (t->l->type == type_key) {
-                        mvwprintw(invw, y, x, "%c - %s", t->idx, t->l->name);
+                        mvwprintw(invw, y, x, "%c - %s (%d)",
+			          t->idx, t->l->name, t->l->val);
                         y++;
                 }
         }
