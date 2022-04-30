@@ -191,15 +191,30 @@ struct point {
         unsigned flags;
 };
 
-/* Depth in level_type is recommend depth */
 struct level_type {
+	/* Recommend depth */
 	int depth;
-        int loot_chance,  max_loot_count;
-        int beast_chance, max_beast_count;
+	/* Limits */
+	int max_loot_count, max_beast_count;
+	/*
+	 * loot_chance means chance for loot being blood and
+	 *   steps are about equipment like weapons and armor
+	 */
+        int loot_chance, step1_loot_chance,
+	    step2_loot_chance, step3_loot_chance;
+	/*
+	 * beast_chance means chance for spawn beast and
+	 *   steps are about upgrading beast class
+	 */
+	int beast_chance, step1_beast_chance,
+	    step2_beast_chance, step3_beast_chance;
+	/* Symbols for this level */
 	int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
             door_symb, ground_symb, path_symb, loot_symb;
+	/* Colors */
 	struct color start_color, end_color, hor_wall_color, ver_wall_color,
                      door_color, ground_color, path_color, loot_color;
+	/* Colors for seen objects */
 	struct color fov_start_color, fov_end_color, fov_path_color,
 	             fov_loot_color;
 };
