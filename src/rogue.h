@@ -71,12 +71,15 @@ enum {
 
 /* loot */
 enum {
-        type_weapon = 0,
+	type_blood = 0,
+        type_weapon,
         type_armor,
         type_poition,
         type_key,
 
         type_key_level = 0,
+
+	blood_debug = 0,
 
         weapon_debug = 0,
 
@@ -227,6 +230,7 @@ extern const char msg_nevermind[];
 extern WINDOW *msgw, *infow, *gamew, *invw;
 
 /* loot */
+extern const struct loot blood_list[];
 extern const struct loot weapon_list[];
 extern const struct loot armor_list[];
 extern const struct loot poition_list[];

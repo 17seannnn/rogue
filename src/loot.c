@@ -4,6 +4,10 @@
 
 #include "rogue.h"
 
+const struct loot blood_list[] = {
+        { "Debug blood", type_blood, 50 }
+};
+
 const struct loot weapon_list[] = {
         { "Debug weapon", type_weapon, 1 }
 };
@@ -84,9 +88,10 @@ static void spawn_loot(struct level *l, struct room *r)
                 if (count < l->lt->max_loot_count) {
                         i = rand() % 3;
                         switch (i) {
-                        case 0: lp = &weapon_list[weapon_debug];   break;
-                        case 1: lp = &armor_list[armor_debug];     break;
-                        case 2: lp = &poition_list[poition_debug]; break;
+                        case 0: lp = &blood_list[blood_debug];     break;
+                        case 1: lp = &weapon_list[weapon_debug];   break;
+                        case 2: lp = &armor_list[armor_debug];     break;
+                        case 3: lp = &poition_list[poition_debug]; break;
                         }
                         x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
                         y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
@@ -165,6 +170,9 @@ void try_loot(struct level *l, struct creature *h, int side)
         add_msg(msg_picked_up);
         append_msg(ll->l->name);
         append_msg(".");
-        add_loot(&h->inv, ll->l, 0, 0, 0);
+	if (ll->l->type == type_blood)
+		h->blood += ll->l->val;
+	else
+		add_loot(&h->inv, ll->l, 0, 0, 0);
         del_loot(&l->l, ll);
 }
