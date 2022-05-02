@@ -173,10 +173,10 @@ struct creature {
         int cast, symb;
         struct coord pos;
         int fov, hp, dmg;
-        int blood;
-        int exp, level;
+        int blood, exp, level;
         const struct loot_list *weapon, *armor;
         struct loot_list *inv;
+	int buff_loot_chance[3], buff_beast_chance[3];
         unsigned flags;
 };
 

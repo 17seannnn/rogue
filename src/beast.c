@@ -8,7 +8,6 @@ static void add_beast(struct beast **b, int x, int y)
 {
         struct beast *t;
         t = malloc(sizeof(*t));
-        t->c.flags  = 0;
         t->c.cast   = cast_beast;
         t->c.symb   = 'B';
         t->c.pos.x  = x;
@@ -22,6 +21,13 @@ static void add_beast(struct beast **b, int x, int y)
         t->c.weapon = NULL;
         t->c.armor  = NULL;
         t->c.inv    = NULL;
+	t->c.buff_loot_chance[0] = 0;
+	t->c.buff_loot_chance[1] = 0;
+	t->c.buff_loot_chance[2] = 0;
+	t->c.buff_beast_chance[0] = 0;
+	t->c.buff_beast_chance[1] = 0;
+	t->c.buff_beast_chance[2] = 0;
+        t->c.flags  = 0;
         t->next = *b;
         *b = t;
 }

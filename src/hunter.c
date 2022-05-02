@@ -19,7 +19,6 @@ int is_hunter(const struct creature *h, int x, int y)
 
 void init_hunter(struct creature *h, const struct level *l)
 {
-        h->flags  = 0;
         h->cast   = cast_hunter;
         h->symb   = hunter_symb;
         h->pos.x  = l->start.pos.x;
@@ -33,6 +32,13 @@ void init_hunter(struct creature *h, const struct level *l)
         h->weapon = NULL;
         h->armor  = NULL;
         h->inv    = NULL;
+	h->buff_loot_chance[0] = 0;
+	h->buff_loot_chance[1] = 0;
+	h->buff_loot_chance[2] = 0;
+	h->buff_beast_chance[0] = 0;
+	h->buff_beast_chance[1] = 0;
+	h->buff_beast_chance[2] = 0;
+        h->flags  = 0;
 }
 
 void show_info(const struct creature *h)
