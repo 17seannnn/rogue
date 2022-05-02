@@ -6,7 +6,9 @@
 #include "rogue.h"
 
 const struct loot blood_list[] = {
-        { "Debug blood", type_blood, 50 }
+        { "Debug blood 1", type_blood, 50 },
+        { "Debug blood 2", type_blood, 100 },
+        { "Debug blood 3", type_blood, 150 }
 };
 
 const struct loot weapon_list[] = {
@@ -14,12 +16,19 @@ const struct loot weapon_list[] = {
 	{ "Debug weapon 2", type_weapon, 2 },
 	{ "Debug weapon 3", type_weapon, 3 }
 };
+
 const struct loot armor_list[] = {
-        { "Debug armor", type_armor, 5 }
+        { "Debug armor 1", type_armor, 5 },
+        { "Debug armor 2", type_armor, 10 },
+        { "Debug armor 3", type_armor, 15 }
 };
+
 const struct loot poition_list[] = {
-        { "Debug poition", type_poition, 50 }
+        { "Debug poition 1", type_poition, 25 },
+        { "Debug poition 2", type_poition, 50 },
+        { "Debug poition 3", type_poition, 100 }
 };
+
 const struct loot key_list[] = {
         { "Debug level key", type_key, type_key_level }
 };
@@ -82,20 +91,39 @@ void del_loot(struct loot_list **l, struct loot_list *del)
         }
 }
 
+/* Return value from 0 to 2 and that should fit player needs*/
+static int rand_quality(const struct level *l)
+{
+	int quality;
+	for (quality = 0; quality < 2; quality++)
+		if (rand() % 100 >= l->lt->loot_chance[quality+1])
+			break;
+	return quality;
+}
+
+/* TODO: should check what player needs and give it */
+static const struct loot *rand_loot(const struct level *l)
+{
+	/* location * 3 because we have 3 quality */
+	int idx = l->lt->location*3 + rand_quality(l);
+	switch (rand() % 4) {
+	case 0: return &blood_list[idx];
+	case 1: return &weapon_list[idx];
+	case 2: return &armor_list[idx];
+	case 3: return &poition_list[idx];
+	default: return NULL;
+	}
+}
+
 static void spawn_loot(struct level *l, struct room *r)
 {
-        int count;
 	int x, y;
+        int count;
         const struct loot *lp;
-        for (count = 0; rand() % 100 < l->lt->loot_chance1; count++) {
+        for (count = 0; rand() % 100 < l->lt->loot_chance[0]; count++) {
                 if (count > l->lt->max_loot_count)
 			break;
-		switch (rand() % 4) {
-		case 0: lp = &blood_list[blood_debug];     break;
-		case 1: lp = &weapon_list[weapon_debug];   break;
-		case 2: lp = &armor_list[armor_debug];     break;
-		case 3: lp = &poition_list[poition_debug]; break;
-		}
+		lp = rand_loot(l);
 		x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
 		y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
 		add_loot(&l->l, lp, x, y, 0);
