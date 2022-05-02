@@ -308,7 +308,7 @@ int is_loot(struct loot_list *l, int x, int y);
 void add_loot(struct loot_list **ll, const struct loot *l,
               int x, int y, unsigned flags);
 void del_loot(struct loot_list **l, struct loot_list *del);
-void init_loot(struct level *l);
+void init_loot(struct level *l, const struct creature *h);
 void free_loot(struct loot_list *l);
 void show_loot(const struct loot_list *l);
 void try_loot(struct level *l, struct creature *h, int side);

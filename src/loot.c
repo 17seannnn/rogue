@@ -92,20 +92,28 @@ void del_loot(struct loot_list **l, struct loot_list *del)
 }
 
 /* Return value from 0 to 2 and that should fit player needs*/
-static int rand_quality(const struct level *l)
+static int rand_quality(const struct level *l, const struct creature *h)
 {
-	int quality;
-	for (quality = 0; quality < 2; quality++)
-		if (rand() % 100 >= l->lt->loot_chance[quality+1])
+	int quality, chance;
+	for (quality = 0; quality < 2; quality++) {
+		chance = l->lt->loot_chance[quality+1] +
+		         h->buff_loot_chance[quality+1];
+		if (chance < 0)
+			chance = 0;
+		else if (chance > 100)
+			chance = 100;
+		if (rand() % 100 >= chance)
 			break;
+	}
 	return quality;
 }
 
 /* TODO: should check what player needs and give it */
-static const struct loot *rand_loot(const struct level *l)
+static const struct loot *rand_loot(const struct level *l,
+                                    const struct creature *h)
 {
 	/* location * 3 because we have 3 quality */
-	int idx = l->lt->location*3 + rand_quality(l);
+	int idx = l->lt->location*3 + rand_quality(l, h);
 	switch (rand() % 4) {
 	case 0: return &blood_list[idx];
 	case 1: return &weapon_list[idx];
@@ -115,15 +123,20 @@ static const struct loot *rand_loot(const struct level *l)
 	}
 }
 
-static void spawn_loot(struct level *l, struct room *r)
+static void spawn_loot(struct level *l, const struct creature *h, struct room *r)
 {
 	int x, y;
-        int count;
+        int count, chance;
         const struct loot *lp;
-        for (count = 0; rand() % 100 < l->lt->loot_chance[0]; count++) {
+	chance = l->lt->loot_chance[0] + h->buff_loot_chance[0];
+	if (chance < 0)
+		chance = 0;
+	else if (chance > 100)
+		chance = 100;
+        for (count = 0; rand() % 100 < chance; count++) {
                 if (count > l->lt->max_loot_count)
 			break;
-		lp = rand_loot(l);
+		lp = rand_loot(l, h);
 		x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
 		y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
 		add_loot(&l->l, lp, x, y, 0);
@@ -146,7 +159,7 @@ static void spawn_key(struct level *l)
         }
 }
 
-void init_loot(struct level *l)
+void init_loot(struct level *l, const struct creature *h)
 {
         int ch, no;
         struct room *r;
@@ -155,7 +168,7 @@ void init_loot(struct level *l)
                 for (no = 1; no <= 4; no++) {
                         r = get_room_by_idx(l->r, ch, no);
                         if (r)
-                                spawn_loot(l, r);
+                                spawn_loot(l, h, r);
                 }
         }
         spawn_key(l);

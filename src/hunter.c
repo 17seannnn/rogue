@@ -32,9 +32,9 @@ void init_hunter(struct creature *h, const struct level *l)
         h->weapon = NULL;
         h->armor  = NULL;
         h->inv    = NULL;
-	h->buff_loot_chance[0] = 0;
-	h->buff_loot_chance[1] = 0;
-	h->buff_loot_chance[2] = 0;
+	h->buff_loot_chance[0] = 100;
+	h->buff_loot_chance[1] = 100;
+	h->buff_loot_chance[2] = 100;
 	h->buff_beast_chance[0] = 0;
 	h->buff_beast_chance[1] = 0;
 	h->buff_beast_chance[2] = 0;
