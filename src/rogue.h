@@ -200,17 +200,21 @@ struct level_type {
 	/* Limits */
 	int max_loot_count, max_beast_count;
 	/*
-	 * loot_chance means chance for loot being blood and
-	 *   steps are about equipment like weapons and armor
+	 *   1-4 are quality of loot:
+	 *   1: blood
+	 *   2: armor/weapon
+	 *   3: better armor/weapon
+	 *   4: the best
 	 */
-        int loot_chance, step1_loot_chance,
-	    step2_loot_chance, step3_loot_chance;
+        int loot_chance1, loot_chance2, loot_chance3, loot_chance4;
 	/*
-	 * beast_chance means chance for spawn beast and
-	 *   steps are about upgrading beast class
+	 * 1-4 show how powerful will be beast
+	 *   1: weak
+	 *   2: default
+	 *   3: strong
+	 *   4: boss
 	 */
-	int beast_chance, step1_beast_chance,
-	    step2_beast_chance, step3_beast_chance;
+	int beast_chance1, beast_chance2, beast_chance3, beast_chance4;
 	/* Symbols for this level */
 	int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
             door_symb, ground_symb, path_symb, loot_symb;

@@ -44,7 +44,7 @@ static void spawn_beast(struct level *l, const struct creature *h,
                         const struct room *r, int first)
 {
         int x, y, chance, count;
-        chance = l->lt->beast_chance;
+        chance = l->lt->beast_chance1;
         if (first)
                 chance /= 3;
         for (count = 0; rand() % 100 < chance; count++) {

@@ -10,7 +10,9 @@ const struct loot blood_list[] = {
 };
 
 const struct loot weapon_list[] = {
-        { "Debug weapon", type_weapon, 1 }
+        { "Debug weapon 1", type_weapon, 1 },
+	{ "Debug weapon 2", type_weapon, 2 },
+	{ "Debug weapon 3", type_weapon, 3 }
 };
 const struct loot armor_list[] = {
         { "Debug armor", type_armor, 5 }
@@ -85,7 +87,7 @@ static void spawn_loot(struct level *l, struct room *r)
         int count;
 	int x, y;
         const struct loot *lp;
-        for (count = 0; rand() % 100 < l->lt->loot_chance; count++) {
+        for (count = 0; rand() % 100 < l->lt->loot_chance1; count++) {
                 if (count > l->lt->max_loot_count)
 			break;
 		switch (rand() % 4) {
