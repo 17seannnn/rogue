@@ -193,6 +193,8 @@ struct point {
 };
 
 struct level_type {
+	/* Number of location */
+	int location;
 	/* Recommend depth */
 	int depth;
 	/* Limits */

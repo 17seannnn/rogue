@@ -6,6 +6,8 @@
 
 const struct level_type level_list[] = {
         {
+	  0,
+
 	  4,
 
 	  1, 3,
