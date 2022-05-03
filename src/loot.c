@@ -136,9 +136,9 @@ static void spawn_loot(struct level *l, const struct creature *h, struct room *r
         for (count = 0; rand() % 100 < chance; count++) {
                 if (count >= l->lt->max_loot_count)
 			break;
-		lp = rand_loot(l, h);
 		x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
 		y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+		lp = rand_loot(l, h);
 		add_loot(&l->l, lp, x, y, 0);
         }
 }
