@@ -15,7 +15,7 @@ const struct creature beast_list[] = {
 		10, 1, 0,
 		NULL, NULL,
 		NULL,
-		{ 0, 0, 0 }, { 0, 0, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
 		0
 	},
 	{
@@ -28,7 +28,7 @@ const struct creature beast_list[] = {
 		20, 2, 0,
 		NULL, NULL,
 		NULL,
-		{ 0, 0, 0 }, { 0, 0, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
 		0
 	},
 	{
@@ -41,7 +41,7 @@ const struct creature beast_list[] = {
 		50, 4, 0,
 		NULL, NULL,
 		NULL,
-		{ 0, 0, 0 }, { 0, 0, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
 		0
 	},
 	{
@@ -54,7 +54,7 @@ const struct creature beast_list[] = {
 		100, 8, 0,
 		NULL, NULL,
 		NULL,
-		{ 0, 0, 0 }, { 0, 0, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
 		0
 	}
 };
@@ -85,9 +85,20 @@ static int can_place(const struct level *l, const struct creature *h,
 }
 
 static const struct creature *rand_beast(const struct level *l,
-                                   const struct creature *h)
+                                         const struct creature *h)
 {
-	return &beast_list[0];
+	int power, chance;
+	for (power = 0; power < 3; power++) {
+		chance = l->lt->beast_chance[power+1] +
+		         h->buff_beast_chance[power+1];
+		if (chance < 0)
+			break;
+		else if (chance > 100)
+			continue;
+		if (rand() % 100 >= chance)
+			break;
+	}
+	return &beast_list[l->lt->location*3 + power];
 }
 
 static void spawn_beast(struct level *l, const struct creature *h,

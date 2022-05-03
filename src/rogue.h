@@ -186,7 +186,7 @@ struct creature {
         int blood, exp, level;
         const struct loot_list *weapon, *armor;
         struct loot_list *inv;
-	int buff_loot_chance[3], buff_beast_chance[3];
+	int buff_loot_chance[3], buff_beast_chance[4];
         unsigned flags;
 };
 

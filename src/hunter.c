@@ -25,7 +25,7 @@ void init_hunter(struct creature *h, const struct level *l)
 		0, 0, 0,
 		NULL, NULL,
 		NULL,
-		{ 0, 0, 0 }, { 100, 0, 0 },
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
 		0
 	};
 	set_pair(hunter_pair, &temp.clr);
