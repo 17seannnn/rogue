@@ -44,7 +44,7 @@ static int show_msg(const char *text, int start_x)
 {
         mvwprintw(msgw, 0, start_x, text);
         wrefresh(msgw);
-        return start_x + strlen(text) + 1;
+        return start_x + strlen(text) + 2;
 }
 
 void handle_msg()
