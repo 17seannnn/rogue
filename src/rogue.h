@@ -267,6 +267,9 @@ extern const struct loot armor_list[];
 extern const struct loot poition_list[];
 extern const struct loot key_list[];
 
+/* beast */
+extern const struct creature beast_list[];
+
 /* level */
 extern const struct level_type level_list[];
 extern int start_symb, end_symb, hor_wall_symb, ver_wall_symb,

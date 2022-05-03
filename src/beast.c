@@ -9,7 +9,7 @@ const struct creature beast_list[] = {
 		cast_beast,
 		"Debug1",
 		'1', beast_debug1_pair,
-		{ COLOR_GREEN, -1 },
+		{ COLOR_GREEN+8, -1 },
 		{ 0, 0 },
 		5, 10, 1,
 		10, 1, 0,
