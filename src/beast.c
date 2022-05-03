@@ -11,7 +11,7 @@ const struct creature beast_list[] = {
 		'1', beast_debug1_pair,
 		{ COLOR_GREEN, -1 },
 		{ 0, 0 },
-		5, 10, 2,
+		5, 10, 1,
 		10, 1, 0,
 		NULL, NULL,
 		NULL,
@@ -59,30 +59,13 @@ const struct creature beast_list[] = {
 	}
 };
 
-static void add_beast(struct beast **b, int x, int y)
+static void add_beast(struct beast **b, const struct creature *c, int x, int y)
 {
         struct beast *t;
         t = malloc(sizeof(*t));
-        t->c.cast   = cast_beast;
-        t->c.symb   = 'B';
-        t->c.pos.x  = x;
-        t->c.pos.y  = y;
-        t->c.hp     = 10;
-        t->c.dmg    = 1;
-        t->c.fov    = 5;
-        t->c.blood  = 10;
-        t->c.exp    = 1;
-        t->c.level  = 1;
-        t->c.weapon = NULL;
-        t->c.armor  = NULL;
-        t->c.inv    = NULL;
-	t->c.buff_loot_chance[0] = 0;
-	t->c.buff_loot_chance[1] = 0;
-	t->c.buff_loot_chance[2] = 0;
-	t->c.buff_beast_chance[0] = 0;
-	t->c.buff_beast_chance[1] = 0;
-	t->c.buff_beast_chance[2] = 0;
-        t->c.flags  = 0;
+	t->c = *c;
+	t->c.pos.x = x;
+	t->c.pos.y = y;
         t->next = *b;
         *b = t;
 }
@@ -101,21 +84,32 @@ static int can_place(const struct level *l, const struct creature *h,
         return !is_beast(l->b, x, y) && !is_hunter(h, x, y);
 }
 
+static const struct creature *rand_beast(const struct level *l,
+                                   const struct creature *h)
+{
+	return &beast_list[0];
+}
+
 static void spawn_beast(struct level *l, const struct creature *h,
                         const struct room *r, int first)
 {
-        int x, y, chance, count;
-        chance = l->lt->beast_chance[0];
+	int x, y;
+	int count, chance;
+	const struct creature *b;
+        chance = l->lt->beast_chance[0] + h->buff_beast_chance[0];
+	if (chance < 0)
+		chance = 0;
+	else if (chance > 100)
+		chance = 100;
         if (first)
                 chance /= 3;
         for (count = 0; rand() % 100 < chance; count++) {
-                if (count < l->lt->max_beast_count && can_place(l, h, x, y)) {
-                        x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
-                        y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
-                        add_beast(&l->b, x, y);
-                } else {
-                        break;
-                }
+		if (count >= l->lt->max_beast_count || !can_place(l, h, x, y))
+			break;
+		x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
+		y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+		b = rand_beast(l, h);
+		add_beast(&l->b, b, x, y);
         }
 }
 
