@@ -99,9 +99,9 @@ static int rand_quality(const struct level *l, const struct creature *h)
 		chance = l->lt->loot_chance[quality+1] +
 		         h->buff_loot_chance[quality+1];
 		if (chance < 0)
-			chance = 0;
+			break;
 		else if (chance > 100)
-			chance = 100;
+			continue;
 		if (rand() % 100 >= chance)
 			break;
 	}
