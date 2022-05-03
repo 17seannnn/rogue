@@ -111,6 +111,13 @@ enum {
         cast_beast
 };
 
+/* beast */
+enum {
+	beast_debug1 = 0,
+	beast_debug2,
+	beast_debug3
+};
+
 /* level */
 enum {
 	level_debug = 0
