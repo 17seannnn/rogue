@@ -129,7 +129,7 @@ static void pave_path(struct level *l, struct room *r1, struct room *r2)
         }
 }
 
-static void fix_door(struct level *l)
+static void remove_useless_doors(struct level *l)
 {
         struct door **d = &l->d, *t;
         struct path *p = l->p;
@@ -145,6 +145,74 @@ static void fix_door(struct level *l)
                         d = &(*d)->next;
                 }
         }
+}
+
+static int can_remove_door(const struct path *p, const struct door *d1,
+                                                 const struct door *d2)
+{
+	int i, j;
+	int x, y;
+	int found;
+	int connections1_count, connections2_count;
+	struct coord connections1[8], connections2[8];
+	if (d1->owner != d2->owner)
+		return 0;
+	connections1_count = 0;
+	for (x = d1->pos.x-1; x <= d1->pos.x+1; x++) {
+		for (y = d1->pos.y-1; y <= d1->pos.y+1; y++) {
+			if (is_path(p, x, y)) {
+				connections1[connections1_count].x = x;
+				connections1[connections1_count].y = y;
+				connections1_count++;
+			}
+		}
+	}
+	connections2_count = 0;
+	for (x = d2->pos.x-1; x <= d2->pos.x+1; x++) {
+		for (y = d2->pos.y-1; y <= d2->pos.y+1; y++) {
+			if (is_path(p, x, y)) {
+				connections2[connections2_count].x = x;
+				connections2[connections2_count].y = y;
+				connections2_count++;
+			}
+		}
+	}
+	for (i = 0; i < connections1_count; i++) {
+		found = 0;
+		for (j = 0; j < connections2_count; j++) {
+		 	if (connections1[i].x == connections2[j].x &&
+			    connections1[i].y == connections2[j].y) {
+				found = 1;
+				break;
+			}
+		}
+		if (!found)
+			return 0;
+	}
+	return 1;
+}
+
+static void remove_extra_doors(struct level *l)
+{
+        struct door **d = &l->d, *t;
+        while (*d && (*d)->next) {
+		if (can_remove_door(l->p, *d, (*d)->next)) {
+#ifdef DEBUG
+			fprintf(logfile, "removed\n");
+#endif
+                        t = *d;
+                        *d = (*d)->next;
+                        free(t);
+                } else {
+                        d = &(*d)->next;
+                }
+        }
+}
+
+static void fix_door(struct level *l)
+{
+	remove_useless_doors(l);
+	remove_extra_doors(l);
 }
 void init_path(struct level *l)
 {
@@ -168,7 +236,7 @@ void init_path(struct level *l)
                         next_n++;
                 }
         }
-        fix_door(l);
+	fix_door(l);
 }
 
 void free_path(struct path *p)
