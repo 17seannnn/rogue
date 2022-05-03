@@ -4,10 +4,6 @@
 
 #include "rogue.h"
 
-enum {
-        hunter_symb = '@'
-};
-
 static const char msg_no_endpoint[] = "No endpoint here...";
 static const char msg_go_next_prompt[] = "Go next level? [yn]";
 static const char msg_no_key[] = "You don't have a key.";
@@ -19,26 +15,20 @@ int is_hunter(const struct creature *h, int x, int y)
 
 void init_hunter(struct creature *h, const struct level *l)
 {
-        h->cast   = cast_hunter;
-        h->symb   = hunter_symb;
-        h->pos.x  = l->start.pos.x;
-        h->pos.y  = l->start.pos.y;
-        h->hp     = 10;
-        h->dmg    = 1;
-        h->fov    = 0;
-        h->blood  = 0;
-        h->exp    = 0;
-        h->level  = 0;
-        h->weapon = NULL;
-        h->armor  = NULL;
-        h->inv    = NULL;
-	h->buff_loot_chance[0] = 0;
-	h->buff_loot_chance[1] = 0;
-	h->buff_loot_chance[2] = 0;
-	h->buff_beast_chance[0] = 0;
-	h->buff_beast_chance[1] = 0;
-	h->buff_beast_chance[2] = 0;
-        h->flags  = 0;
+	struct creature temp = {
+		cast_hunter,
+		"Hunter",
+		'@', hunter_pair,
+		{ -1, -1 },
+		{ l->start.pos.x, l->start.pos.y },
+		0, 10, 1,
+		0, 0, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0 },
+		0
+	};
+	*h = temp;
 }
 
 void show_info(const struct creature *h)

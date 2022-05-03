@@ -43,7 +43,14 @@ enum {
 	fov_start_pair,
 	fov_end_pair,
 	fov_path_pair,
-	fov_loot_pair
+	fov_loot_pair,
+
+	hunter_pair,
+
+	beast_debug1_pair,
+	beast_debug2_pair,
+	beast_debug3_pair,
+	beast_debug4_pair
 };
 
 /* common */
@@ -170,7 +177,10 @@ struct loot_list {
 
 /* creature */
 struct creature {
-        int cast, symb;
+        int cast;
+	const char *name;
+	int symb, color_pair;
+	struct color clr;
         struct coord pos;
         int fov, hp, dmg;
         int blood, exp, level;

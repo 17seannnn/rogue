@@ -4,6 +4,61 @@
 
 #include "rogue.h"
 
+const struct creature beast_list[] = {
+	{
+		cast_beast,
+		"Debug1",
+		'1', beast_debug1_pair,
+		{ COLOR_GREEN, -1 },
+		{ 0, 0 },
+		5, 10, 2,
+		10, 1, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0 },
+		0
+	},
+	{
+		cast_beast,
+		"Debug2",
+		'2', beast_debug2_pair,
+		{ COLOR_BLUE, -1 },
+		{ 0, 0 },
+		6, 15, 2,
+		20, 2, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0 },
+		0
+	},
+	{
+		cast_beast,
+		"Debug3",
+		'3', beast_debug3_pair,
+		{ COLOR_RED, -1 },
+		{ 0, 0 },
+		7, 20, 3,
+		50, 4, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0 },
+		0
+	},
+	{
+		cast_beast,
+		"Debug4",
+		'4', beast_debug4_pair,
+		{ COLOR_YELLOW, -1 },
+		{ 0, 0 },
+		10, 50, 2,
+		100, 8, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0 },
+		0
+	}
+};
+
 static void add_beast(struct beast **b, int x, int y)
 {
         struct beast *t;
