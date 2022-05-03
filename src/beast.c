@@ -66,6 +66,8 @@ static void add_beast(struct beast **b, const struct creature *c, int x, int y)
 	t->c = *c;
 	t->c.pos.x = x;
 	t->c.pos.y = y;
+	set_pair(t->c.color_pair, &t->c.clr);
+	t->c.symb |= COLOR_PAIR(t->c.color_pair);
         t->next = *b;
         *b = t;
 }
