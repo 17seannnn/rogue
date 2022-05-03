@@ -6,10 +6,14 @@ CFLAGS = -g -Wall
 LDFLAGS = -lncurses
 RM = rm
 
+ifeq (debug, $(MAKECMDGOALS))
+	CFLAGS += -DDEBUG
+endif
+
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-install: main.c $(OBJMODULES)
+debug install: main.c $(OBJMODULES)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $(BINNAME)
 
 ifneq (clean, $(MAKECMDGOALS))
