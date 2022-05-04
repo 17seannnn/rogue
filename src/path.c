@@ -197,9 +197,6 @@ static void remove_extra_doors(struct level *l)
         struct door **d = &l->d, *t;
         while (*d && (*d)->next) {
 		if (can_remove_door(l->p, *d, (*d)->next)) {
-#ifdef DEBUG
-			fprintf(logfile, "removed\n");
-#endif
                         t = *d;
                         *d = (*d)->next;
                         free(t);
