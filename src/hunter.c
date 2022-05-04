@@ -114,3 +114,10 @@ void go_next(const struct level *l, struct creature *h, unsigned *flags)
                 del_loot(&h->inv, t);
         }
 }
+
+void add_blood(struct creature *h, int val)
+{
+	h->blood += val;
+	if (h->blood > max_blood)
+		h->blood = max_blood;
+}

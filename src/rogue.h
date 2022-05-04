@@ -95,7 +95,9 @@ enum {
 
         poition_debug = 0,
 
-        key_debug = 0
+        key_debug = 0,
+
+	max_blood = 9999
 };
 
 /* inv */
@@ -355,6 +357,7 @@ void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(struct creature *h, struct beast *b, int side);
 void handle_hunter(struct creature *h);
 void go_next(const struct level *l, struct creature *h, unsigned *flags);
+void add_blood(struct creature *h, int val);
 
 /* beast */
 int is_beast(const struct beast *b, int x, int y);

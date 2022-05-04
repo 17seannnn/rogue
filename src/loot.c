@@ -216,7 +216,7 @@ void try_loot(struct level *l, struct creature *h, int side)
 	append_msg(buf);
         append_msg(").");
 	if (ll->l->type == type_blood)
-		h->blood += ll->l->val;
+		add_blood(h, ll->l->val);
 	else
 		add_loot(&h->inv, ll->l, 0, 0, 0);
         del_loot(&l->l, ll);

@@ -21,10 +21,8 @@ int attack(struct creature *a, struct creature *d)
         d->hp -= dmg;
         add_msg(a->cast == cast_hunter ? "You" : a->name);
         if (d->hp <= 0) {
-                if (a->cast == cast_hunter) {
-                        a->blood += d->blood;
-                        a->exp += d->exp;
-                }
+		if (a->cast == cast_hunter)
+			add_blood(a, d->blood);
                 append_msg(msg_kill);
         } else {
                 append_msg(msg_hit[rand() % 3]);
