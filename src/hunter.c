@@ -37,8 +37,9 @@ void show_info(const struct creature *h)
 {
         wclear(infow);
         mvwprintw(infow, 0, 0,
-                  "HP:%d Dmg:%d Bld:%d Exp %d/%d        ",
-                  h->hp, h->dmg, h->blood, h->exp, (int)power(2, h->level));
+                  "HP:%d/%d Dmg:%d Bld:%d Exp %d/%d        ",
+                  h->hp, h->max_hp, h->dmg, h->blood, h->exp,
+		  (int)power(2, h->level));
         wrefresh(infow);
 }
 
