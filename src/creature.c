@@ -82,3 +82,13 @@ int add_health(struct creature *c, int val)
 		c->hp = c->max_hp;
 	return 1;
 }
+
+int add_blood(struct creature *h, int val)
+{
+	if (h->blood == max_blood)
+		return 0;
+	h->blood += val;
+	if (h->blood > max_blood)
+		h->blood = max_blood;
+	return 1;
+}

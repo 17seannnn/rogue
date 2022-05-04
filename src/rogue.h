@@ -349,6 +349,7 @@ int search_creature(const struct level *l, struct creature *c1,
 int move_creature(const struct level *l, const struct creature *h,
                   struct creature *c, int side);
 int add_health(struct creature *c, int val);
+int add_blood(struct creature *h, int val);
 
 /* hunter */
 int is_hunter(const struct creature *h, int x, int y);
@@ -358,7 +359,6 @@ void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(struct creature *h, struct beast *b, int side);
 void handle_hunter(struct creature *h);
 void go_next(const struct level *l, struct creature *h, unsigned *flags);
-int add_blood(struct creature *h, int val);
 
 /* beast */
 int is_beast(const struct beast *b, int x, int y);
