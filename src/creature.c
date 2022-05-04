@@ -33,7 +33,7 @@ static int can_see(const struct level *l, const struct creature *c1,
  *   the 1st one and -1 on fail
  */
 int search_creature(const struct level *l, struct creature *c1,
-                                           const struct creature *c2)
+                                     const struct creature *c2)
 {
         if (can_see(l, c1, c2)) {
                 if (c1->cast == cast_beast)
@@ -71,4 +71,12 @@ int move_creature(const struct level *l, const struct creature *h,
                 return 1;
         }
         return 0;
+}
+
+int add_health(struct creature *c, int val)
+{
+	if (c->hp == c->max_hp)
+		return 0;
+	c->hp += val;
+	return 1;
 }

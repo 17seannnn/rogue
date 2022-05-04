@@ -21,7 +21,7 @@ void init_hunter(struct creature *h, const struct level *l)
 		'@', hunter_pair,
 		{ COLOR_MAGENTA+8, -1 },
 		{ l->start.pos.x, l->start.pos.y },
-		0, 10, 1,
+		0, 10, 10, 1,
 		0, 0, 0,
 		NULL, NULL,
 		NULL,

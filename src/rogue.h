@@ -191,7 +191,7 @@ struct creature {
 	int symb, color_pair;
 	struct color clr;
         struct coord pos;
-        int fov, hp, dmg;
+        int fov, hp, max_hp, dmg;
         int blood, exp, level;
         const struct loot_list *weapon, *armor;
         struct loot_list *inv;
@@ -345,9 +345,10 @@ void quaff(struct level *l, struct creature *h);
 /* creature */
 void show_creature(const struct creature *c);
 int search_creature(const struct level *l, struct creature *c1,
-                                           const struct creature *c2);
+                                     const struct creature *c2);
 int move_creature(const struct level *l, const struct creature *h,
                   struct creature *c, int side);
+int add_health(struct creature *c, int val);
 
 /* hunter */
 int is_hunter(const struct creature *h, int x, int y);
