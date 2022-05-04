@@ -195,12 +195,14 @@ static void try_attack_hunter(struct creature *b, struct creature *h, int side)
 void handle_beast(struct level *l, struct creature *h)
 {
         int res, side;
-        struct beast *b;
+        struct beast *b = l->b, *t;
         struct creature *c;
-        for (b = l->b; b; b = b->next) {
+        while (b) {
                 c = &b->c;
                 if (c->hp <= 0) {
-                        del_beast(l, b);
+			t = b;
+			b = b->next;
+                        del_beast(l, t);
                         continue;
                 }
                 side = search_creature(l, c, h);
@@ -208,5 +210,6 @@ void handle_beast(struct level *l, struct creature *h)
                 res = move_creature(l, h, c, side);
                 if (!res)
                         try_attack_hunter(c, h, side);
+		b = b->next;
         }
 }
