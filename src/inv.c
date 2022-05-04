@@ -251,6 +251,7 @@ void quaff(struct level *l, struct creature *h)
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);
+		append_msg("'");
                 append_msg(msg_not_quaffed);
                 return;
         }
