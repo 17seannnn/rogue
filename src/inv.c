@@ -17,7 +17,7 @@ static const char msg_towear[] = "What do you want to wear? [";
 static const char msg_wearing[] = "Now you are wearing ";
 
 static const char msg_toquaff[] = "What do you want to quaff? [";
-static const char msg_quaffed[] = "You quaffed  ";
+static const char msg_quaffed[] = "You quaffed ";
 static const char msg_not_quaffed[] = " can't be quaffed.";
 static const char msg_max_hp[] = "You already have max hp.";
 
