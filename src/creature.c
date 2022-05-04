@@ -78,5 +78,7 @@ int add_health(struct creature *c, int val)
 	if (c->hp == c->max_hp)
 		return 0;
 	c->hp += val;
+	if (c->hp > c->max_hp)
+		c->hp = c->max_hp;
 	return 1;
 }
