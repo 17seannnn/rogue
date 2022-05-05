@@ -83,12 +83,43 @@ int add_health(struct creature *c, int val)
 	return 1;
 }
 
-int add_blood(struct creature *h, int val)
+int add_blood(struct creature *c, int val)
 {
-	if (h->blood == max_blood)
+	if (c->blood == max_blood)
 		return 0;
-	h->blood += val;
-	if (h->blood > max_blood)
-		h->blood = max_blood;
+	c->blood += val;
+	if (c->blood > max_blood)
+		c->blood = max_blood;
 	return 1;
+}
+
+int get_max_exp(int level)
+{
+	return (int)power(2, level);
+}
+
+void add_exp(struct creature *c, int val)
+{
+	int l = c->level, e = c->exp;
+	c->exp += val;
+	if (e >= 0 && e < get_max_exp(l))
+		return;
+	if (e > 0) {
+		while (l < max_creature_level &&
+		       e - get_max_exp(l) >= 0) {
+			e -= get_max_exp(l);
+			l++;
+		}
+		if (l == max_creature_level && e >= get_max_exp(l))
+			e = get_max_exp(l);
+	} else {
+		while (l > 0 && e < 0) {
+			e += get_max_exp(l-1);
+			l--;
+		}
+		if (l == 0 && e < 0)
+			e = 0;
+	}
+	c->level = l;
+	c->exp = e;
 }

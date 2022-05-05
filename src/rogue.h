@@ -110,7 +110,9 @@ enum {
         saw_hunter_flag = 0x0001,
 
         cast_hunter = 0,
-        cast_beast
+        cast_beast,
+
+	max_creature_level = 15
 };
 
 /* beast */
@@ -350,6 +352,8 @@ int move_creature(const struct level *l, const struct creature *h,
                   struct creature *c, int side);
 int add_health(struct creature *c, int val);
 int add_blood(struct creature *h, int val);
+int get_max_exp(int level);
+void add_exp(struct creature *c, int val);
 
 /* hunter */
 int is_hunter(const struct creature *h, int x, int y);
