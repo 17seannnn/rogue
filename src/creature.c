@@ -100,8 +100,7 @@ int get_max_exp(int level)
 
 void add_exp(struct creature *c, int val)
 {
-	int l = c->level, e = c->exp;
-	c->exp += val;
+	int l = c->level, e = c->exp + val;
 	if (e >= 0 && e < get_max_exp(l))
 		return;
 	if (e > 0) {
@@ -110,7 +109,7 @@ void add_exp(struct creature *c, int val)
 			e -= get_max_exp(l);
 			l++;
 		}
-		if (l == max_creature_level && e >= get_max_exp(l))
+		if (l == max_creature_level && e > get_max_exp(l))
 			e = get_max_exp(l);
 	} else {
 		while (l > 0 && e < 0) {
