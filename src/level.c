@@ -240,7 +240,7 @@ void init_level(struct level *l, struct creature *h)
         l->depth = init_room(l);
         init_path(l);
         init_points(l);
-        init_hunter(h, l);
+        init_hunter(l, h);
         init_beast(l, h);
         init_loot(l, h);
 }

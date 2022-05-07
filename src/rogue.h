@@ -351,13 +351,13 @@ int search_creature(const struct level *l, struct creature *c1,
 int move_creature(const struct level *l, const struct creature *h,
                   struct creature *c, int side);
 int add_health(struct creature *c, int val);
-int add_blood(struct creature *h, int val);
+int add_blood(struct creature *c, int val);
 int get_max_exp(int level);
 void add_exp(struct creature *c, int val);
 
 /* hunter */
 int is_hunter(const struct creature *h, int x, int y);
-void init_hunter(struct creature *h, const struct level *l);
+void init_hunter(const struct level *l, struct creature *h);
 void show_info(const struct creature *h);
 void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(struct creature *h, struct beast *b, int side);
@@ -397,6 +397,6 @@ void redraw_screen(struct level *l, const struct creature *h);
 int attack(struct creature *a, struct creature *d);
 
 /* cmd */
-void do_cmd(int c, struct creature *h, struct level *l, unsigned *flags);
+void do_cmd(int c, struct level *l, struct creature *h, unsigned *flags);
 
 #endif

@@ -13,7 +13,7 @@ int is_hunter(const struct creature *h, int x, int y)
         return h->pos.x == x && h->pos.y == y;
 }
 
-void init_hunter(struct creature *h, const struct level *l)
+void init_hunter(const struct level *l, struct creature *h)
 {
 	struct creature temp = {
 		cast_hunter,

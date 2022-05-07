@@ -40,7 +40,7 @@ static unsigned play_game(struct level *l, struct creature *h)
                         if (c == key_escape)
                                 break;
                 }
-                do_cmd(c, h, l, &flags);
+                do_cmd(c, l, h, &flags);
                 handle_beast(l, h);
                 if (flags & next_level_flag)
                         break;
