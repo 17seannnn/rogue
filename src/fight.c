@@ -7,8 +7,7 @@
 
 enum {
 	msg_hit_count  = 3,
-	msg_miss_count = 2,
-	miss_chance    = 5
+	msg_miss_count = 2
 };
 
 static const char *msg_hit[] = {
@@ -33,7 +32,7 @@ int attack(struct level *l, struct creature *a, struct creature *d)
         int dmg;
 	char buf[bufsize];
         add_msg(a->cast == cast_hunter ? "You" : a->name);
-	if (rand() % 100 >= miss_chance) {
+	if (rand() % 100 >= a->miss) {
 		dmg = a->weapon ? a->weapon->l.val + a->dmg : a->dmg;
 		if (d->armor)
 			dmg -= armor_help(dmg, &d->armor->l);
