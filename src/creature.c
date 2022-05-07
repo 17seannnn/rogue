@@ -2,6 +2,8 @@
 
 #include "rogue.h"
 
+static const char msg_max_blood[] = "You can't carry more blood.";
+
 void show_creature(const struct creature *c)
 {
         mvwaddch(gamew, c->pos.y, c->pos.x, c->symb);
@@ -88,13 +90,14 @@ void add_blood(struct level *l, struct creature *c, int val)
 	int remainder;
 	struct loot bl;
 	c->blood += val;
-	if (c->blood > max_blood) {
-		remainder = c->blood - max_blood;
-		c->blood = max_blood;
-		bl = blood_list[blood_debug];
-		bl.val = remainder;
-		add_loot(&l->l, &bl, c->pos.x, c->pos.y, 0);
-	}
+	if (c->blood <= max_blood)
+		return;
+	remainder = c->blood - max_blood;
+	c->blood = max_blood;
+	bl = blood_list[blood_debug];
+	bl.val = remainder;
+	add_loot(&l->l, &bl, c->pos.x, c->pos.y, 0);
+	add_msg(msg_max_blood);
 }
 
 int get_max_exp(int level)

@@ -209,11 +209,10 @@ void try_loot(struct level *l, struct creature *h, int side)
                 add_msg(msg_no_space);
                 return;
         }
-	if (ll->l.type == type_blood) {
+	if (ll->l.type == type_blood)
 		add_blood(l, h, ll->l.val);
-	} else {
+	else
 		add_loot(&h->inv, &ll->l, 0, 0, 0);
-	}
         add_msg(msg_picked_up);
         append_msg(ll->l.name);
 	append_msg(" (");

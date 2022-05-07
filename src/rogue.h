@@ -111,7 +111,7 @@ enum {
         cast_beast,
 
 	max_creature_level = 15,
-	max_blood = 999
+	max_blood = 1
 };
 
 /* beast */
