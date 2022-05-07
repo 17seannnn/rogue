@@ -83,13 +83,18 @@ int add_health(struct creature *c, int val)
 	return 1;
 }
 
-int add_blood(struct creature *c, int val)
+int add_blood(struct level *l, struct creature *c, int val)
 {
-	if (c->blood == max_blood)
-		return 0;
+	int remainder;
+	struct loot bl;
 	c->blood += val;
-	if (c->blood > max_blood)
+	if (c->blood > max_blood) {
+		remainder = c->blood = max_blood;
 		c->blood = max_blood;
+	}
+	bl = blood_list[blood_debug];
+	bl.val = remainder;
+	add_loot(&l->l, &bl, c->pos.x, c->pos.y, 0);
 	return 1;
 }
 

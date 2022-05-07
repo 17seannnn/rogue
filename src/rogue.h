@@ -97,7 +97,7 @@ enum {
 
         key_debug = 0,
 
-	max_blood = 999
+	max_blood = 1
 };
 
 /* inv */
@@ -351,7 +351,7 @@ int search_creature(const struct level *l, struct creature *c1,
 int move_creature(const struct level *l, const struct creature *h,
                   struct creature *c, int side);
 int add_health(struct creature *c, int val);
-int add_blood(struct creature *c, int val);
+int add_blood(struct level *l, struct creature *c, int val);
 int get_max_exp(int level);
 void add_exp(struct creature *c, int val);
 
@@ -360,7 +360,8 @@ int is_hunter(const struct creature *h, int x, int y);
 void init_hunter(const struct level *l, struct creature *h);
 void show_info(const struct creature *h);
 void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
-int try_attack_beast(struct creature *h, struct beast *b, int side);
+int try_attack_beast(struct level *l, struct creature *h,
+		     struct beast *b, int side);
 void handle_hunter(struct creature *h);
 void go_next(const struct level *l, struct creature *h, unsigned *flags);
 
@@ -394,7 +395,7 @@ void handle_fov(struct level *l, const struct creature *h, int refresh);
 void redraw_screen(struct level *l, const struct creature *h);
 
 /* fight */
-int attack(struct creature *a, struct creature *d);
+int attack(struct level *l, struct creature *a, struct creature *d);
 
 /* cmd */
 void do_cmd(int c, struct level *l, struct creature *h, unsigned *flags);

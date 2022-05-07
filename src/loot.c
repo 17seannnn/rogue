@@ -211,7 +211,7 @@ void try_loot(struct level *l, struct creature *h, int side)
                 return;
         }
 	if (ll->l.type == type_blood) {
-		res = add_blood(h, ll->l.val);
+		res = add_blood(l, h, ll->l.val);
 		if (!res) {
 			add_msg(msg_max_blood);
 			return;

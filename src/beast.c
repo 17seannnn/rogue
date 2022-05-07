@@ -182,14 +182,15 @@ static void del_beast(struct level *l, struct beast *del)
         free(del);
 }
 
-static void try_attack_hunter(struct creature *b, struct creature *h, int side)
+static void try_attack_hunter(struct level *l, struct creature *b,
+                              struct creature *h, int side)
 {
         int x, y;
         get_side_diff(side, &x, &y);
         x += b->pos.x;
         y += b->pos.y;
         if (is_hunter(h, x, y))
-                attack(b, h);
+                attack(l, b, h);
 }
 
 void handle_beast(struct level *l, struct creature *h)
@@ -209,7 +210,7 @@ void handle_beast(struct level *l, struct creature *h)
                 side = try_side(l, side, c->pos.x, c->pos.y);
                 res = move_creature(l, h, c, side);
                 if (!res)
-                        try_attack_hunter(c, h, side);
+                        try_attack_hunter(l, c, h, side);
 		b = b->next;
         }
 }

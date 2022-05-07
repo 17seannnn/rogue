@@ -53,7 +53,7 @@ void try_move(struct level *l, struct creature *h, int c, unsigned *flags)
         try_loot(l, h, side);
         res = move_creature(l, h, h, side);
         if (!res)
-                try_attack_beast(h, l->b, side);
+                try_attack_beast(l, h, l->b, side);
         if (c >= 'A' && c <= 'Z') {
                 if (!res || is_stop(l, x, y)) {
                         if (*flags & again_flag)
@@ -64,7 +64,8 @@ void try_move(struct level *l, struct creature *h, int c, unsigned *flags)
         }
 }
 
-int try_attack_beast(struct creature *h, struct beast *b, int side)
+int try_attack_beast(struct level *l, struct creature *h,
+	             struct beast *b, int side)
 {
         int x, y;
         get_side_diff(side, &x, &y);
@@ -72,7 +73,7 @@ int try_attack_beast(struct creature *h, struct beast *b, int side)
         y += h->pos.y;
         for ( ; b; b = b->next)
                 if (b->c.pos.x == x && b->c.pos.y == y)
-                        return attack(h, &b->c);
+                        return attack(l, h, &b->c);
         return 0;
 }
 

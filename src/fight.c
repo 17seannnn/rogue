@@ -13,7 +13,7 @@ static const char *msg_hit[] = {
 static const char msg_kill[] = " killed ";
 static const char msg_max_blood[] = "You can't carry more blood.";
 
-int attack(struct creature *a, struct creature *d)
+int attack(struct level *l, struct creature *a, struct creature *d)
 {
         int dmg, res;
 	char buf[bufsize];
@@ -22,7 +22,7 @@ int attack(struct creature *a, struct creature *d)
         add_msg(a->cast == cast_hunter ? "You" : a->name);
         if (d->hp <= 0) {
 		if (a->cast == cast_hunter) {
-			res = add_blood(a, d->blood);
+			res = add_blood(l, a, d->blood);
 			add_exp(a, d->exp);
 		}
                 append_msg(msg_kill);
