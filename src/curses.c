@@ -15,6 +15,7 @@ void init_curses()
         }
         noecho();
         cbreak();
+	raw();
         curs_set(0);
         clear();
         msgw  = newwin(msgw_row,  msgw_col,  msgw_srow,  msgw_scol);
