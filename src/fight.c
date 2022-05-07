@@ -17,7 +17,7 @@ int attack(struct creature *a, struct creature *d)
 {
         int dmg, res;
 	char buf[bufsize];
-        dmg = a->weapon ? a->weapon->l->val + a->dmg : a->dmg;
+        dmg = a->weapon ? a->weapon->l.val + a->dmg : a->dmg;
         d->hp -= dmg;
         add_msg(a->cast == cast_hunter ? "You" : a->name);
         if (d->hp <= 0) {

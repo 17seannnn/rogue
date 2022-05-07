@@ -70,10 +70,10 @@ void add_loot(struct loot_list **ll, const struct loot *l,
         t->idx   = idx;
         t->pos.x = x;
         t->pos.y = y;
-        t->l     = l;
-        for ( ; *ll && (*ll)->l->type < l->type; ll = &(*ll)->next)
+        t->l     = *l;
+        for ( ; *ll && (*ll)->l.type < l->type; ll = &(*ll)->next)
                 {}
-        for ( ; *ll && (*ll)->l->type == l->type && (*ll)->idx < t->idx;
+        for ( ; *ll && (*ll)->l.type == l->type && (*ll)->idx < t->idx;
              ll = &(*ll)->next)
                 {}
         t->next  = *ll;
@@ -210,19 +210,19 @@ void try_loot(struct level *l, struct creature *h, int side)
                 add_msg(msg_no_space);
                 return;
         }
-	if (ll->l->type == type_blood) {
-		res = add_blood(h, ll->l->val);
+	if (ll->l.type == type_blood) {
+		res = add_blood(h, ll->l.val);
 		if (!res) {
 			add_msg(msg_max_blood);
 			return;
 		}
 	} else {
-		add_loot(&h->inv, ll->l, 0, 0, 0);
+		add_loot(&h->inv, &ll->l, 0, 0, 0);
 	}
         add_msg(msg_picked_up);
-        append_msg(ll->l->name);
+        append_msg(ll->l.name);
 	append_msg(" (");
-	snprintf(buf, bufsize, "%d", ll->l->val);
+	snprintf(buf, bufsize, "%d", ll->l.val);
 	append_msg(buf);
         append_msg(").");
         del_loot(&l->l, ll);

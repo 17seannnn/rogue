@@ -84,7 +84,7 @@ void go_next(const struct level *l, struct creature *h, unsigned *flags)
                 add_msg(msg_no_endpoint);
                 return;
         }
-        for (t = h->inv; t && t->l->type != type_key; t = t->next)
+        for (t = h->inv; t && t->l.type != type_key; t = t->next)
                 {}
         if (!t) {
                 add_msg(msg_no_key);

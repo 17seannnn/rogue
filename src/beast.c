@@ -176,7 +176,7 @@ static void del_beast(struct level *l, struct beast *del)
         if (!*b)
                 return;
 	for (inv = del->c.inv; inv; inv = inv->next)
-		add_loot(&l->l, inv->l, del->c.pos.x, del->c.pos.y, 0);
+		add_loot(&l->l, &inv->l, del->c.pos.x, del->c.pos.y, 0);
 	free_loot(del->c.inv);
         *b = (*b)->next;
         free(del);

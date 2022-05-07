@@ -30,9 +30,9 @@ void show_inv(struct level *l, const struct creature *h)
         mvwprintw(invw, y, x, "Weapons");
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
-                if (t->l->type == type_weapon) {
+                if (t->l.type == type_weapon) {
                         mvwprintw(invw, y, x, "%c - %s (%d) %s",
-                                  t->idx, t->l->name, t->l->val,
+                                  t->idx, t->l.name, t->l.val,
                                   h->weapon == t ? "(being worn)" : "");
                         y++;
                 }
@@ -41,9 +41,9 @@ void show_inv(struct level *l, const struct creature *h)
         mvwprintw(invw, y, x, "Armor");
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
-                if (t->l->type == type_armor) {
+                if (t->l.type == type_armor) {
                         mvwprintw(invw, y, x, "%c - %s (%d) %s",
-                                  t->idx, t->l->name, t->l->val,
+                                  t->idx, t->l.name, t->l.val,
                                   h->armor == t ? "(being worn)" : "");
                         y++;
                 }
@@ -52,9 +52,9 @@ void show_inv(struct level *l, const struct creature *h)
         mvwprintw(invw, y, x, "Poitions");
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
-                if (t->l->type == type_poition) {
+                if (t->l.type == type_poition) {
                         mvwprintw(invw, y, x, "%c - %s (%d)",
-			          t->idx, t->l->name, t->l->val);
+			          t->idx, t->l.name, t->l.val);
                         y++;
                 }
         }
@@ -62,9 +62,9 @@ void show_inv(struct level *l, const struct creature *h)
         mvwprintw(invw, y, x, "Keys");
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
-                if (t->l->type == type_key) {
+                if (t->l.type == type_key) {
                         mvwprintw(invw, y, x, "%c - %s (%d)",
-			          t->idx, t->l->name, t->l->val);
+			          t->idx, t->l.name, t->l.val);
                         y++;
                 }
         }
@@ -119,10 +119,10 @@ void drop(struct level *l, struct creature *h)
         else
         if (h->armor == t)
                 h->armor = NULL;
-        add_loot(&l->l, t->l, h->pos.x, h->pos.y, seen_flag);
+        add_loot(&l->l, &t->l, h->pos.x, h->pos.y, seen_flag);
         del_loot(&h->inv, t);
         add_msg(msg_dropped);
-        append_msg(t->l->name);
+        append_msg(t->l.name);
         append_msg(".");
 }
 
@@ -134,7 +134,7 @@ void wield(struct level *l, struct creature *h)
         for (got = 0; !got; ) {
                 add_msg(msg_towield);
                 for (t = h->inv; t; t = t->next) {
-                        if (t->l->type == type_weapon) {
+                        if (t->l.type == type_weapon) {
                                 buf[0] = t->idx;
                                 append_msg(buf);
                         }
@@ -158,7 +158,7 @@ void wield(struct level *l, struct creature *h)
         }
         for (t = h->inv; t && t->idx != idx; t = t->next)
                 {}
-        if (!t || t->l->type != type_weapon) {
+        if (!t || t->l.type != type_weapon) {
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);
@@ -167,7 +167,7 @@ void wield(struct level *l, struct creature *h)
         }
         h->weapon = t;
         add_msg(msg_wielding);
-        append_msg(t->l->name);
+        append_msg(t->l.name);
         append_msg(".");
 }
 
@@ -179,7 +179,7 @@ void wear(struct level *l, struct creature *h)
         for (got = 0; !got; ) {
                 add_msg(msg_towear);
                 for (t = h->inv; t; t = t->next) {
-                        if (t->l->type == type_armor) {
+                        if (t->l.type == type_armor) {
                                 buf[0] = t->idx;
                                 append_msg(buf);
                         }
@@ -203,7 +203,7 @@ void wear(struct level *l, struct creature *h)
         }
         for (t = h->inv; t && t->idx != idx; t = t->next)
                 {}
-        if (!t || t->l->type != type_armor) {
+        if (!t || t->l.type != type_armor) {
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);
@@ -212,7 +212,7 @@ void wear(struct level *l, struct creature *h)
         }
         h->armor = t;
         add_msg(msg_wearing);
-        append_msg(t->l->name);
+        append_msg(t->l.name);
         append_msg(".");
 }
 
@@ -224,7 +224,7 @@ void quaff(struct level *l, struct creature *h)
         for (got = 0; !got; ) {
                 add_msg(msg_toquaff);
                 for (t = h->inv; t; t = t->next) {
-                        if (t->l->type == type_poition) {
+                        if (t->l.type == type_poition) {
                                 buf[0] = t->idx;
                                 append_msg(buf);
                         }
@@ -248,7 +248,7 @@ void quaff(struct level *l, struct creature *h)
         }
         for (t = h->inv; t && t->idx != idx; t = t->next)
                 {}
-        if (!t || t->l->type != type_poition) {
+        if (!t || t->l.type != type_poition) {
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);
@@ -256,13 +256,13 @@ void quaff(struct level *l, struct creature *h)
                 append_msg(msg_not_quaffed);
                 return;
         }
-	res = add_health(h, t->l->val);
+	res = add_health(h, t->l.val);
 	if (!res) {
 		add_msg(msg_max_hp);
 		return;
 	}
         del_loot(&h->inv, t);
         add_msg(msg_quaffed);
-        append_msg(t->l->name);
+        append_msg(t->l.name);
         append_msg(".");
 }

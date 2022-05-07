@@ -181,7 +181,7 @@ struct loot {
 struct loot_list {
         int idx;
         struct coord pos;
-        const struct loot *l;
+        struct loot l;
         struct loot_list *next;
         unsigned flags;
 };
@@ -195,7 +195,7 @@ struct creature {
         struct coord pos;
         int fov, hp, max_hp, dmg;
         int blood, exp, level;
-        const struct loot_list *weapon, *armor;
+        struct loot_list *weapon, *armor;
         struct loot_list *inv;
 	int buff_loot_chance[3], buff_beast_chance[4];
         unsigned flags;
