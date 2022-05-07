@@ -36,7 +36,7 @@ static unsigned play_game(struct level *l, struct creature *h)
         handle_msg();
 	add_loot(&h->inv, &armor_list[2], 0, 0, 0);
         for (;;) {
-                if (!(flags & again_flag)) {
+                if (~flags & again_flag) {
                         c = wgetch(gamew);
                         if (c == key_escape)
                                 break;
@@ -69,7 +69,7 @@ int main()
                 init_level(&l, &h);
                 flags = play_game(&l, &h);
                 end_level(&l, &h);
-                if (!(flags & next_level_flag))
+                if (~flags & next_level_flag)
                         break;
         }
         end_game();

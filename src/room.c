@@ -309,7 +309,7 @@ void show_room(struct room *r, const struct door *d, int ground)
                         mvwaddch(gamew, d->pos.y, d->pos.x, door_symb);
         if (r->flags & see_flag && !ground)
                 r->flags ^= see_flag;
-        else if (!(r->flags & see_flag) && ground)
+        else if (~r->flags & see_flag && ground)
                 r->flags |= see_flag;
 }
 
