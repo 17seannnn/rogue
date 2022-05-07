@@ -3,6 +3,7 @@
 #include "rogue.h"
 
 static const char msg_max_blood[] = "You can't carry more blood.";
+static const char msg_max_hp[] = "You are already fine.";
 
 void show_creature(const struct creature *c)
 {
@@ -77,8 +78,10 @@ int move_creature(const struct level *l, const struct creature *h,
 
 int add_health(struct creature *c, int val)
 {
-	if (c->hp == c->max_hp)
+	if (c->hp == c->max_hp) {
+		add_msg(msg_max_hp);
 		return 0;
+	}
 	c->hp += val;
 	if (c->hp > c->max_hp)
 		c->hp = c->max_hp;

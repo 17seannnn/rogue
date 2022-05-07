@@ -19,7 +19,6 @@ static const char msg_wearing[] = "Now you are wearing ";
 static const char msg_toquaff[] = "What do you want to quaff? [";
 static const char msg_quaffed[] = "You quaffed ";
 static const char msg_not_quaffed[] = " can't be quaffed.";
-static const char msg_max_hp[] = "You already have max hp.";
 
 void show_inv(struct level *l, const struct creature *h)
 {
@@ -257,10 +256,8 @@ void quaff(struct level *l, struct creature *h)
                 return;
         }
 	res = add_health(h, t->l.val);
-	if (!res) {
-		add_msg(msg_max_hp);
+	if (!res)
 		return;
-	}
         del_loot(&h->inv, t);
         add_msg(msg_quaffed);
         append_msg(t->l.name);
