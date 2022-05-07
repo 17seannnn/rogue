@@ -357,7 +357,7 @@ void add_exp(struct creature *c, int val);
 
 /* hunter */
 int is_hunter(const struct creature *h, int x, int y);
-void init_hunter(const struct level *l, struct creature *h);
+void init_hunter(const struct level *l, struct creature *h, int hunter);
 void show_info(const struct creature *h);
 void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(struct level *l, struct creature *h,
@@ -382,8 +382,8 @@ int can_side(const struct level *l, int side, int x, int y);
 int try_side(const struct level *l, int side, int x, int y);
 int get_char_side(int c);
 void get_side_diff(int side, int *dx, int *dy);
-void init_level(struct level *l, struct creature *h);
-void end_level(struct level *l, struct creature *h);
+void init_level(struct level *l, struct creature *h, int hunter);
+void end_level(struct level *l);
 
 /* msg */
 void add_msg(const char *text);

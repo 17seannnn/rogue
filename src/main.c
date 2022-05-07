@@ -18,8 +18,9 @@ static void init_game()
         init_curses();
 }
 
-static void end_game()
+static void end_game(struct creature *h)
 {
+        free_loot(h->inv);
         end_curses();
 #ifdef DEBUG
 
@@ -61,17 +62,20 @@ static unsigned play_game(struct level *l, struct creature *h)
 
 int main()
 {
-        unsigned flags;
+        unsigned flags = 0;
         struct creature h;
         struct level l;
         init_game();
         for (;;) {
-                init_level(&l, &h);
+		if (~flags & next_level_flag)
+			init_level(&l, &h, 1);
+		else
+			init_level(&l, &h, 0);
                 flags = play_game(&l, &h);
-                end_level(&l, &h);
+                end_level(&l);
                 if (~flags & next_level_flag)
                         break;
         }
-        end_game();
+        end_game(&h);
         return 0;
 }

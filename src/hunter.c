@@ -13,7 +13,7 @@ int is_hunter(const struct creature *h, int x, int y)
         return h->pos.x == x && h->pos.y == y;
 }
 
-void init_hunter(const struct level *l, struct creature *h)
+void init_hunter(const struct level *l, struct creature *h, int hunter)
 {
 	struct creature temp = {
 		cast_hunter,
@@ -28,9 +28,13 @@ void init_hunter(const struct level *l, struct creature *h)
 		{ 0, 0, 0 }, { 0, 0, 0, 0 },
 		0
 	};
-	set_pair(hunter_pair, &temp.clr);
-	temp.symb |= COLOR_PAIR(hunter_pair);
-	*h = temp;
+	if (hunter) {
+		set_pair(hunter_pair, &temp.clr);
+		temp.symb |= COLOR_PAIR(hunter_pair);
+		*h = temp;
+	} else {
+		h->pos = temp.pos;
+	}
 }
 
 void show_info(const struct creature *h)
