@@ -113,11 +113,12 @@ void drop(struct level *l, struct creature *h)
                 append_msg(msg_not_dropped);
                 return;
         }
-        if (h->weapon == t)
+        if (h->weapon == t) {
+		h->dmg -= h->weapon->l.val;
                 h->weapon = NULL;
-        else
-        if (h->armor == t)
+        } else if (h->armor == t) {
                 h->armor = NULL;
+	}
         add_loot(&l->l, &t->l, h->pos.x, h->pos.y, seen_flag);
         del_loot(&h->inv, t);
         add_msg(msg_dropped);
@@ -165,6 +166,7 @@ void wield(struct level *l, struct creature *h)
                 return;
         }
         h->weapon = t;
+	h->dmg += t->l.val;
         add_msg(msg_wielding);
         append_msg(t->l.name);
         append_msg(".");

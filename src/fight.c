@@ -33,7 +33,7 @@ int attack(struct level *l, struct creature *a, struct creature *d)
 	char buf[bufsize];
         add_msg(a->cast == cast_hunter ? "You" : a->name);
 	if (rand() % 100 >= a->miss) {
-		dmg = a->weapon ? a->weapon->l.val + a->dmg : a->dmg;
+		dmg = a->dmg;
 		if (d->armor)
 			dmg -= armor_help(dmg, &d->armor->l);
 		d->hp -= dmg;
