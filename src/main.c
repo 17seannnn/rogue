@@ -44,7 +44,7 @@ static unsigned play_game(struct level *l, struct creature *h)
                 }
                 do_cmd(c, l, h, &flags);
                 handle_beast(l, h);
-                if (flags & next_level_flag)
+                if (flags & endgame_flag)
                         break;
                 if (flags & again_flag && !msg) {
                         handle_fov(l, h, 0);
@@ -62,19 +62,18 @@ static unsigned play_game(struct level *l, struct creature *h)
 
 int main()
 {
-        unsigned flags = 0;
+	int reinit = 1;
+        unsigned flags;
         struct creature h;
         struct level l;
         init_game();
         for (;;) {
-		if (~flags & next_level_flag)
-			init_level(&l, &h, 1);
-		else
-			init_level(&l, &h, 0);
+		init_level(&l, &h, reinit);
                 flags = play_game(&l, &h);
                 end_level(&l);
-                if (~flags & next_level_flag)
+                if (flags & endgame_flag)
                         break;
+		reinit = 0;
         }
         end_game(&h);
         return 0;

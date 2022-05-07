@@ -123,13 +123,15 @@ enum {
 
 /* level */
 enum {
+	max_level_count = 5,
+
 	level_debug = 0
 };
 
 /* cmd */
 enum {
         again_flag      = 0x0001,
-        next_level_flag = 0x0002
+        endgame_flag = 0x0002
 };
 
 /* curses */
@@ -245,9 +247,9 @@ struct level_type {
 	             fov_loot_color;
 };
 
-/* Depth in level is actual depth */
 struct level {
-	int depth;
+	/* Depth in level is actual depth */
+	int depth, count;
         const struct level_type *lt;
         struct point start, end;
         struct room *r;
@@ -363,7 +365,7 @@ void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(struct level *l, struct creature *h,
 		     struct beast *b, int side);
 void handle_hunter(struct creature *h);
-void go_next(const struct level *l, struct creature *h, unsigned *flags);
+void go_next(struct level *l, struct creature *h, unsigned *flags);
 
 /* beast */
 int is_beast(const struct beast *b, int x, int y);
@@ -382,7 +384,7 @@ int can_side(const struct level *l, int side, int x, int y);
 int try_side(const struct level *l, int side, int x, int y);
 int get_char_side(int c);
 void get_side_diff(int side, int *dx, int *dy);
-void init_level(struct level *l, struct creature *h, int hunter);
+void init_level(struct level *l, struct creature *h, int reinit);
 void end_level(struct level *l);
 
 /* msg */

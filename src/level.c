@@ -234,13 +234,17 @@ static void init_leveltype(struct level *l)
 	fov_loot_symb  = l->lt->loot_symb  | COLOR_PAIR(fov_loot_pair);
 }
 
-void init_level(struct level *l, struct creature *h, int hunter)
+void init_level(struct level *l, struct creature *h, int reinit)
 {
 	init_leveltype(l);
         l->depth = init_room(l);
+	if (reinit)
+		l->count = 1;
+	else
+		l->count++;
         init_path(l);
         init_points(l);
-	init_hunter(l, h, hunter);
+	init_hunter(l, h, reinit);
         init_beast(l, h);
         init_loot(l, h);
 }

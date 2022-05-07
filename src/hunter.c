@@ -81,7 +81,7 @@ int try_attack_beast(struct level *l, struct creature *h,
         return 0;
 }
 
-void go_next(const struct level *l, struct creature *h, unsigned *flags)
+void go_next(struct level *l, struct creature *h, unsigned *flags)
 {
         int c;
         struct loot_list *t;
@@ -107,7 +107,8 @@ void go_next(const struct level *l, struct creature *h, unsigned *flags)
                 return;
         case 'Y':
         case 'y':
-                *flags |= next_level_flag;
+		if (l->count >= max_level_count)
+			*flags |= endgame_flag;
                 del_loot(&h->inv, t);
         }
 }
