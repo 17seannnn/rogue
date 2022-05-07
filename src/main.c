@@ -34,6 +34,7 @@ static unsigned play_game(struct level *l, struct creature *h)
         handle_fov(l, h, 1);
         show_info(h);
         handle_msg();
+	add_loot(&h->inv, &armor_list[2], 0, 0, 0);
         for (;;) {
                 if (!(flags & again_flag)) {
                         c = wgetch(gamew);

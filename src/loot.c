@@ -18,9 +18,9 @@ const struct loot weapon_list[] = {
 };
 
 const struct loot armor_list[] = {
-        { "Debug armor 1", type_armor, 5 },
-        { "Debug armor 2", type_armor, 10 },
-        { "Debug armor 3", type_armor, 15 }
+        { "Debug armor 1", type_armor, 10 },
+        { "Debug armor 2", type_armor, 25 },
+        { "Debug armor 3", type_armor, 50 }
 };
 
 const struct loot potion_list[] = {

@@ -22,6 +22,12 @@ static const char *msg_miss[] = {
 };
 static const char msg_kill[] = " killed ";
 
+static int armor_help(int dmg, struct loot *armor)
+{
+	return (dmg * ((armor->val / 2.0) / 100)) +
+	       (dmg * ((rand() % (armor->val / 2)) / 100.0));
+}
+
 int attack(struct level *l, struct creature *a, struct creature *d)
 {
         int dmg;
@@ -29,6 +35,8 @@ int attack(struct level *l, struct creature *a, struct creature *d)
         add_msg(a->cast == cast_hunter ? "You" : a->name);
 	if (rand() % 100 >= miss_chance) {
 		dmg = a->weapon ? a->weapon->l.val + a->dmg : a->dmg;
+		if (d->armor)
+			dmg -= armor_help(dmg, &d->armor->l);
 		d->hp -= dmg;
 		if (d->hp <= 0) {
 			if (a->cast == cast_hunter) {
