@@ -82,7 +82,7 @@ enum {
 	type_blood = 0,
         type_weapon,
         type_armor,
-        type_poition,
+        type_potion,
         type_key,
 
         type_key_level = 0,
@@ -93,7 +93,7 @@ enum {
 
         armor_debug = 0,
 
-        poition_debug = 0,
+        potion_debug = 0,
 
         key_debug = 0
 };
@@ -274,7 +274,7 @@ extern WINDOW *msgw, *infow, *gamew, *invw;
 extern const struct loot blood_list[];
 extern const struct loot weapon_list[];
 extern const struct loot armor_list[];
-extern const struct loot poition_list[];
+extern const struct loot potion_list[];
 extern const struct loot key_list[];
 
 /* beast */

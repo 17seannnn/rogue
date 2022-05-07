@@ -48,10 +48,10 @@ void show_inv(struct level *l, const struct creature *h)
                 }
         }
         wattrset(invw, A_REVERSE);
-        mvwprintw(invw, y, x, "Poitions");
+        mvwprintw(invw, y, x, "Potions");
         wattrset(invw, A_NORMAL);
         for (y++, t = h->inv; t; t = t->next) {
-                if (t->l.type == type_poition) {
+                if (t->l.type == type_potion) {
                         mvwprintw(invw, y, x, "%c - %s (%d)",
 			          t->idx, t->l.name, t->l.val);
                         y++;
@@ -223,7 +223,7 @@ void quaff(struct level *l, struct creature *h)
         for (got = 0; !got; ) {
                 add_msg(msg_toquaff);
                 for (t = h->inv; t; t = t->next) {
-                        if (t->l.type == type_poition) {
+                        if (t->l.type == type_potion) {
                                 buf[0] = t->idx;
                                 append_msg(buf);
                         }
@@ -247,7 +247,7 @@ void quaff(struct level *l, struct creature *h)
         }
         for (t = h->inv; t && t->idx != idx; t = t->next)
                 {}
-        if (!t || t->l.type != type_poition) {
+        if (!t || t->l.type != type_potion) {
                 add_msg("'");
                 buf[0] = idx;
                 append_msg(buf);

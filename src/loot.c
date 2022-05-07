@@ -23,10 +23,10 @@ const struct loot armor_list[] = {
         { "Debug armor 3", type_armor, 15 }
 };
 
-const struct loot poition_list[] = {
-        { "Debug poition 1", type_poition, 25 },
-        { "Debug poition 2", type_poition, 50 },
-        { "Debug poition 3", type_poition, 100 }
+const struct loot potion_list[] = {
+        { "Debug potion 1", type_potion, 25 },
+        { "Debug potion 2", type_potion, 50 },
+        { "Debug potion 3", type_potion, 100 }
 };
 
 const struct loot key_list[] = {
@@ -118,7 +118,7 @@ static const struct loot *rand_loot(const struct level *l,
 	case 0: return &blood_list[idx];
 	case 1: return &weapon_list[idx];
 	case 2: return &armor_list[idx];
-	case 3: return &poition_list[idx];
+	case 3: return &potion_list[idx];
 	default: return NULL;
 	}
 }
