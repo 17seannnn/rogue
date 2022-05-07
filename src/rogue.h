@@ -95,9 +95,7 @@ enum {
 
         poition_debug = 0,
 
-        key_debug = 0,
-
-	max_blood = 1
+        key_debug = 0
 };
 
 /* inv */
@@ -112,7 +110,8 @@ enum {
         cast_hunter = 0,
         cast_beast,
 
-	max_creature_level = 15
+	max_creature_level = 15,
+	max_blood = 999
 };
 
 /* beast */
