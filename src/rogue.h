@@ -192,7 +192,7 @@ struct creature {
 	int symb, color_pair;
 	struct color clr;
         struct coord pos;
-        int fov, hp, max_hp, dmg;
+        int fov, hp, max_hp, dmg, miss;
         int blood, exp, level;
         struct loot_list *weapon, *armor;
         struct loot_list *inv;
