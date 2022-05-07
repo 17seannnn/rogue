@@ -111,7 +111,7 @@ enum {
         cast_beast,
 
 	max_creature_level = 15,
-	max_blood = 1
+	max_blood = 999
 };
 
 /* beast */
@@ -334,6 +334,7 @@ void del_loot(struct loot_list **l, struct loot_list *del);
 void init_loot(struct level *l, const struct creature *h);
 void free_loot(struct loot_list *l);
 void show_loot(const struct loot_list *l);
+int count_loot(const struct loot_list *ll);
 void try_loot(struct level *l, struct creature *h, int side);
 
 /* inv */

@@ -108,7 +108,6 @@ static int rand_quality(const struct level *l, const struct creature *h)
 	return quality;
 }
 
-/* TODO: should check what player needs and give it */
 static const struct loot *rand_loot(const struct level *l,
                                     const struct creature *h)
 {
@@ -190,13 +189,19 @@ void show_loot(const struct loot_list *l)
                 mvwaddch(gamew, l->pos.y, l->pos.x, loot_symb);
 }
 
+int count_loot(const struct loot_list *ll)
+{
+	int count;
+	for (count = 0; ll; ll = ll->next, count++)
+		{}
+	return count;
+}
+
 void try_loot(struct level *l, struct creature *h, int side)
 {
-        int count, x, y;
+        int x, y;
 	char buf[bufsize];
         struct loot_list *ll;
-        for (count = 0, ll = h->inv; ll; ll = ll->next, count++)
-                {}
         get_side_diff(side, &x, &y);
         x += h->pos.x;
         y += h->pos.y;
@@ -205,14 +210,14 @@ void try_loot(struct level *l, struct creature *h, int side)
         ll = get_loot_by_coord(l->l, x, y);
         if (!ll)
                 return;
-        if (count == max_inv) {
+	if (ll->l.type == type_blood) {
+		add_blood(l, h, ll->l.val);
+	} else if (count_loot(h->inv) < max_inv) {
+		add_loot(&h->inv, &ll->l, 0, 0, 0);
+	} else {
                 add_msg(msg_no_space);
                 return;
-        }
-	if (ll->l.type == type_blood)
-		add_blood(l, h, ll->l.val);
-	else
-		add_loot(&h->inv, &ll->l, 0, 0, 0);
+	}
         add_msg(msg_picked_up);
         append_msg(ll->l.name);
 	append_msg(" (");
