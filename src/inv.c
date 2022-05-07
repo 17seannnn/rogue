@@ -114,9 +114,6 @@ void drop(struct level *l, struct creature *h)
                 append_msg(msg_not_dropped);
                 return;
         }
-        add_msg(msg_dropped);
-        append_msg(t->l->name);
-        append_msg(".");
         if (h->weapon == t)
                 h->weapon = NULL;
         else
@@ -124,6 +121,9 @@ void drop(struct level *l, struct creature *h)
                 h->armor = NULL;
         add_loot(&l->l, t->l, h->pos.x, h->pos.y, seen_flag);
         del_loot(&h->inv, t);
+        add_msg(msg_dropped);
+        append_msg(t->l->name);
+        append_msg(".");
 }
 
 void wield(struct level *l, struct creature *h)
@@ -165,10 +165,10 @@ void wield(struct level *l, struct creature *h)
                 append_msg(msg_not_worn);
                 return;
         }
+        h->weapon = t;
         add_msg(msg_wielding);
         append_msg(t->l->name);
         append_msg(".");
-        h->weapon = t;
 }
 
 void wear(struct level *l, struct creature *h)
@@ -210,10 +210,10 @@ void wear(struct level *l, struct creature *h)
                 append_msg(msg_not_worn);
                 return;
         }
+        h->armor = t;
         add_msg(msg_wearing);
         append_msg(t->l->name);
         append_msg(".");
-        h->armor = t;
 }
 
 void quaff(struct level *l, struct creature *h)
