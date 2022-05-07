@@ -35,7 +35,6 @@ const struct loot key_list[] = {
 
 static const char msg_picked_up[] = "You picked up ";
 static const char msg_no_space[] = "You have no space in inventory.";
-static const char msg_max_blood[] = "You can't carry more blood.";
 
 static int has_idx(struct loot_list *l, int idx)
 {
@@ -193,7 +192,7 @@ void show_loot(const struct loot_list *l)
 
 void try_loot(struct level *l, struct creature *h, int side)
 {
-        int count, x, y, res;
+        int count, x, y;
 	char buf[bufsize];
         struct loot_list *ll;
         for (count = 0, ll = h->inv; ll; ll = ll->next, count++)
@@ -211,11 +210,7 @@ void try_loot(struct level *l, struct creature *h, int side)
                 return;
         }
 	if (ll->l.type == type_blood) {
-		res = add_blood(l, h, ll->l.val);
-		if (!res) {
-			add_msg(msg_max_blood);
-			return;
-		}
+		add_blood(l, h, ll->l.val);
 	} else {
 		add_loot(&h->inv, &ll->l, 0, 0, 0);
 	}

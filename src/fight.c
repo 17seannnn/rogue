@@ -21,11 +21,10 @@ static const char *msg_miss[] = {
 	" don't hit "
 };
 static const char msg_kill[] = " killed ";
-static const char msg_max_blood[] = "You can't carry more blood.";
 
 int attack(struct level *l, struct creature *a, struct creature *d)
 {
-        int dmg, res;
+        int dmg;
 	char buf[bufsize];
         add_msg(a->cast == cast_hunter ? "You" : a->name);
 	if (rand() % 100 >= miss_chance) {
@@ -33,7 +32,7 @@ int attack(struct level *l, struct creature *a, struct creature *d)
 		d->hp -= dmg;
 		if (d->hp <= 0) {
 			if (a->cast == cast_hunter) {
-				res = add_blood(l, a, d->blood);
+				add_blood(l, a, d->blood);
 				add_exp(a, d->exp);
 			}
 			append_msg(msg_kill);
@@ -52,8 +51,5 @@ int attack(struct level *l, struct creature *a, struct creature *d)
 		append_msg(buf);
 		append_msg(".");
 	}
-	/* if hunter killed beast and can`t pick up loot */
-	if (a->cast == cast_hunter && d->hp <= 0 && !res)
-		add_msg(msg_max_blood);
         return 1;
 }

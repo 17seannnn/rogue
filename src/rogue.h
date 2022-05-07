@@ -350,7 +350,7 @@ int search_creature(const struct level *l, struct creature *c1,
 int move_creature(const struct level *l, const struct creature *h,
                   struct creature *c, int side);
 int add_health(struct creature *c, int val);
-int add_blood(struct level *l, struct creature *c, int val);
+void add_blood(struct level *l, struct creature *c, int val);
 int get_max_exp(int level);
 void add_exp(struct creature *c, int val);
 
