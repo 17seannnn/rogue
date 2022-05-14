@@ -109,6 +109,8 @@ void go_next(struct level *l, struct creature *h, unsigned *flags)
         case 'y':
 		if (l->count >= max_level_count)
 			*flags |= endgame_flag;
+		else
+			*flags |= endlevel_flag;
                 del_loot(&h->inv, t);
         }
 }

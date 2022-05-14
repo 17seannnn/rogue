@@ -152,9 +152,13 @@ static void spawn_key(struct level *l)
                 x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
                 y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
                 add_loot(&l->l, &key_list[key_debug], x, y, 0);
+		fprintf(logfile, "key in room, %d %d\n", x, y);
+		fflush(logfile);
         } else {
                 b = get_random_beast(l->b);
                 add_loot(&b->c.inv, &key_list[key_debug], 0, 0, 0);
+		fprintf(logfile, "key in beast, %d %d\n", b->c.pos.x, b->c.pos.y);
+		fflush(logfile);
         }
 }
 

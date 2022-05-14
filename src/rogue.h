@@ -5,10 +5,8 @@
 
 #include <curses.h>
 
-#ifdef DEBUG
 #include <stdio.h>
 extern FILE *logfile;
-#endif
 
 /* curses */
 enum {
@@ -130,8 +128,9 @@ enum {
 
 /* cmd */
 enum {
-        again_flag      = 0x0001,
-        endgame_flag = 0x0002
+        again_flag    = 0x0001,
+        endgame_flag  = 0x0002,
+        endlevel_flag = 0x0004
 };
 
 /* curses */

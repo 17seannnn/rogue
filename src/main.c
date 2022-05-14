@@ -5,15 +5,11 @@
 
 #include "rogue.h"
 
-#ifdef DEBUG
 FILE *logfile;
-#endif
 
 static void init_game()
 {
-#ifdef DEBUG
         logfile = fopen("log", "w");
-#endif
         srand(time(NULL));
         init_curses();
 }
@@ -22,10 +18,7 @@ static void end_game(struct creature *h)
 {
         free_loot(h->inv);
         end_curses();
-#ifdef DEBUG
-
 	fclose(logfile);
-#endif
 }
 
 static unsigned play_game(struct level *l, struct creature *h)
@@ -39,7 +32,7 @@ static unsigned play_game(struct level *l, struct creature *h)
                 if (~flags & again_flag)
                         c = wgetch(gamew);
                 do_cmd(c, l, h, &flags);
-                if (flags & endgame_flag)
+                if (flags & endgame_flag || flags & endlevel_flag)
                         break;
                 handle_beast(l, h);
                 if (flags & again_flag && !msg) {
