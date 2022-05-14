@@ -35,17 +35,13 @@ static unsigned play_game(struct level *l, struct creature *h)
         handle_fov(l, h, 1);
         show_info(h);
         handle_msg();
-	add_loot(&h->inv, &armor_list[2], 0, 0, 0);
         for (;;) {
-                if (~flags & again_flag) {
+                if (~flags & again_flag)
                         c = wgetch(gamew);
-                        if (c == key_escape)
-                                break;
-                }
                 do_cmd(c, l, h, &flags);
-                handle_beast(l, h);
                 if (flags & endgame_flag)
                         break;
+                handle_beast(l, h);
                 if (flags & again_flag && !msg) {
                         handle_fov(l, h, 0);
                         continue;
