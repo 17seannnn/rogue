@@ -8,6 +8,8 @@
 #include <stdio.h>
 extern FILE *logfile;
 
+#define CTRL(C) ((C) & 0x1f)
+
 /* curses */
 enum {
         program_col = 80,
@@ -54,6 +56,8 @@ enum {
 /* common */
 enum {
         key_escape = 27,
+	key_ctrl_c = CTRL('c'),
+
 	bufsize = 256,
 
         side_northwest = 0,

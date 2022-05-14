@@ -6,6 +6,7 @@ void do_cmd(int c, struct level *l, struct creature *h, unsigned *flags)
 {
         switch (c) {
 	case 'Q':
+	case key_ctrl_c:
 		*flags |= endgame_flag;
 		break;
         case 'R':
