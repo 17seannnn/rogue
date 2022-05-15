@@ -80,13 +80,16 @@ void load_game(struct level *l, struct creature *h)
 	}
 	if (st.has_weapon || st.has_armor) {
 		for (inv = h->inv; inv; inv = inv->next) {
-			if (st.has_weapon && inv->l.type == w.type &&
-                                             inv->l.val  == w.val)
+			if (st.has_weapon &&
+                            0 == memcmp(&inv->l, &w, sizeof(struct loot))) {
 				h->weapon = inv;
-			else
-			if (st.has_armor && inv->l.type == a.type &&
-                                            inv->l.val  == a.val)
+				st.has_weapon = 0;
+			} else
+			if (st.has_armor &&
+                            0 == memcmp(&inv->l, &a, sizeof(struct loot))) {
 				h->armor = inv;
+				st.has_armor = 0;
+			}
 		}
 	}
 	fclose(f);
