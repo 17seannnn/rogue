@@ -178,7 +178,7 @@ struct door {
 
 /* loot */
 struct loot {
-        const char *name;
+        char name[bufsize];
         int type, val;
 };
 
@@ -193,7 +193,7 @@ struct loot_list {
 /* creature */
 struct creature {
         int cast;
-	const char *name;
+	char name[bufsize];
 	int symb, color_pair;
 	struct color clr;
         struct coord pos;
@@ -387,7 +387,7 @@ int can_side(const struct level *l, int side, int x, int y);
 int try_side(const struct level *l, int side, int x, int y);
 int get_char_side(int c);
 void get_side_diff(int side, int *dx, int *dy);
-void init_level(struct level *l, struct creature *h);
+void init_level(struct level *l, struct creature *h, int is_next);
 void end_level(struct level *l);
 
 /* msg */

@@ -28,11 +28,12 @@ void init_hunter(const struct level *l, struct creature *h, int hs)
 		{ 0, 0, 0 }, { 0, 0, 0, 0 },
 		0
 	};
+	set_pair(hunter_pair, &temp.clr);
+	temp.symb |= COLOR_PAIR(hunter_pair);
 	if (hs) {
+		h->symb = temp.symb;
 		h->pos = temp.pos;
 	} else {
-		set_pair(hunter_pair, &temp.clr);
-		temp.symb |= COLOR_PAIR(hunter_pair);
 		*h = temp;
 	}
 }
