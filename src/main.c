@@ -1,5 +1,6 @@
 /* main.c - main game functions */
 
+#include <string.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -9,6 +10,10 @@ FILE *logfile;
 
 static void init_game()
 {
+	char save_fn[bufsize];
+	strncpy(save_fn, getenv("HOME"), bufsize);
+	strncat(save_fn, "/.rogue.save", bufsize-1);
+	set_save_fn(save_fn);
         logfile = fopen("log", "w");
         srand(time(NULL));
         init_curses();
@@ -51,18 +56,16 @@ static unsigned play_game(struct level *l, struct creature *h)
 
 int main()
 {
-	int reinit = 1;
         unsigned flags;
         struct creature h;
         struct level l;
         init_game();
         for (;;) {
-		init_level(&l, &h, reinit);
+		init_level(&l, &h);
                 flags = play_game(&l, &h);
                 end_level(&l);
                 if (flags & endgame_flag)
                         break;
-		reinit = 0;
         }
         end_game(&h);
         return 0;

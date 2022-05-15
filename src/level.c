@@ -201,9 +201,9 @@ static void init_points(struct level *l)
         l->end.flags = 0;
 }
 
-static void init_leveltype(struct level *l)
+static void init_leveltype(struct level *l, int lt)
 {
-	l->lt = &level_list[0];
+	l->lt = &level_list[lt];
 
 	set_pair(start_pair,    &l->lt->start_color);
 	set_pair(end_pair,      &l->lt->end_color);
@@ -234,17 +234,24 @@ static void init_leveltype(struct level *l)
 	fov_loot_symb  = l->lt->loot_symb  | COLOR_PAIR(fov_loot_pair);
 }
 
-void init_level(struct level *l, struct creature *h, int reinit)
+void init_level(struct level *l, struct creature *h)
 {
-	init_leveltype(l);
-        l->depth = init_room(l);
-	if (reinit)
-		l->count = 1;
+	int hs = has_save();
+	/*
+	 * Save contains {
+	 *   level count,
+	 *   hunter except from his position
+	 * }
+	 */
+	if (hs)
+		load_game(l, h);
 	else
-		l->count++;
+		l->count = 0;
+	init_leveltype(l, l->count/5);
+        l->depth = init_room(l);
         init_path(l);
         init_points(l);
-	init_hunter(l, h, reinit);
+	init_hunter(l, h, hs);
         init_beast(l, h);
         init_loot(l, h);
 }

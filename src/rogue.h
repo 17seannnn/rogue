@@ -362,7 +362,7 @@ void add_exp(struct creature *c, int val);
 
 /* hunter */
 int is_hunter(const struct creature *h, int x, int y);
-void init_hunter(const struct level *l, struct creature *h, int hunter);
+void init_hunter(const struct level *l, struct creature *h, int hs);
 void show_info(const struct creature *h);
 void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 int try_attack_beast(struct level *l, struct creature *h,
@@ -387,7 +387,7 @@ int can_side(const struct level *l, int side, int x, int y);
 int try_side(const struct level *l, int side, int x, int y);
 int get_char_side(int c);
 void get_side_diff(int side, int *dx, int *dy);
-void init_level(struct level *l, struct creature *h, int reinit);
+void init_level(struct level *l, struct creature *h);
 void end_level(struct level *l);
 
 /* msg */
@@ -404,5 +404,11 @@ int attack(struct level *l, struct creature *a, struct creature *d);
 
 /* cmd */
 void do_cmd(int c, struct level *l, struct creature *h, unsigned *flags);
+
+/* save */
+void set_save_fn(const char *fn);
+int has_save();
+void save_game(const struct level *l, const struct creature *h);
+void load_game(struct level *l, struct creature *h);
 
 #endif
