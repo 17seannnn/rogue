@@ -262,13 +262,14 @@ void init_level(struct level *l, struct creature *h, int is_next)
 		save_game(l, h);
 }
 
-void end_level(struct level *l)
+void end_level(struct level *l, struct creature *h)
 {
         free_room(l->r);
         free_path(l->p);
         free_door(l->d);
         free_beast(l->b);
         free_loot(l->l);
+	free_loot(h->inv);
         wclear(msgw);
         wclear(gamew);
         wclear(infow);

@@ -64,7 +64,7 @@ int main()
         for (;;) {
 		init_level(&l, &h, is_next);
                 flags = play_game(&l, &h);
-                end_level(&l);
+                end_level(&l, &h);
                 if (flags & endgame_flag)
                         break;
 		is_next = 1;
