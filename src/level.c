@@ -248,8 +248,9 @@ void init_level(struct level *l, struct creature *h, int is_next)
 		save_game(l, h);
 	}
 	if (hs)
-		load_game(l, h);
-	else
+		if (!load_game(l, h))
+			hs = 0;
+	if (!hs)
 		l->count = 0;
 	init_leveltype(l, l->count/5);
         l->depth = init_room(l);

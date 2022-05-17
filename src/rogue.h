@@ -409,6 +409,6 @@ void do_cmd(int c, struct level *l, struct creature *h, unsigned *flags);
 void set_save_fn(const char *fn);
 int has_save();
 void save_game(const struct level *l, const struct creature *h);
-void load_game(struct level *l, struct creature *h);
+int load_game(struct level *l, struct creature *h);
 
 #endif

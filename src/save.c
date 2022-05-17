@@ -52,7 +52,7 @@ void save_game(const struct level *l, const struct creature *h)
 	fclose(f);
 }
 
-void load_game(struct level *l, struct creature *h)
+int load_game(struct level *l, struct creature *h)
 {
 	int i;
 	struct save_state st;
@@ -61,10 +61,12 @@ void load_game(struct level *l, struct creature *h)
 	FILE *f = fopen(save_fn, "rb");
 	if (!f) {
 		/*add_msg("Error while loading: %s", strerror(errno));*/
-		return;
+		return 0;
 	}
-	if (fread(&st, sizeof(st), 1, f) <= 0)
-		return;
+	if (fread(&st, sizeof(st), 1, f) <= 0) {
+		fclose(f);
+		return 0;
+	}
 	fread(h, sizeof(*h), 1, f);
 	if (st.has_weapon)
 		fread(&w, sizeof(w), 1, f);
@@ -93,4 +95,5 @@ void load_game(struct level *l, struct creature *h)
 		}
 	}
 	fclose(f);
+	return 1;
 }
