@@ -19,9 +19,8 @@ static void init_game()
         init_curses();
 }
 
-static void end_game(struct creature *h)
+static void end_game()
 {
-        free_loot(h->inv);
         end_curses();
 	fclose(logfile);
 }
@@ -69,6 +68,6 @@ int main()
                         break;
 		is_next = 1;
         }
-        end_game(&h);
+        end_game();
         return 0;
 }

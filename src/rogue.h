@@ -391,8 +391,8 @@ void init_level(struct level *l, struct creature *h, int is_next);
 void end_level(struct level *l, struct creature *h);
 
 /* msg */
-void add_msg(const char *text);
-void append_msg(const char *text);
+void add_msg(const char *fmt, ...);
+void append_msg(const char *fmt, ...);
 void handle_msg();
 
 /* fov */

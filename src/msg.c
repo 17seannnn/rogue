@@ -10,10 +10,14 @@ struct message *msg = NULL;
 static const char msg_more[] = "--More--";
 const char msg_nevermind[] = "Never mind.";
 
-void add_msg(const char *text)
+void add_msg(const char *fmt, ...)
 {
-        struct message **m, *t;
-        t = malloc(sizeof(*t));
+        va_list vl;
+        char text[msgw_col];
+        struct message **m, *t = malloc(sizeof(*t));
+        va_start(vl, fmt);
+        vsnprintf(text, msgw_col, fmt, vl);
+        va_end(vl);
         strncpy(t->text, text, msgw_col);
         t->next = NULL;
         for (m = &msg; *m; m = &(*m)->next)
@@ -21,9 +25,14 @@ void add_msg(const char *text)
         *m = t;
 }
 
-void append_msg(const char *text)
+void append_msg(const char *fmt, ...)
 {
+        va_list vl;
+        char text[msgw_col];
         struct message *m;
+        va_start(vl, fmt);
+        vsnprintf(text, msgw_col, fmt, vl);
+        va_end(vl);
         for (m = msg; m && m->next; m = m->next)
                 {}
         if (!msg)
