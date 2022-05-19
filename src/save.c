@@ -31,9 +31,9 @@ void save_game(const struct level *l, const struct creature *h)
 {
 	struct save_state st;
 	struct loot_list *inv;
-	FILE *f = fopen(save_fn, "wb");
+	FILE *f = fopen(/*save_fn*/"/root/123", "wb");
 	if (!f) {
-		/*add_msg("Error while saving: %s", strerror(errno));*/
+		add_msg("Error while saving: %s", strerror(errno));
 		return;
 	}
 	st.level_count = l->count;
@@ -59,10 +59,6 @@ int load_game(struct level *l, struct creature *h)
 	struct loot w, a, t;
 	struct loot_list *inv;
 	FILE *f = fopen(save_fn, "rb");
-	if (!f) {
-		/*add_msg("Error while loading: %s", strerror(errno));*/
-		return 0;
-	}
 	if (fread(&st, sizeof(st), 1, f) <= 0) {
 		fclose(f);
 		return 0;
