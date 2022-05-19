@@ -6,19 +6,19 @@ static const char msg_checking_inv[] = "You are checking inventory...";
 static const char msg_or_inv[] = " or *]";
 
 static const char msg_todrop[] = "What do you want to drop? [";
-static const char msg_dropped[] = "You dropped ";
-static const char msg_not_dropped[] = "' can't be dropped.";
+static const char msg_dropped[] = "You dropped %s.";
+static const char msg_not_dropped[] = "'%c' can't be dropped.";
 
 static const char msg_towield[] = "What do you want to wield? [";
-static const char msg_wielding[] = "Now you are wielding ";
-static const char msg_not_worn[] = "' can't be worn.";
+static const char msg_wielding[] = "Now you are wielding %s.";
+static const char msg_not_worn[] = "'%c' can't be worn.";
 
 static const char msg_towear[] = "What do you want to wear? [";
-static const char msg_wearing[] = "Now you are wearing ";
+static const char msg_wearing[] = "Now you are wearing %s.";
 
 static const char msg_toquaff[] = "What do you want to quaff? [";
-static const char msg_quaffed[] = "You quaffed ";
-static const char msg_not_quaffed[] = " can't be quaffed.";
+static const char msg_quaffed[] = "You quaffed %s.";
+static const char msg_not_quaffed[] = "'%c' can't be quaffed.";
 
 void show_inv(struct level *l, const struct creature *h)
 {
@@ -79,14 +79,11 @@ void show_inv(struct level *l, const struct creature *h)
 void drop(struct level *l, struct creature *h)
 {
         int idx, got;
-        char buf[] = " ";
         struct loot_list *t;
         for (got = 0; !got; ) {
                 add_msg(msg_todrop);
-                for (t = h->inv; t; t = t->next) {
-                        buf[0] = t->idx;
-                        append_msg(buf);
-                }
+                for (t = h->inv; t; t = t->next)
+                        append_msg("%c", t->idx);
                 append_msg(msg_or_inv);
                 handle_msg();
                 idx = wgetch(gamew);
@@ -107,10 +104,7 @@ void drop(struct level *l, struct creature *h)
         for (t = h->inv; t && t->idx != idx; t = t->next)
                 {}
         if (!t) {
-                add_msg("'");
-                buf[0] = idx;
-                append_msg(buf);
-                append_msg(msg_not_dropped);
+                add_msg(msg_not_dropped, idx);
                 return;
         }
         if (h->weapon == t) {
@@ -119,26 +113,20 @@ void drop(struct level *l, struct creature *h)
         } else if (h->armor == t) {
                 h->armor = NULL;
 	}
+        add_msg(msg_dropped, t->l.name);
         add_loot(&l->l, &t->l, h->pos.x, h->pos.y, seen_flag);
         del_loot(&h->inv, t);
-        add_msg(msg_dropped);
-        append_msg(t->l.name);
-        append_msg(".");
 }
 
 void wield(struct level *l, struct creature *h)
 {
         int idx, got;
-        char buf[] = " ";
         struct loot_list *t;
         for (got = 0; !got; ) {
                 add_msg(msg_towield);
-                for (t = h->inv; t; t = t->next) {
-                        if (t->l.type == type_weapon) {
-                                buf[0] = t->idx;
-                                append_msg(buf);
-                        }
-                }
+                for (t = h->inv; t; t = t->next)
+                        if (t->l.type == type_weapon)
+                                append_msg("%c", t->idx);
                 append_msg(msg_or_inv);
                 handle_msg();
                 idx = wgetch(gamew);
@@ -159,32 +147,23 @@ void wield(struct level *l, struct creature *h)
         for (t = h->inv; t && t->idx != idx; t = t->next)
                 {}
         if (!t || t->l.type != type_weapon) {
-                add_msg("'");
-                buf[0] = idx;
-                append_msg(buf);
-                append_msg(msg_not_worn);
+                add_msg(msg_not_worn, idx);
                 return;
         }
         h->weapon = t;
 	h->dmg += t->l.val;
-        add_msg(msg_wielding);
-        append_msg(t->l.name);
-        append_msg(".");
+        add_msg(msg_wielding, t->l.name);
 }
 
 void wear(struct level *l, struct creature *h)
 {
         int idx, got;
-        char buf[] = " ";
         struct loot_list *t;
         for (got = 0; !got; ) {
                 add_msg(msg_towear);
-                for (t = h->inv; t; t = t->next) {
-                        if (t->l.type == type_armor) {
-                                buf[0] = t->idx;
-                                append_msg(buf);
-                        }
-                }
+                for (t = h->inv; t; t = t->next)
+                        if (t->l.type == type_armor)
+                                append_msg("%c", t->idx);
                 append_msg(msg_or_inv);
                 handle_msg();
                 idx = wgetch(gamew);
@@ -205,31 +184,22 @@ void wear(struct level *l, struct creature *h)
         for (t = h->inv; t && t->idx != idx; t = t->next)
                 {}
         if (!t || t->l.type != type_armor) {
-                add_msg("'");
-                buf[0] = idx;
-                append_msg(buf);
-                append_msg(msg_not_worn);
+                append_msg(msg_not_worn, idx);
                 return;
         }
         h->armor = t;
-        add_msg(msg_wearing);
-        append_msg(t->l.name);
-        append_msg(".");
+        add_msg(msg_wearing, t->l.name);
 }
 
 void quaff(struct level *l, struct creature *h)
 {
         int idx, got, res;
-        char buf[] = " ";
         struct loot_list *t;
         for (got = 0; !got; ) {
                 add_msg(msg_toquaff);
-                for (t = h->inv; t; t = t->next) {
-                        if (t->l.type == type_potion) {
-                                buf[0] = t->idx;
-                                append_msg(buf);
-                        }
-                }
+                for (t = h->inv; t; t = t->next)
+                        if (t->l.type == type_potion)
+                                append_msg("%c", t->idx);
                 append_msg(msg_or_inv);
                 handle_msg();
                 idx = wgetch(gamew);
@@ -250,18 +220,12 @@ void quaff(struct level *l, struct creature *h)
         for (t = h->inv; t && t->idx != idx; t = t->next)
                 {}
         if (!t || t->l.type != type_potion) {
-                add_msg("'");
-                buf[0] = idx;
-                append_msg(buf);
-		append_msg("'");
-                append_msg(msg_not_quaffed);
+                append_msg(msg_not_quaffed, idx);
                 return;
         }
 	res = add_health(h, t->l.val);
 	if (!res)
 		return;
+        add_msg(msg_quaffed, t->l.name);
         del_loot(&h->inv, t);
-        add_msg(msg_quaffed);
-        append_msg(t->l.name);
-        append_msg(".");
 }

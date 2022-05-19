@@ -31,7 +31,7 @@ void save_game(const struct level *l, const struct creature *h)
 {
 	struct save_state st;
 	struct loot_list *inv;
-	FILE *f = fopen(/*save_fn*/"/root/123", "wb");
+	FILE *f = fopen(save_fn, "wb");
 	if (!f) {
 		add_msg("Error while saving: %s", strerror(errno));
 		return;

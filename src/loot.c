@@ -33,7 +33,7 @@ const struct loot key_list[] = {
         { "Debug level key", type_key, type_key_level }
 };
 
-static const char msg_picked_up[] = "You picked up ";
+static const char msg_picked_up[] = "You picked up %s (%d).";
 static const char msg_no_space[] = "You have no space in inventory.";
 
 static int has_idx(struct loot_list *l, int idx)
@@ -204,7 +204,6 @@ int count_loot(const struct loot_list *ll)
 void try_loot(struct level *l, struct creature *h, int side)
 {
         int x, y;
-	char buf[bufsize];
         struct loot_list *ll;
         get_side_diff(side, &x, &y);
         x += h->pos.x;
@@ -222,11 +221,6 @@ void try_loot(struct level *l, struct creature *h, int side)
                 add_msg(msg_no_space);
                 return;
 	}
-        add_msg(msg_picked_up);
-        append_msg(ll->l.name);
-	append_msg(" (");
-	snprintf(buf, bufsize, "%d", ll->l.val);
-	append_msg(buf);
-        append_msg(").");
+        add_msg(msg_picked_up, ll->l.name, ll->l.val);
         del_loot(&l->l, ll);
 }
