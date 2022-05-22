@@ -42,9 +42,8 @@ void save_game(const struct level *l, const struct creature *h)
 	st.inv_count   = count_loot(h->inv);
 	fwrite(&st, sizeof(st), 1, f);
 	fwrite(h, sizeof(*h), 1, f);
-	if (st.has_weapon) {
+	if (st.has_weapon)
 		fwrite(&h->weapon->l, sizeof(struct loot), 1, f);
-	}
 	if (st.has_armor)
 		fwrite(&h->armor->l, sizeof(struct loot), 1, f);
 	for (inv = h->inv; inv; inv = inv->next)
@@ -59,10 +58,13 @@ int load_game(struct level *l, struct creature *h)
 	struct loot w, a, t;
 	struct loot_list *inv;
 	FILE *f = fopen(save_fn, "rb");
+	if (!f)
+		return 0;
 	if (fread(&st, sizeof(st), 1, f) <= 0) {
 		fclose(f);
 		return 0;
 	}
+	l->count = st.level_count;
 	fread(h, sizeof(*h), 1, f);
 	if (st.has_weapon)
 		fread(&w, sizeof(w), 1, f);
