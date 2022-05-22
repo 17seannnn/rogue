@@ -27,7 +27,7 @@ static int armor_help(int dmg, struct loot *armor)
 	       (dmg * ((rand() % (armor->val / 2)) / 100.0));
 }
 
-int attack(struct level *l, struct creature *a, struct creature *d)
+void attack(struct level *l, struct creature *a, struct creature *d)
 {
         int dmg;
 	char buf[bufsize];
@@ -58,5 +58,4 @@ int attack(struct level *l, struct creature *a, struct creature *d)
 		append_msg(buf);
 		append_msg(".");
 	}
-        return 1;
 }

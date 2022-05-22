@@ -366,8 +366,8 @@ int is_hunter(const struct creature *h, int x, int y);
 void init_hunter(const struct level *l, struct creature *h, int hs);
 void show_info(const struct creature *h);
 void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
-int try_attack_beast(struct level *l, struct creature *h,
-		     struct beast *b, int side);
+void try_attack_beast(struct level *l, struct creature *h,
+		      struct beast *b, int side);
 void handle_hunter(struct creature *h);
 void go_next(struct level *l, struct creature *h, unsigned *flags);
 
@@ -401,7 +401,7 @@ void handle_fov(struct level *l, const struct creature *h, int refresh);
 void redraw_screen(struct level *l, const struct creature *h);
 
 /* fight */
-int attack(struct level *l, struct creature *a, struct creature *d);
+void attack(struct level *l, struct creature *a, struct creature *d);
 
 /* cmd */
 void do_cmd(int c, struct level *l, struct creature *h, unsigned *flags);

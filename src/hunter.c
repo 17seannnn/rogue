@@ -69,7 +69,7 @@ void try_move(struct level *l, struct creature *h, int c, unsigned *flags)
         }
 }
 
-int try_attack_beast(struct level *l, struct creature *h,
+void try_attack_beast(struct level *l, struct creature *h,
 	             struct beast *b, int side)
 {
         int x, y;
@@ -78,8 +78,7 @@ int try_attack_beast(struct level *l, struct creature *h,
         y += h->pos.y;
         for ( ; b; b = b->next)
                 if (b->c.pos.x == x && b->c.pos.y == y)
-                        return attack(l, h, &b->c);
-        return 0;
+                        attack(l, h, &b->c);
 }
 
 void go_next(struct level *l, struct creature *h, unsigned *flags)
