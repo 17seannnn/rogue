@@ -236,16 +236,13 @@ static void init_leveltype(struct level *l, int lt)
 
 void init_level(struct level *l, struct creature *h)
 {
-	int hs = has_save();
 	/*
 	 * Save contains {
 	 *   level count,
 	 *   hunter except from his position
 	 * }
 	 */
-	if (hs)
-		if (!load_game(l, h))
-			hs = 0;
+	int hs = load_game(l, h);
 	if (!hs)
 		l->count = 0;
 	init_leveltype(l, l->count/5);
