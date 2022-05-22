@@ -134,7 +134,8 @@ enum {
 enum {
         again_flag    = 0x0001,
         endgame_flag  = 0x0002,
-        endlevel_flag = 0x0004
+        endlevel_flag = 0x0004,
+	isnext_flag   = 0x0008
 };
 
 /* curses */
@@ -387,8 +388,8 @@ int can_side(const struct level *l, int side, int x, int y);
 int try_side(const struct level *l, int side, int x, int y);
 int get_char_side(int c);
 void get_side_diff(int side, int *dx, int *dy);
-void init_level(struct level *l, struct creature *h, int is_next);
-void end_level(struct level *l, struct creature *h);
+void init_level(struct level *l, struct creature *h);
+void end_level(struct level *l, struct creature *h, int is_next);
 
 /* msg */
 void add_msg(const char *fmt, ...);

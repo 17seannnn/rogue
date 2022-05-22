@@ -234,7 +234,7 @@ static void init_leveltype(struct level *l, int lt)
 	fov_loot_symb  = l->lt->loot_symb  | COLOR_PAIR(fov_loot_pair);
 }
 
-void init_level(struct level *l, struct creature *h, int is_next)
+void init_level(struct level *l, struct creature *h)
 {
 	int hs = has_save();
 	/*
@@ -243,10 +243,6 @@ void init_level(struct level *l, struct creature *h, int is_next)
 	 *   hunter except from his position
 	 * }
 	 */
-	if (is_next) {
-		l->count++;
-		save_game(l, h);
-	}
 	if (hs)
 		if (!load_game(l, h))
 			hs = 0;
@@ -259,12 +255,16 @@ void init_level(struct level *l, struct creature *h, int is_next)
 	init_hunter(l, h, hs);
         init_beast(l, h);
         init_loot(l, h);
-	if (!hs || is_next)
+	if (!hs)
 		save_game(l, h);
 }
 
-void end_level(struct level *l, struct creature *h)
+void end_level(struct level *l, struct creature *h, int is_next)
 {
+	if (is_next) {
+		l->count++;
+		save_game(l, h);
+	}
         free_room(l->r);
         free_path(l->p);
         free_door(l->d);

@@ -108,6 +108,7 @@ void go_next(struct level *l, struct creature *h, unsigned *flags)
                 return;
         case 'Y':
         case 'y':
+		*flags |= isnext_flag;
 		if (l->count >= max_level_count)
 			*flags |= endgame_flag;
 		else

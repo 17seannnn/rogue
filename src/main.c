@@ -55,18 +55,16 @@ static unsigned play_game(struct level *l, struct creature *h)
 
 int main()
 {
-	int is_next = 0;
         unsigned flags;
         struct creature h;
         struct level l;
         init_game();
         for (;;) {
-		init_level(&l, &h, is_next);
+		init_level(&l, &h);
                 flags = play_game(&l, &h);
-                end_level(&l, &h);
+                end_level(&l, &h, flags & isnext_flag);
                 if (flags & endgame_flag)
                         break;
-		is_next = 1;
         }
         end_game();
         return 0;
