@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <errno.h>
 
 #include "rogue.h"
@@ -89,4 +90,9 @@ int load_game(struct level *l, struct creature *h)
 	}
 	fclose(f);
 	return 1;
+}
+
+void del_save()
+{
+	unlink(save_fn);
 }

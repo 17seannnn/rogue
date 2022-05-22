@@ -7,7 +7,7 @@
 static const char msg_no_endpoint[] = "No endpoint here...";
 static const char msg_go_next_prompt[] = "Go next level? [yn]";
 static const char msg_no_key[] = "You don't have a key.";
-static const char msg_endgame[] = "You completed the game! Press space to continue";
+static const char msg_completegame[] = "You completed the game! Press space to continue...";
 
 int is_hunter(const struct creature *h, int x, int y)
 {
@@ -110,7 +110,7 @@ void go_next(struct level *l, struct creature *h, unsigned *flags)
         case 'y':
 		if (l->count+1 >= max_level_count) {
 			*flags |= endgame_flag;
-			add_msg(msg_endgame);
+			add_msg(msg_completegame);
 			handle_msg();
 			wait_ch(' ');
 		}

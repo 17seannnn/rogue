@@ -6,6 +6,8 @@
 
 #include "rogue.h"
 
+static const char msg_gameover[] = "You died! Press space to continue...";
+
 FILE *logfile;
 
 static void init_game()
@@ -39,6 +41,15 @@ static unsigned play_game(struct level *l, struct creature *h)
                 if (flags & endgame_flag || flags & endlevel_flag)
                         break;
                 handle_beast(l, h);
+		if (h->hp <= 0) {
+			flags |= endgame_flag;
+			del_save();
+			add_msg(msg_gameover);
+			handle_msg();
+			show_info(h);
+			wait_ch(' ');
+			break;
+		}
                 if (flags & again_flag && !msg) {
                         handle_fov(l, h, 0);
                         continue;
