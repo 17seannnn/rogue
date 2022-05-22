@@ -62,7 +62,7 @@ int main()
         for (;;) {
 		init_level(&l, &h);
                 flags = play_game(&l, &h);
-                end_level(&l, &h, flags & isnext_flag);
+                end_level(&l, &h, flags & endlevel_flag);
                 if (flags & endgame_flag)
                         break;
         }
