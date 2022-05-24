@@ -56,6 +56,58 @@ const struct creature beast_list[] = {
 		NULL,
 		{ 0, 0, 0 }, { 0, 0, 0, 0 },
 		0
+	},
+	{
+		cast_beast,
+		"Rat",
+		'r', beast_rat_pair,
+		{ COLOR_YELLOW+8, -1 },
+		{ 0, 0 },
+		6, 5, 5, 2, 20,
+		5, 1, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
+		0
+	},
+	{
+		cast_beast,
+		"Dog",
+		'd', beast_dog_pair,
+		{ COLOR_BLUE+8, -1 },
+		{ 0, 0 },
+		7, 8, 8, 4, 20,
+		10, 2, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
+		0
+	},
+	{
+		cast_beast,
+		"Empty",
+		' ', beast_empty_pair,
+		{ -1, -1 },
+		{ 0, 0 },
+		0, 0, 0, 0, 0,
+		0, 0, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
+		0
+	},
+	{
+		cast_beast,
+		"Empty",
+		' ', beast_empty_pair,
+		{ -1, -1 },
+		{ 0, 0 },
+		0, 0, 0, 0, 0,
+		0, 0, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
+		0
 	}
 };
 

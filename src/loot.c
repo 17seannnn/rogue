@@ -8,22 +8,34 @@
 const struct loot blood_list[] = {
         { "Small bag of blood", type_blood, 2 },
         { "Bag of blood", type_blood, 4 },
+        { "Empty", 0, 0 },
+        { "Small bag of blood", type_blood, 4 },
+        { "Bag of blood", type_blood, 8 },
         { "Empty", 0, 0 }
 };
 
 const struct loot weapon_list[] = {
         { "Scissors", type_weapon, 1 },
 	{ "Knife", type_weapon, 2 },
+	{ "Empty", 0, 0 },
+        { "Scissors", type_weapon, 2 },
+	{ "Knife", type_weapon, 3 },
 	{ "Empty", 0, 0 }
 };
 
 const struct loot armor_list[] = {
         { "Small armor", type_armor, 10 },
         { "Default armor", type_armor, 25 },
+        { "Empty", 0, 0 },
+        { "Small armor", type_armor, 10 },
+        { "Default armor", type_armor, 25 },
         { "Empty", 0, 0 }
 };
 
 const struct loot potion_list[] = {
+        { "Small potion", type_potion, 2 },
+        { "Potion", type_potion, 4 },
+        { "Empty", 0, 0 },
         { "Small potion", type_potion, 2 },
         { "Potion", type_potion, 4 },
         { "Empty", 0, 0 }

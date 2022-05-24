@@ -18,6 +18,21 @@ const struct level_type level_list[] = {
 		{ -1, -1 }, { -1, COLOR_BLUE },
 		{ COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
 		{ COLOR_CYAN+8, -1 }, { COLOR_BLUE, -1 }
+	},
+
+        {
+		1,
+		3,
+		1, 2,
+		{ 50, 30, 0 },
+		{ 40, 40, 0, 0 },
+		'<', '>', '-', '|', '.', '.', '#', ':',
+		{ -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
+		{ COLOR_BLUE, -1 }, { COLOR_BLUE, -1 },
+		{ -1, -1 }, { -1, -1 },
+		{ -1, -1 }, { -1, COLOR_BLUE },
+		{ COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
+		{ COLOR_CYAN+8, -1 }, { COLOR_BLUE, -1 }
 	}
 };
 
@@ -247,6 +262,10 @@ void init_level(struct level *l, struct creature *h)
 	 */
 	int hs = load_game(l, h);
 	if (!hs)
+		/*
+		TODO remove it after debug
+		l->count = 0;
+		*/
 		l->count = 0;
 	init_leveltype(l, l->count/5);
         l->depth = init_room(l);
