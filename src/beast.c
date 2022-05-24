@@ -209,7 +209,7 @@ static const struct creature *rand_beast(const struct level *l,
 	}
 	if (first && power > 1)
 		power = 1;
-	return &beast_list[l->lt->location*3 + power];
+	return &beast_list[l->lt->location*4 + power];
 }
 
 static void spawn_beast(struct level *l, const struct creature *h,
@@ -225,10 +225,10 @@ static void spawn_beast(struct level *l, const struct creature *h,
         if (first)
                 chance /= 3;
         for (count = 0; rand() % 100 < chance; count++) {
-		if (count >= l->lt->max_beast_count || !can_place(l, h, x, y))
-			break;
 		x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
 		y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
+		if (count >= l->lt->max_beast_count || !can_place(l, h, x, y))
+			break;
 		add_beast(&l->b, rand_beast(l, h, first), x, y);
         }
 }
