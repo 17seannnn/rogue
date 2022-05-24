@@ -97,7 +97,7 @@ void add_blood(struct level *l, struct creature *c, int val)
 		return;
 	remainder = c->blood - max_blood;
 	c->blood = max_blood;
-	bl = blood_list[blood_debug];
+	bl = blood_list[blood_default];
 	bl.val = remainder;
 	add_loot(&l->l, &bl, c->pos.x, c->pos.y, 0);
 	add_msg(msg_max_blood);

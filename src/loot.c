@@ -6,27 +6,27 @@
 #include "rogue.h"
 
 const struct loot blood_list[] = {
-        { "Debug blood 1", type_blood, 50 },
-        { "Debug blood 2", type_blood, 100 },
-        { "Debug blood 3", type_blood, 150 }
+        { "Small bag of blood", type_blood, 2 },
+        { "Bag of blood", type_blood, 4 },
+        { "Empty", 0, 0 }
 };
 
 const struct loot weapon_list[] = {
-        { "Debug weapon 1", type_weapon, 1 },
-	{ "Debug weapon 2", type_weapon, 2 },
-	{ "Debug weapon 3", type_weapon, 3 }
+        { "Scissors", type_weapon, 1 },
+	{ "Knife", type_weapon, 2 },
+	{ "Empty", 0, 0 }
 };
 
 const struct loot armor_list[] = {
-        { "Debug armor 1", type_armor, 10 },
-        { "Debug armor 2", type_armor, 25 },
-        { "Debug armor 3", type_armor, 50 }
+        { "Small armor", type_armor, 10 },
+        { "Default armor", type_armor, 25 },
+        { "Empty", 0, 0 }
 };
 
 const struct loot potion_list[] = {
-        { "Debug potion 1", type_potion, 25 },
-        { "Debug potion 2", type_potion, 50 },
-        { "Debug potion 3", type_potion, 100 }
+        { "Small potion", type_potion, 2 },
+        { "Potion", type_potion, 4 },
+        { "Empty", 0, 0 }
 };
 
 const struct loot key_list[] = {
@@ -122,7 +122,9 @@ static const struct loot *rand_loot(const struct level *l,
 	}
 }
 
-static void spawn_loot(struct level *l, const struct creature *h, struct room *r)
+static void spawn_loot(struct level *l,
+		       const struct creature *h,
+		       struct room *r)
 {
 	int x, y;
         int count, chance;
@@ -151,12 +153,12 @@ static void spawn_key(struct level *l)
                 r = get_random_room(l->r);
                 x = r->tl.x + 1 + rand() % (room_len(r, 'h') - 2);
                 y = r->tl.y + 1 + rand() % (room_len(r, 'v') - 2);
-                add_loot(&l->l, &key_list[key_debug], x, y, 0);
+                add_loot(&l->l, &key_list[key_level], x, y, 0);
 		fprintf(logfile, "key in room, %d %d\n", x, y);
 		fflush(logfile);
         } else {
                 b = get_random_beast(l->b);
-                add_loot(&b->c.inv, &key_list[key_debug], 0, 0, 0);
+                add_loot(&b->c.inv, &key_list[key_level], 0, 0, 0);
 		fprintf(logfile, "key in beast, %d %d\n", b->c.pos.x, b->c.pos.y);
 		fflush(logfile);
         }

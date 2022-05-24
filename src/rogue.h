@@ -47,10 +47,9 @@ enum {
 
 	hunter_pair,
 
-	beast_debug1_pair,
-	beast_debug2_pair,
-	beast_debug3_pair,
-	beast_debug4_pair
+	beast_empty_pair,
+	beast_rat_pair,
+	beast_dog_pair
 };
 
 /* common */
@@ -87,17 +86,10 @@ enum {
         type_potion,
         type_key,
 
-        type_key_level = 0,
+	blood_default = 1,
 
-	blood_debug = 0,
-
-        weapon_debug = 0,
-
-        armor_debug = 0,
-
-        potion_debug = 0,
-
-        key_debug = 0
+	type_key_level,
+        key_level = 0
 };
 
 /* inv */
@@ -116,16 +108,9 @@ enum {
 	max_blood = 999
 };
 
-/* beast */
-enum {
-	beast_debug1 = 0,
-	beast_debug2,
-	beast_debug3
-};
-
 /* level */
 enum {
-	max_level_count = 1,
+	max_level_count = 5,
 
 	level_debug = 0
 };
