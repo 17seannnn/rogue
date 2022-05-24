@@ -38,9 +38,9 @@ const struct level_type level_list[] = {
         {
 		2,
 		3,
-		1, 2,
+		1, 3,
 		{ 50, 30, 10 },
-		{ 100, 40, 30, 0 },
+		{ 75, 40, 30, 0 },
 		'<', '>', '-', '|', '+', '.', '"', ':',
 		{ -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
 		{ COLOR_RED+8, -1 }, { COLOR_RED+8, -1 },
@@ -287,6 +287,8 @@ void init_level(struct level *l, struct creature *h)
         init_path(l);
         init_points(l);
 	init_hunter(l, h, hs);
+	/* TODO remove it after debug */
+	h->hp = 2000;
         init_beast(l, h);
         init_loot(l, h);
 	if (!hs)
