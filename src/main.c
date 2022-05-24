@@ -46,6 +46,7 @@ static unsigned play_game(struct level *l, struct creature *h)
 			del_save();
 			add_msg(msg_gameover);
 			handle_msg();
+			handle_fov(l, h, 1);
 			show_info(h);
 			wait_ch(' ');
 			break;
