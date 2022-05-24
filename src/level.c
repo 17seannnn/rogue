@@ -33,6 +33,21 @@ const struct level_type level_list[] = {
 		{ -1, -1 }, { -1, COLOR_BLUE },
 		{ COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
 		{ COLOR_CYAN+8, -1 }, { COLOR_BLUE, -1 }
+	},
+
+        {
+		2,
+		3,
+		1, 2,
+		{ 50, 30, 10 },
+		{ 100, 40, 30, 0 },
+		'<', '>', '-', '|', '+', '.', '"', ':',
+		{ -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
+		{ COLOR_RED+8, -1 }, { COLOR_RED+8, -1 },
+		{ -1, -1 }, { -1, -1 },
+		{ COLOR_WHITE, -1 }, { -1, COLOR_RED },
+		{ COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
+		{ -1, -1 }, { COLOR_RED+8, -1 }
 	}
 };
 
@@ -266,7 +281,7 @@ void init_level(struct level *l, struct creature *h)
 		TODO remove it after debug
 		l->count = 0;
 		*/
-		l->count = 0;
+		l->count = 10;
 	init_leveltype(l, l->count/5);
         l->depth = init_room(l);
         init_path(l);

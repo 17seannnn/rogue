@@ -49,7 +49,8 @@ enum {
 
 	beast_empty_pair,
 	beast_rat_pair,
-	beast_dog_pair
+	beast_dog_pair,
+	beast_knight_pair
 };
 
 /* common */
@@ -110,7 +111,7 @@ enum {
 
 /* level */
 enum {
-	max_level_count = 10,
+	max_level_count = 15,
 
 	level_debug = 0
 };

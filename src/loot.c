@@ -9,40 +9,60 @@ const struct loot blood_list[] = {
         { "Small bag of blood", type_blood, 2 },
         { "Bag of blood", type_blood, 4 },
         { "Empty", 0, 0 },
+
         { "Small bag of blood", type_blood, 4 },
         { "Bag of blood", type_blood, 8 },
-        { "Empty", 0, 0 }
+        { "Empty", 0, 0 },
+
+        { "Small bag of blood", type_blood, 8 },
+        { "Bag of blood", type_blood, 16 },
+        { "Big bag of blood", type_blood, 32 }
 };
 
 const struct loot weapon_list[] = {
-        { "Scissors", type_weapon, 1 },
-	{ "Knife", type_weapon, 2 },
+        { "Broken scissors", type_weapon, 1 },
+	{ "Dull knife", type_weapon, 2 },
 	{ "Empty", 0, 0 },
-        { "Scissors", type_weapon, 2 },
-	{ "Knife", type_weapon, 3 },
-	{ "Empty", 0, 0 }
+
+        { "Scissors", type_weapon, 3 },
+	{ "Knife", type_weapon, 4 },
+	{ "Empty", 0, 0 },
+
+        { "Big scissors", type_weapon, 4 },
+	{ "Long knife", type_weapon, 6 },
+	{ "Short sword", type_weapon, 8 }
 };
 
 const struct loot armor_list[] = {
-        { "Small armor", type_armor, 10 },
+        { "Light armor", type_armor, 10 },
         { "Default armor", type_armor, 25 },
         { "Empty", 0, 0 },
-        { "Small armor", type_armor, 10 },
+
+        { "Light armor", type_armor, 10 },
         { "Default armor", type_armor, 25 },
-        { "Empty", 0, 0 }
+        { "Empty", 0, 0 },
+
+        { "Light armor", type_armor, 10 },
+        { "Default armor", type_armor, 25 },
+        { "Heavy armor", type_armor, 50 },
 };
 
 const struct loot potion_list[] = {
         { "Small potion", type_potion, 2 },
         { "Potion", type_potion, 4 },
         { "Empty", 0, 0 },
-        { "Small potion", type_potion, 2 },
-        { "Potion", type_potion, 4 },
-        { "Empty", 0, 0 }
+
+        { "Small potion", type_potion, 4 },
+        { "Potion", type_potion, 8 },
+        { "Empty", 0, 0 },
+
+        { "Small potion", type_potion, 4 },
+        { "Potion", type_potion, 8 },
+        { "Big potion", type_potion, 16 }
 };
 
 const struct loot key_list[] = {
-        { "Debug level key", type_key, type_key_level }
+        { "Level key", type_key, type_key_level }
 };
 
 static const char msg_picked_up[] = "You picked up %s (%d).";
