@@ -34,6 +34,7 @@ const struct loot key_list[] = {
 };
 
 static const char msg_picked_up[] = "You picked up %s (%d).";
+static const char msg_picked_up_key[] = "You picked up %s.";
 static const char msg_no_space[] = "You have no space in inventory.";
 
 static int has_idx(struct loot_list *l, int idx)
@@ -223,6 +224,9 @@ void try_loot(struct level *l, struct creature *h, int side)
                 add_msg(msg_no_space);
                 return;
 	}
-        add_msg(msg_picked_up, ll->l.name, ll->l.val);
+	if (ll->l.type == type_key)
+		add_msg(msg_picked_up_key, ll->l.name);
+	else
+		add_msg(msg_picked_up, ll->l.name, ll->l.val);
         del_loot(&l->l, ll);
 }
