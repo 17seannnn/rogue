@@ -277,18 +277,12 @@ void init_level(struct level *l, struct creature *h)
 	 */
 	int hs = load_game(l, h);
 	if (!hs)
-		/*
-		TODO remove it after debug
 		l->count = 0;
-		*/
-		l->count = 10;
 	init_leveltype(l, l->count/5);
         l->depth = init_room(l);
         init_path(l);
         init_points(l);
 	init_hunter(l, h, hs);
-	/* TODO remove it after debug */
-	h->hp = 2000;
         init_beast(l, h);
         init_loot(l, h);
 	if (!hs)
