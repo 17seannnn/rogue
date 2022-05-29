@@ -48,9 +48,10 @@ enum {
 	hunter_pair,
 
 	beast_empty_pair,
-	beast_rat_pair,
-	beast_dog_pair,
-	beast_knight_pair
+	beast_first_pair,
+	beast_second_pair,
+	beast_third_pair,
+	beast_fourth_pair
 };
 
 /* common */

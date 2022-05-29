@@ -8,7 +8,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Rat",
-		'r', beast_rat_pair,
+		'r', beast_first_pair,
 		{ COLOR_YELLOW, -1 },
 		{ 0, 0 },
 		6, 3, 3, 1, 33,
@@ -21,7 +21,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Dog",
-		'd', beast_dog_pair,
+		'd', beast_second_pair,
 		{ COLOR_BLUE, -1 },
 		{ 0, 0 },
 		7, 6, 6, 2, 33,
@@ -61,7 +61,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Rat",
-		'r', beast_rat_pair,
+		'r', beast_first_pair,
 		{ COLOR_YELLOW, -1 },
 		{ 0, 0 },
 		6, 3, 3, 1, 33,
@@ -74,7 +74,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Dog",
-		'd', beast_dog_pair,
+		'd', beast_second_pair,
 		{ COLOR_BLUE, -1 },
 		{ 0, 0 },
 		7, 6, 6, 2, 33,
@@ -114,7 +114,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Big rat",
-		'r', beast_rat_pair,
+		'r', beast_first_pair,
 		{ COLOR_RED+8, -1 },
 		{ 0, 0 },
 		6, 8, 8, 4, 33,
@@ -127,7 +127,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Wild dog",
-		'd', beast_dog_pair,
+		'd', beast_second_pair,
 		{ COLOR_CYAN, -1 },
 		{ 0, 0 },
 		7, 10, 10, 6, 33,
@@ -140,7 +140,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Knight",
-		'K', beast_knight_pair,
+		'K', beast_third_pair,
 		{ COLOR_BLACK+8, -1 },
 		{ 0, 0 },
 		5, 6, 6, 8, 50,
@@ -167,7 +167,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Big rat",
-		'r', beast_rat_pair,
+		'r', beast_first_pair,
 		{ COLOR_RED+8, -1 },
 		{ 0, 0 },
 		6, 8, 8, 4, 33,
@@ -180,7 +180,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Wild dog",
-		'd', beast_dog_pair,
+		'd', beast_second_pair,
 		{ COLOR_CYAN, -1 },
 		{ 0, 0 },
 		7, 10, 10, 6, 33,
@@ -193,7 +193,7 @@ const struct creature beast_list[] = {
 	{
 		cast_beast,
 		"Knight",
-		'K', beast_knight_pair,
+		'K', beast_third_pair,
 		{ COLOR_BLACK+8, -1 },
 		{ 0, 0 },
 		5, 6, 6, 8, 50,

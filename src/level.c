@@ -305,6 +305,9 @@ void init_level(struct level *l, struct creature *h)
 	if (!hs) {
 		/* debug */
 		h->hp = 2000;
+		h->max_hp = 2000;
+		h->level = 15;
+
 		save_game(l, h);
 	}
 }
