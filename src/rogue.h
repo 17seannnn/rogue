@@ -112,7 +112,7 @@ enum {
 
 /* level */
 enum {
-	max_level_count = 20,
+	max_level_count = 25,
 
 	level_debug = 0
 };

@@ -20,7 +20,11 @@ const struct loot blood_list[] = {
 
         { "Small bag of blood", type_blood, 16 },
         { "Bag of blood", type_blood, 32 },
-        { "Big bag of blood", type_blood, 48 }
+        { "Big bag of blood", type_blood, 48 },
+
+        { "Small bag of blood", type_blood, 32 },
+        { "Bag of blood", type_blood, 48 },
+        { "Big bag of blood", type_blood, 64 }
 };
 
 const struct loot weapon_list[] = {
@@ -38,7 +42,11 @@ const struct loot weapon_list[] = {
 
         { "Sword", type_weapon, 10 },
 	{ "Long sword", type_weapon, 12 },
-	{ "Axe", type_weapon, 16 }
+	{ "Axe", type_weapon, 16 },
+
+        { "Two-handed sword", type_weapon, 18 },
+	{ "Sharpened ax", type_weapon, 24 },
+	{ "Hammer", type_weapon, 32 }
 };
 
 const struct loot armor_list[] = {
@@ -56,7 +64,11 @@ const struct loot armor_list[] = {
 
         { "Light armor", type_armor, 10 },
         { "Default armor", type_armor, 25 },
-        { "Heavy armor", type_armor, 50 }
+        { "Heavy armor", type_armor, 50 },
+
+        { "Old armor", type_armor, 25 },
+        { "Knight armor", type_armor, 50 },
+        { "Metal armor", type_armor, 75 }
 };
 
 const struct loot potion_list[] = {
@@ -72,9 +84,13 @@ const struct loot potion_list[] = {
         { "Potion", type_potion, 8 },
         { "Big potion", type_potion, 16 },
 
-        { "Small potion", type_potion, 6 },
-        { "Potion", type_potion, 10 },
-        { "Big potion", type_potion, 16 }
+        { "Small potion", type_potion, 8 },
+        { "Potion", type_potion, 16 },
+        { "Big potion", type_potion, 24 },
+
+        { "Small potion", type_potion, 16 },
+        { "Potion", type_potion, 24 },
+        { "Big potion", type_potion, 32 }
 };
 
 const struct loot key_list[] = {

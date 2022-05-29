@@ -215,6 +215,59 @@ const struct creature beast_list[] = {
 		NULL,
 		{ 0, 0, 0 }, { 0, 0, 0, 0 },
 		0
+	},
+
+	{
+		cast_beast,
+		"Black raven",
+		'R', beast_first_pair,
+		{ COLOR_BLACK+8, -1 },
+		{ 0, 0 },
+		6, 12, 12, 8, 33,
+		15, 16, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
+		0
+	},
+	{
+		cast_beast,
+		"Fossegrim",
+		'F', beast_second_pair,
+		{ COLOR_YELLOW+8, -1 },
+		{ 0, 0 },
+		5, 20, 20, 15, 33,
+		40, 24, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
+		0
+	},
+	{
+		cast_beast,
+		"Nokk",
+		'n', beast_third_pair,
+		{ COLOR_MAGENTA, -1 },
+		{ 0, 0 },
+		4, 18, 18, 20, 33,
+		64, 32, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
+		0
+	},
+	{
+		cast_beast,
+		"Varulv",
+		'v', beast_fourth_pair,
+		{ COLOR_WHITE, -1 },
+		{ 0, 0 },
+		6, 24, 24, 25, 50,
+		128, 128, 0,
+		NULL, NULL,
+		NULL,
+		{ 0, 0, 0 }, { 0, 0, 0, 0 },
+		0
 	}
 };
 

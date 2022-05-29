@@ -53,7 +53,7 @@ const struct level_type level_list[] = {
         {
 		3,
 		4,
-		1, 4,
+		2, 4,
 		{ 40, 50, 40 },
 		{ 75, 50, 40, 0 },
 		'<', '>', '#', '#', '=', '.', '"', ':',
@@ -61,6 +61,21 @@ const struct level_type level_list[] = {
 		{ COLOR_RED+8, -1 }, { COLOR_RED+8, -1 },
 		{ -1, -1 }, { -1, -1 },
 		{ COLOR_WHITE, -1 }, { -1, COLOR_RED },
+		{ COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
+		{ -1, -1 }, { COLOR_RED+8, -1 }
+	},
+
+        {
+		4,
+		4,
+		2, 5,
+		{ 40, 50, 40 },
+		{ 75, 40, 45, 5 },
+		'<', '^', '~', '~', '#', '.', '#', ':',
+		{ -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
+		{ COLOR_BLUE, -1 }, { COLOR_BLUE, -1 },
+		{ -1, -1 }, { COLOR_BLUE+8, -1 },
+		{ COLOR_WHITE, -1 }, { -1, COLOR_BLUE+8 },
 		{ COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
 		{ -1, -1 }, { COLOR_RED+8, -1 }
 	}
@@ -294,7 +309,7 @@ void init_level(struct level *l, struct creature *h)
 	if (!hs)
 		/* debug */
 		/* l->count = 0; */
-		l->count = 15;
+		l->count = 20;
 	init_leveltype(l, l->count/5);
         l->depth = init_room(l);
         init_path(l);
@@ -306,7 +321,7 @@ void init_level(struct level *l, struct creature *h)
 		/* debug */
 		h->hp = 2000;
 		h->max_hp = 2000;
-		h->level = 15;
+		h->level = 20;
 
 		save_game(l, h);
 	}
