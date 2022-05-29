@@ -128,8 +128,8 @@ void add_exp(struct creature *c, int val)
 			e = 0;
 	}
 	if (c->level < l) {
-		c->max_hp += 10 * (l - c->level);
-		c->hp = c->max_hp;
+		c->max_hp += 2 * (l - c->level);
+		add_health(c, 6);
 	}
 	c->level = l;
 	c->exp = e;
