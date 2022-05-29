@@ -307,9 +307,7 @@ void init_level(struct level *l, struct creature *h)
 	 */
 	int hs = load_game(l, h);
 	if (!hs)
-		/* debug */
-		/* l->count = 0; */
-		l->count = 20;
+		l->count = 0;
 	init_leveltype(l, l->count/5);
         l->depth = init_room(l);
         init_path(l);
@@ -317,14 +315,8 @@ void init_level(struct level *l, struct creature *h)
 	init_hunter(l, h, hs);
         init_beast(l, h);
         init_loot(l, h);
-	if (!hs) {
-		/* debug */
-		h->hp = 2000;
-		h->max_hp = 2000;
-		h->level = 20;
-
+	if (!hs)
 		save_game(l, h);
-	}
 }
 
 void end_level(struct level *l, struct creature *h, int is_next)
