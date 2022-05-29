@@ -48,6 +48,21 @@ const struct level_type level_list[] = {
 		{ COLOR_WHITE, -1 }, { -1, COLOR_RED },
 		{ COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
 		{ -1, -1 }, { COLOR_RED+8, -1 }
+	},
+
+        {
+		3,
+		4,
+		1, 4,
+		{ 40, 50, 40 },
+		{ 75, 50, 40, 0 },
+		'<', '>', '#', '#', '=', '.', '"', ':',
+		{ -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
+		{ COLOR_RED+8, -1 }, { COLOR_RED+8, -1 },
+		{ -1, -1 }, { -1, -1 },
+		{ COLOR_WHITE, -1 }, { -1, COLOR_RED },
+		{ COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
+		{ -1, -1 }, { COLOR_RED+8, -1 }
 	}
 };
 
@@ -277,7 +292,9 @@ void init_level(struct level *l, struct creature *h)
 	 */
 	int hs = load_game(l, h);
 	if (!hs)
-		l->count = 0;
+		/* debug */
+		/* l->count = 0; */
+		l->count = 15;
 	init_leveltype(l, l->count/5);
         l->depth = init_room(l);
         init_path(l);
@@ -285,8 +302,11 @@ void init_level(struct level *l, struct creature *h)
 	init_hunter(l, h, hs);
         init_beast(l, h);
         init_loot(l, h);
-	if (!hs)
+	if (!hs) {
+		/* debug */
+		h->hp = 2000;
 		save_game(l, h);
+	}
 }
 
 void end_level(struct level *l, struct creature *h, int is_next)
