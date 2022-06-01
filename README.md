@@ -3,12 +3,12 @@ rogue-like game
 
 *Working only on Unix-like systems*
 
-## Screenshots
+##
 
 ![First level](img/1lvl.png)
-![Second level](img/2lvl.png)
 ![Third level](img/3lvl.png)
 ![Fourth level](img/4lvl.png)
+![Fifth level](img/5lvl.png)
 
 ## Build
 
