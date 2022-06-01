@@ -12,247 +12,247 @@ extern FILE *logfile;
 
 /* curses */
 enum {
-        program_col = 80,
-        program_row = 24,
-        msgw_col    = program_col,
-        msgw_row    = 1,
-        msgw_scol   = 0,
-        msgw_srow   = 0,
-        infow_col   = 80,
-        infow_row   = 1,
-        infow_scol  = 0,
-        infow_srow  = program_row-1,
-        gamew_col   = program_col-2,
-        gamew_row   = program_row - (msgw_row + infow_row) - 2,
-        gamew_scol  = 1,
-        gamew_srow  = msgw_row + 1,
-        invw_col    = program_col / 2,
-        invw_row    = gamew_row,
-        invw_scol   = program_col - invw_col,
-        invw_srow   = gamew_srow,
+    program_col = 80,
+    program_row = 24,
+    msgw_col    = program_col,
+    msgw_row    = 1,
+    msgw_scol   = 0,
+    msgw_srow   = 0,
+    infow_col   = 80,
+    infow_row   = 1,
+    infow_scol  = 0,
+    infow_srow  = program_row-1,
+    gamew_col   = program_col-2,
+    gamew_row   = program_row - (msgw_row + infow_row) - 2,
+    gamew_scol  = 1,
+    gamew_srow  = msgw_row + 1,
+    invw_col    = program_col / 2,
+    invw_row    = gamew_row,
+    invw_scol   = program_col - invw_col,
+    invw_srow   = gamew_srow,
 
-	start_pair = 1,
-	end_pair,
-	hor_wall_pair,
-	ver_wall_pair,
-	door_pair,
-	ground_pair,
-	path_pair,
-	loot_pair,
+    start_pair = 1,
+    end_pair,
+    hor_wall_pair,
+    ver_wall_pair,
+    door_pair,
+    ground_pair,
+    path_pair,
+    loot_pair,
 
-	fov_start_pair,
-	fov_end_pair,
-	fov_path_pair,
-	fov_loot_pair,
+    fov_start_pair,
+    fov_end_pair,
+    fov_path_pair,
+    fov_loot_pair,
 
-	hunter_pair,
+    hunter_pair,
 
-	beast_empty_pair,
-	beast_first_pair,
-	beast_second_pair,
-	beast_third_pair,
-	beast_fourth_pair
+    beast_empty_pair,
+    beast_first_pair,
+    beast_second_pair,
+    beast_third_pair,
+    beast_fourth_pair
 };
 
 /* common */
 enum {
-        key_escape = 27,
-	key_ctrl_c = CTRL('c'),
+    key_escape = 27,
+    key_ctrl_c = CTRL('c'),
 
-	bufsize = 256,
+    bufsize = 256,
 
-        side_northwest = 0,
-        side_north,
-        side_northeast,
-        side_east,
-        side_southeast,
-        side_south,
-        side_southwest,
-        side_west,
+    side_northwest = 0,
+    side_north,
+    side_northeast,
+    side_east,
+    side_southeast,
+    side_south,
+    side_southwest,
+    side_west,
 
-        seen_flag = 0x8000
+    seen_flag = 0x8000
 };
 
 /* room */
 enum {
-        see_flag = 0x0001
+    see_flag = 0x0001
 };
 
 /* path */
 
 /* loot */
 enum {
-	type_blood = 0,
-        type_weapon,
-        type_armor,
-        type_potion,
-        type_key,
+    type_blood = 0,
+    type_weapon,
+    type_armor,
+    type_potion,
+    type_key,
 
-	blood_default = 1,
+    blood_default = 1,
 
-	type_key_level,
-        key_level = 0
+    type_key_level,
+    key_level = 0
 };
 
 /* inv */
 enum {
-        max_inv = 16
+    max_inv = 16
 };
 
 /* creature */
 enum {
-        saw_hunter_flag = 0x0001,
+    saw_hunter_flag = 0x0001,
 
-        cast_hunter = 0,
-        cast_beast,
+    cast_hunter = 0,
+    cast_beast,
 
-	max_creature_level = 15,
-	max_blood = 999
+    max_creature_level = 15,
+    max_blood = 999
 };
 
 /* level */
 enum {
-	max_level_count = 25,
+    max_level_count = 25,
 
-	level_debug = 0
+    level_debug = 0
 };
 
 /* cmd */
 enum {
-        again_flag    = 0x0001,
-        endgame_flag  = 0x0002,
-        endlevel_flag = 0x0004,
+    again_flag    = 0x0001,
+    endgame_flag  = 0x0002,
+    endlevel_flag = 0x0004,
 };
 
 /* curses */
 struct color {
-	int fg, bg;
+    int fg, bg;
 };
 
 /* common */
 struct coord {
-        int x, y;
+    int x, y;
 };
 
 struct linked_coord {
-        struct coord pos;
-        struct linked_coord *next;
+    struct coord pos;
+    struct linked_coord *next;
 };
 
 /* room */
 struct room {
-        int ch_idx, no_idx;
-        struct coord tl, br;
-        int depth;
-        struct room *parent, *left, *right;
-        struct linked_coord *seen_walls;
-        unsigned flags;
+    int ch_idx, no_idx;
+    struct coord tl, br;
+    int depth;
+    struct room *parent, *left, *right;
+    struct linked_coord *seen_walls;
+    unsigned flags;
 };
 
 /* path */
 struct path {
-        struct coord pos;
-        struct path *next;
-        unsigned flags;
+    struct coord pos;
+    struct path *next;
+    unsigned flags;
 };
 
 struct door {
-        struct coord pos;
-        struct room *owner;
-        struct door *next;
-        unsigned flags;
+    struct coord pos;
+    struct room *owner;
+    struct door *next;
+    unsigned flags;
 };
 
 /* loot */
 struct loot {
-        char name[bufsize];
-        int type, val;
+    char name[bufsize];
+    int type, val;
 };
 
 struct loot_list {
-        int idx;
-        struct coord pos;
-        struct loot l;
-        struct loot_list *next;
-        unsigned flags;
+    int idx;
+    struct coord pos;
+    struct loot l;
+    struct loot_list *next;
+    unsigned flags;
 };
 
 /* creature */
 struct creature {
-        int cast;
-	char name[bufsize];
-	int symb, color_pair;
-	struct color clr;
-        struct coord pos;
-        int fov, hp, max_hp, dmg, miss;
-        int blood, exp, level;
-        struct loot_list *weapon, *armor;
-        struct loot_list *inv;
-	int buff_loot_chance[3], buff_beast_chance[4];
-        unsigned flags;
+    int cast;
+    char name[bufsize];
+    int symb, color_pair;
+    struct color clr;
+    struct coord pos;
+    int fov, hp, max_hp, dmg, miss;
+    int blood, exp, level;
+    struct loot_list *weapon, *armor;
+    struct loot_list *inv;
+    int buff_loot_chance[3], buff_beast_chance[4];
+    unsigned flags;
 };
 
 /* beast */
 struct beast {
-        struct creature c;
-        struct beast *next;
+    struct creature c;
+    struct beast *next;
 };
 
 /* level */
 struct point {
-        struct coord pos;
-        unsigned flags;
+    struct coord pos;
+    unsigned flags;
 };
 
 struct level_type {
-	/* Number of location */
-	int location;
-	/* Recommend depth */
-	int depth;
-	/* Limits */
-	int max_loot_count, max_beast_count;
-	/*
-	 * 1-3 are quality of loot:
-	 *   1: weak
-	 *   2: default
-	 *   3: strong
-	 */
-	int loot_chance[3];
-	/*
-	 * 1-4 show how powerful will be beast
-	 *   1: weak
-	 *   2: default
-	 *   3: strong
-	 *   4: boss
-	 */
-	int beast_chance[4];
-	/* Symbols for this level */
-	int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
-            door_symb, ground_symb, path_symb, loot_symb;
-	/* Colors */
-	struct color start_color, end_color, hor_wall_color, ver_wall_color,
-                     door_color, ground_color, path_color, loot_color;
-	/* Colors for seen objects */
-	struct color fov_start_color, fov_end_color, fov_path_color,
-	             fov_loot_color;
+    /* Number of location */
+    int location;
+    /* Recommend depth */
+    int depth;
+    /* Limits */
+    int max_loot_count, max_beast_count;
+    /*
+     * 1-3 are quality of loot:
+     *   1: weak
+     *   2: default
+     *   3: strong
+     */
+    int loot_chance[3];
+    /*
+     * 1-4 show how powerful will be beast
+     *   1: weak
+     *   2: default
+     *   3: strong
+     *   4: boss
+     */
+    int beast_chance[4];
+    /* Symbols for this level */
+    int start_symb, end_symb, hor_wall_symb, ver_wall_symb,
+        door_symb, ground_symb, path_symb, loot_symb;
+    /* Colors */
+    struct color start_color, end_color, hor_wall_color, ver_wall_color,
+                 door_color, ground_color, path_color, loot_color;
+    /* Colors for seen objects */
+    struct color fov_start_color, fov_end_color, fov_path_color,
+                 fov_loot_color;
 };
 
 struct level {
-	/* Depth in level is actual depth */
-	int depth, count;
-        const struct level_type *lt;
-        struct point start, end;
-        struct room *r;
-        struct path *p;
-        struct door *d;
-        struct beast *b;
-        struct loot_list *l;
+    /* Depth in level is actual depth */
+    int depth, count;
+    const struct level_type *lt;
+    struct point start, end;
+    struct room *r;
+    struct path *p;
+    struct door *d;
+    struct beast *b;
+    struct loot_list *l;
 };
 
 /* msg */
 struct message {
-        char text[msgw_col];
-        struct message *next;
+    char text[msgw_col];
+    struct message *next;
 };
 
 /* msg */
@@ -353,7 +353,7 @@ void init_hunter(const struct level *l, struct creature *h, int hs);
 void show_info(const struct creature *h);
 void try_move(struct level *l, struct creature *h, int c, unsigned *flags);
 void try_attack_beast(struct level *l, struct creature *h,
-		      struct beast *b, int side);
+                      struct beast *b, int side);
 void handle_hunter(struct creature *h);
 void go_next(struct level *l, struct creature *h, unsigned *flags);
 
