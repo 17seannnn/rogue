@@ -14,7 +14,7 @@ endif
 	$(CC) $(CFLAGS) -c $< -o $@
 
 debug install: main.c $(OBJMODULES)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $(BINNAME)
+	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $(BINNAME)
 
 ifneq (clean, $(MAKECMDGOALS))
 -include deps.mk
