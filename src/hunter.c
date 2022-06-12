@@ -20,7 +20,7 @@ void init_hunter(const struct level *l, struct creature *h, int hs)
         cast_hunter,
         "Hunter",
         '@', hunter_pair,
-        { COLOR_MAGENTA+8, -1 },
+        { COLOR_MAGENTA, -1 },
         { l->start.pos.x, l->start.pos.y },
         0, 10, 10, 1, 5,
         0, 0, 0,

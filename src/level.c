@@ -12,12 +12,12 @@ const struct level_type level_list[] = {
         { 50, 30, 0 },
         { 50, 30, 0, 0 },
         '<', '>', '-', '|', '+', '.', '#', ':',
-        { -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
+        { -1, COLOR_MAGENTA }, { -1, COLOR_MAGENTA },
         { COLOR_BLUE, -1 }, { COLOR_BLUE, -1 },
         { -1, -1 }, { -1, -1 },
         { -1, -1 }, { -1, COLOR_BLUE },
-        { COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
-        { COLOR_CYAN+8, -1 }, { COLOR_BLUE, -1 }
+        { COLOR_MAGENTA, -1 }, { COLOR_MAGENTA, -1 },
+        { COLOR_CYAN, -1 }, { COLOR_BLUE, -1 }
     },
 
     {
@@ -27,12 +27,12 @@ const struct level_type level_list[] = {
         { 50, 30, 0 },
         { 60, 40, 0, 0 },
         '<', '>', '-', '|', '.', '.', '#', ':',
-        { -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
+        { -1, COLOR_MAGENTA }, { -1, COLOR_MAGENTA },
         { COLOR_BLUE, -1 }, { COLOR_BLUE, -1 },
         { -1, -1 }, { -1, -1 },
         { -1, -1 }, { -1, COLOR_BLUE },
-        { COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
-        { COLOR_CYAN+8, -1 }, { COLOR_BLUE, -1 }
+        { COLOR_MAGENTA, -1 }, { COLOR_MAGENTA, -1 },
+        { COLOR_CYAN, -1 }, { COLOR_BLUE, -1 }
     },
 
     {
@@ -42,12 +42,12 @@ const struct level_type level_list[] = {
         { 50, 30, 10 },
         { 75, 40, 30, 0 },
         '<', '>', '-', '|', '+', '.', '"', ':',
-        { -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
-        { COLOR_RED+8, -1 }, { COLOR_RED+8, -1 },
+        { -1, COLOR_MAGENTA }, { -1, COLOR_MAGENTA },
+        { COLOR_RED, -1 }, { COLOR_RED, -1 },
         { -1, -1 }, { -1, -1 },
         { COLOR_WHITE, -1 }, { -1, COLOR_RED },
-        { COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
-        { -1, -1 }, { COLOR_RED+8, -1 }
+        { COLOR_MAGENTA, -1 }, { COLOR_MAGENTA, -1 },
+        { -1, -1 }, { COLOR_RED, -1 }
     },
 
     {
@@ -57,12 +57,12 @@ const struct level_type level_list[] = {
         { 40, 50, 40 },
         { 75, 50, 40, 0 },
         '<', '>', '#', '#', '=', '.', '"', ':',
-        { -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
-        { COLOR_RED+8, -1 }, { COLOR_RED+8, -1 },
+        { -1, COLOR_MAGENTA }, { -1, COLOR_MAGENTA },
+        { COLOR_RED, -1 }, { COLOR_RED, -1 },
         { -1, -1 }, { -1, -1 },
         { COLOR_WHITE, -1 }, { -1, COLOR_RED },
-        { COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
-        { -1, -1 }, { COLOR_RED+8, -1 }
+        { COLOR_MAGENTA, -1 }, { COLOR_MAGENTA, -1 },
+        { -1, -1 }, { COLOR_RED, -1 }
     },
 
     {
@@ -72,12 +72,12 @@ const struct level_type level_list[] = {
         { 40, 50, 40 },
         { 75, 40, 45, 5 },
         '<', '^', '~', '~', '#', '.', '#', ':',
-        { -1, COLOR_MAGENTA+8 }, { -1, COLOR_MAGENTA+8 },
+        { -1, COLOR_MAGENTA }, { -1, COLOR_MAGENTA },
         { COLOR_BLUE, -1 }, { COLOR_BLUE, -1 },
-        { -1, -1 }, { COLOR_BLUE+8, -1 },
-        { COLOR_WHITE, -1 }, { -1, COLOR_BLUE+8 },
-        { COLOR_MAGENTA+8, -1 }, { COLOR_MAGENTA+8, -1 },
-        { -1, -1 }, { COLOR_RED+8, -1 }
+        { -1, -1 }, { COLOR_BLUE, -1 },
+        { COLOR_WHITE, -1 }, { -1, COLOR_BLUE },
+        { COLOR_MAGENTA, -1 }, { COLOR_MAGENTA, -1 },
+        { -1, -1 }, { COLOR_RED, -1 }
     }
 };
 
