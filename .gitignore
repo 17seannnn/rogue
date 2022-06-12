@@ -3,5 +3,6 @@
 design
 path
 rogue
+rogue.exe
 log
 deps.mk
