@@ -1,8 +1,6 @@
 rogue-like game
 ===============
 
-*Working only on Unix-like systems*
-
 ## Levels
 
 ![First level](img/1lvl.png)
@@ -36,15 +34,28 @@ rogue-like game
 | < | thing you came from |
 
 ## Dependencies
-
 * C compiler
 * make
 * ncurses
 
 ## Build
 
+### Linux
+
 ``` bash
-cd src
+git https://github.com/17seannnn/rogue
+cd rogue/src
+make
+./rogue
+```
+
+### Windows
+
+Same as Linux, but you have to use msys64
+``` bash
+pacman -S gcc make ncurses-devel git
+git https://github.com/17seannnn/rogue
+cd rogue/src
 make
 ./rogue
 ```
