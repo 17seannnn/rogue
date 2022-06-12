@@ -43,7 +43,7 @@ rogue-like game
 ### Linux
 
 ``` bash
-git https://github.com/17seannnn/rogue
+git clone https://github.com/17seannnn/rogue
 cd rogue/src
 make
 ./rogue
@@ -54,7 +54,7 @@ make
 Same as Linux, but you have to use msys64
 ``` bash
 pacman -S gcc make ncurses-devel git
-git https://github.com/17seannnn/rogue
+git clone https://github.com/17seannnn/rogue
 cd rogue/src
 make
 ./rogue
